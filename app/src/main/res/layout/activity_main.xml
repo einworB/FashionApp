@@ -29,11 +29,6 @@
       android:id="@+id/contentView"
       android:layout_marginTop="?attr/actionBarSize">
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Layout HIER"
-        android:gravity="center"
-        android:textSize="30sp"/>
-
       </LinearLayout>
 
 
