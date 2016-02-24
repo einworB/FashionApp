@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
@@ -16,6 +17,7 @@ public class MainActivity extends CBActivityMvpToolbar<RecyclerView, String, Log
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     adapter = new LoginAdapter(this);
+    contentView.setLayoutManager(new LinearLayoutManager(this));
     contentView.setAdapter(adapter);
   }
 

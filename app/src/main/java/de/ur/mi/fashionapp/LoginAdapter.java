@@ -17,7 +17,7 @@ public class LoginAdapter extends CBAdapterRecyclerView<String> {
   }
 
   public void setData(String data) {
-    List strings = new ArrayList<String>();
+    List strings = new ArrayList<>();
     strings.add(data);
     setItems(strings);
   }
@@ -28,10 +28,6 @@ public class LoginAdapter extends CBAdapterRecyclerView<String> {
   }
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new TextViewHolder(inflater.inflate(R.layout.simple_text, parent));
-  }
-
-  @Override public int getItemViewType(int position) {
-    return super.getItemViewType(position);
+    return new TextViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
   }
 }
