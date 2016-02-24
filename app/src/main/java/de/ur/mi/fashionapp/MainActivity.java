@@ -2,12 +2,11 @@ package de.ur.mi.fashionapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 
-public class MainActivity extends CBActivityMvpToolbar<RecyclerView, String, LoginView, LoginPresenter> implements LoginView{
+public class MainActivity extends CBActivityMvpToolbar<LinearLayout, String, LoginView, LoginPresenter> implements LoginView{
 
   LoginAdapter adapter;
 
@@ -16,9 +15,9 @@ public class MainActivity extends CBActivityMvpToolbar<RecyclerView, String, Log
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    adapter = new LoginAdapter(this);
-    contentView.setLayoutManager(new LinearLayoutManager(this));
-    contentView.setAdapter(adapter);
+    //adapter = new LoginAdapter(this);
+    //contentView.setLayoutManager(new LinearLayoutManager(this));
+    //contentView.setAdapter(adapter);
   }
 
   @NonNull @Override public LoginPresenter createPresenter() {
@@ -26,11 +25,12 @@ public class MainActivity extends CBActivityMvpToolbar<RecyclerView, String, Log
   }
 
   @Override public void setData(String data) {
-    adapter.setData(data);
-    adapter.notifyDataSetChanged();
+    //adapter.setData(data);
+    //adapter.notifyDataSetChanged();
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    presenter.loadObject();
+    //presenter.loadObject();
   }
+
 }

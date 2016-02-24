@@ -21,5 +21,14 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
       }
     }, 5000);
   }
+
+  public void login(String name, String password) {
+    // TODO: parse logic here!
+
+    // TODO wichtig: asynchron, bei success:
+    if (isViewAttached()) {
+      getView().setData(/*Parse Ergebnis Object*/"");
+    }
+  }
 }
 
