@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 
 /**
