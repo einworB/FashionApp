@@ -31,8 +31,9 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
     //contentView.setAdapter(adapter);
 
     //Parse initialization
-    Parse.enableLocalDatastore(context);
-    Parse.initialize(context);
+    Parse.enableLocalDatastore(this);
+    Parse.initialize(this,"TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf","GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS");
+
   }
 
   @Override protected Fragment createFragmentToDisplay() {
