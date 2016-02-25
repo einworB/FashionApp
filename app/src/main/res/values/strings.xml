@@ -1,4 +1,9 @@
 <resources>
   <string name="app_name">FashionApp</string>
   <string name="title_activity_main">MainActivity</string>
+  <string name="user_name">Benutzername</string>
+  <string name="password">Passwort</string>
+  <string name="longin_txt">Login</string>
+  <string name="register_txt">Registrieren</string>
+  <string name="email_txt">E-mail</string>
 </resources>

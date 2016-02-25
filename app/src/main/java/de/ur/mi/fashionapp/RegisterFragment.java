@@ -21,25 +21,25 @@ public class RegisterFragment extends Fragment {
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
-    View v = inflater.inflate(R.layout.fragment_login, container, false);
+    View v = inflater.inflate(R.layout.fragment_register, container, false);
 
     return v;
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    //usernameEdit = view.findViewById(R.id.usernameEdit);
-    //passwordEdit = view.findViewById(R.id.passwordEdit);
-    //confirmPasswordEdit = view.findViewById(R.id.confirmPasswordEdit);
-    //emailEdit = view.findViewById(R.id.emailEdit);
-    //view.findViewById(R.id.registerBtn).setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
-    //    if (String.valueOf(confirmPasswordEdit.getText())
-    //        .equals(String.valueOf(passwordEdit.getText()))) {
-    //      ((MainActivity) getActivity()).performRegister(String.valueOf(usernameEdit.getText()),
-    //          String.valueOf(passwordEdit.getText()), String.valueOf(emailEdit.getText()));
-    //    }
-    //  }
-    //});
+    usernameEdit = (EditText) view.findViewById(R.id.username_edit);
+    passwordEdit = (EditText) view.findViewById(R.id.password_edit);
+    confirmPasswordEdit = (EditText) view.findViewById(R.id.password_confirm_edit);
+    emailEdit = (EditText) view.findViewById(R.id.email_edit);
+    view.findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (String.valueOf(confirmPasswordEdit.getText())
+            .equals(String.valueOf(passwordEdit.getText()))) {
+          ((MainActivity) getActivity()).performRegister(String.valueOf(usernameEdit.getText()),
+              String.valueOf(passwordEdit.getText()), String.valueOf(emailEdit.getText()));
+        }
+      }
+    });
   }
 }

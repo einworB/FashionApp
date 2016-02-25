@@ -26,18 +26,18 @@ public class LoginFragment extends Fragment {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    //usernameEdit = view.findViewById(R.id.usernameEdit);
-    //passwordEdit = view.findViewById(R.id.passwordEdit);
-    //view.findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
-    //    ((MainActivity) getActivity()).performLogin(String.valueOf(usernameEdit.getText()),
-    //        String.valueOf(passwordEdit.getText()));
-    //  }
-    //});
-    //view.findViewById(R.id.registerBtn).setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
-    //    ((MainActivity) getActivity()).openRegisterFragment();
-    //  }
-    //});
+    usernameEdit = (EditText) view.findViewById(R.id.username_edit);
+    passwordEdit = (EditText) view.findViewById(R.id.password_edit);
+    view.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        ((MainActivity) getActivity()).performLogin(String.valueOf(usernameEdit.getText()),
+            String.valueOf(passwordEdit.getText()));
+      }
+    });
+    view.findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        ((MainActivity) getActivity()).openRegisterFragment();
+      }
+    });
   }
 }
