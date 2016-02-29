@@ -41,7 +41,7 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   @NonNull @Override public LoginPresenter createPresenter() {
-    return new LoginPresenter();
+    return new LoginPresenter(this);
   }
 
   @Override public void setData(String data) {
@@ -50,7 +50,7 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    //presenter.loadObject();
+    // not needed
   }
 
   @Override public void onLoginSuccess() {
@@ -64,11 +64,11 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   public void performLogin(String username, String password) {
-    //presenter.login(username, password);
+    presenter.login(username, password);
   }
 
   public void performRegister(String username, String email, String password) {
-    //presenter.register(username, email, password);
+    presenter.register(username, email, password);
   }
 
   public void openRegisterFragment(){
