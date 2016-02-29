@@ -18,7 +18,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".MainActivity"
+        android:name=".login.LoginActivity"
         android:label="@string/title_activity_main"
         android:theme="@style/AppTheme.NoActionBar">
         <intent-filter >
@@ -27,7 +27,7 @@
         </intent-filter>
     </activity>
     <activity
-        android:name=".WardrobeActivity"
+        android:name=".wardrobe.WardrobeActivity"
         android:label="@string/title_activity_main"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>

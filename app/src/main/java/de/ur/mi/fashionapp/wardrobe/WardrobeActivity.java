@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.wardrobe;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

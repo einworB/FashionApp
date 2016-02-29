@@ -1,10 +1,12 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
+import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.ui.TextViewHolder;
 
 /**
  * Created by Philip on 24/02/2016.

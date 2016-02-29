@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 

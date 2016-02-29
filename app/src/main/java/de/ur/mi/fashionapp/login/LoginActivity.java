@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
-
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarFragment;
 import com.parse.Parse;
+import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
-public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
+public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
     implements LoginView{
 
   LoginAdapter adapter;

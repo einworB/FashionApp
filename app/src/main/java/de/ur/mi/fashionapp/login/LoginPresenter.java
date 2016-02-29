@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import android.content.Context;
 import android.widget.Toast;
