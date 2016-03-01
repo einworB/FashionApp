@@ -25,6 +25,10 @@ import com.parse.SignUpCallback;
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
     Context context;
 
+  public LoginPresenter (Context context){
+    this.context = context;
+  }
+
   public void loadObject() {
     if (isViewAttached()) {
       getView().showLoading(false);
@@ -42,65 +46,70 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
 
   /*
-  *   Function for calling the login; needs the entries of the edit fields user/name and password
+  *   Function for calling the login; needs the entries of the edit fields username and password
    */
-  public void login(String mail, String p) {
-    if(mail.length()>0) {
+  public void login(String username, String p) {
+    if(username.length()>0) {
       if(p.length()>0) {
         // Call the Parse login method
-        ParseUser.logInInBackground(mail, p, new LogInCallback() {
+        ParseUser.logInInBackground(username, p, new LogInCallback() {
           @Override
           public void done(ParseUser user, ParseException e) {
-            if (e != null) {
-              Toast.makeText(context, (CharSequence) "Login hat nicht funktioniert.", Toast.LENGTH_SHORT).show();
-            } else {
-              Toast.makeText(context, (CharSequence) "Login hat geklappt.", Toast.LENGTH_SHORT).show();
-              // TODO wichtig: asynchron, bei success:
+            if (e == null) {//if no error occurred
               if (isViewAttached()) {
-                    getView().setData(/*Parse Ergebnis Object*/"");
-                }
-
+                getView().onLoginSuccess();
+              }
+            } else {
+              Toast.makeText(context, (CharSequence) "Login didn't work", Toast.LENGTH_SHORT).show();
             }
           }
         });
       }
       else {
-        Toast.makeText(context, (CharSequence) "Bitte Passwort eingeben", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, (CharSequence) "No valid password", Toast.LENGTH_SHORT).show();
       }
     }
     else{
-      Toast.makeText(context, (CharSequence) "Bitte Email-Adresse eingeben!", Toast.LENGTH_SHORT).show();
+      Toast.makeText(context, (CharSequence) "No valid username", Toast.LENGTH_SHORT).show();
     }
   }
 
   /*
-  *   Function for calling the registering; needs the entries of the edit fields user/name, password and the confirmazation of the password
+  *   Function for calling the registering; needs the entries of the edit fields username, password and email adress
    */
-  public void register(String mail, String p, String p2){
+  public void register(String username, String mail, String pw){
     if(mail.length()>0) {
-      if(!(p.length()>0))
-        Toast.makeText(context, (CharSequence) "Passwort muss mindestens ein Zeichen enthalten", Toast.LENGTH_SHORT).show();
-      else if(p.equals(p2)) {
-        signup(mail, p);
+      if(pw.length()>0){
+        if(username.length()>0) {
+          signup(username, mail, pw);
+        }
+        else
+          Toast.makeText(context, (CharSequence) "Username can't be empty", Toast.LENGTH_SHORT).show();
       }
-      else{
-        Toast.makeText(context, (CharSequence) "Bitte zweimal das gleiche Passwort eingeben", Toast.LENGTH_SHORT).show();
-      }
+      else
+        Toast.makeText(context, (CharSequence) "Password can't be empty", Toast.LENGTH_SHORT).show();
     }
     else{
-      Toast.makeText(context, (CharSequence) "Bitte Email-Adresse eingeben!", Toast.LENGTH_SHORT).show();
+      Toast.makeText(context, (CharSequence) "E-mail can't be empty", Toast.LENGTH_SHORT).show();
     }
   }
 
   // Set up a new Parse user
-  private void signup(String mail, String p){
+  private void signup(String username, String mail, String p){
     ParseUser user = new ParseUser();
-    user.setUsername(mail);
+    user.setEmail(mail);
+    user.setUsername(username);
     user.setPassword(p);
+
     user.signUpInBackground(new SignUpCallback() {
-      @Override
       public void done(ParseException e) {
-        Toast.makeText(context, (CharSequence) "Registriert", Toast.LENGTH_SHORT).show();
+        if (e == null) {//if no error occurred
+          if (isViewAttached()) {
+            getView().onRegisterSuccess();
+          }
+        } else {
+            Toast.makeText(context, (CharSequence) "Registering didn't work", Toast.LENGTH_SHORT).show();
+        }
       }
     });
   }

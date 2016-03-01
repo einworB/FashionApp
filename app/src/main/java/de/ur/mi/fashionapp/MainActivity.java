@@ -9,9 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarFragment;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
     implements LoginView{
@@ -41,7 +45,7 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   @NonNull @Override public LoginPresenter createPresenter() {
-    return new LoginPresenter();
+    return new LoginPresenter(this);
   }
 
   @Override public void setData(String data) {
@@ -64,11 +68,11 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   public void performLogin(String username, String password) {
-    //presenter.login(username, password);
+    presenter.login(username, password);
   }
 
-  public void performRegister(String username, String email, String password) {
-    //presenter.register(username, email, password);
+  public void performRegister(String username, String password, String email) {
+    presenter.register(username, email, password);
   }
 
   public void openRegisterFragment(){
