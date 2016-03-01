@@ -68,7 +68,7 @@ public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, St
     presenter.login(username, password);
   }
 
-  public void performRegister(String username, String email, String password) {
+  public void performRegister(String username, String password, String email) {
     presenter.register(username, email, password);
   }
 
