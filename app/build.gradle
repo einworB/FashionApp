@@ -32,4 +32,5 @@ dependencies {
     compile 'com.parse:parse-android:1.11.0'
     compile 'com.christianbahl.appkit:core:2.0.4'
     compile 'com.christianbahl.appkit:viewstate:2.0.4'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
