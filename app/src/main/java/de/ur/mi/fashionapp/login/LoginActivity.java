@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
-
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarFragment;
 import com.parse.Parse;
+import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
-public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
+public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
     implements LoginView{
 
   LoginAdapter adapter;
@@ -41,7 +42,7 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   @NonNull @Override public LoginPresenter createPresenter() {
-    return new LoginPresenter();
+    return new LoginPresenter(this);
   }
 
   @Override public void setData(String data) {
@@ -50,7 +51,7 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    //presenter.loadObject();
+    // not needed
   }
 
   @Override public void onLoginSuccess() {
@@ -64,11 +65,11 @@ public class MainActivity extends CBActivityMvpToolbarFragment<LinearLayout, Str
   }
 
   public void performLogin(String username, String password) {
-    //presenter.login(username, password);
+    presenter.login(username, password);
   }
 
-  public void performRegister(String username, String email, String password) {
-    //presenter.register(username, email, password);
+  public void performRegister(String username, String password, String email) {
+    presenter.register(username, email, password);
   }
 
   public void openRegisterFragment(){

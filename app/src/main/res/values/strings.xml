@@ -13,4 +13,5 @@
   <string name="change_password">Change password</string>
   <string name="delete_data">Delete data</string>
   <string name="delete_account">Delete account</string>
+  <string name="title_activity_settings">SettingsActivity</string>
 </resources>

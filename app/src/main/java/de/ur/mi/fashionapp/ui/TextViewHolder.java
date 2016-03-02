@@ -1,8 +1,9 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Philip on 24/02/2016.

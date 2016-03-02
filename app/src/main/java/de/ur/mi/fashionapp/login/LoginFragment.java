@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,21 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Philip on 24/02/2016.
  */
-public class RegisterFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
   private EditText usernameEdit;
   private EditText passwordEdit;
-  private EditText confirmPasswordEdit;
-  private EditText emailEdit;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
-    View v = inflater.inflate(R.layout.fragment_register, container, false);
+    View v = inflater.inflate(R.layout.fragment_login, container, false);
 
     return v;
   }
@@ -30,15 +29,21 @@ public class RegisterFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     usernameEdit = (EditText) view.findViewById(R.id.username_edit);
     passwordEdit = (EditText) view.findViewById(R.id.password_edit);
-    confirmPasswordEdit = (EditText) view.findViewById(R.id.password_confirm_edit);
-    emailEdit = (EditText) view.findViewById(R.id.email_edit);
+    view.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        ((LoginActivity) getActivity()).performLogin(String.valueOf(usernameEdit.getText()),
+            String.valueOf(passwordEdit.getText()));
+      }
+    });
     view.findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        if (String.valueOf(confirmPasswordEdit.getText())
-            .equals(String.valueOf(passwordEdit.getText()))) {
-          ((MainActivity) getActivity()).performRegister(String.valueOf(usernameEdit.getText()),
-              String.valueOf(passwordEdit.getText()), String.valueOf(emailEdit.getText()));
-        }
+        ((LoginActivity) getActivity()).openRegisterFragment();
+      }
+    });
+
+    view.findViewById(R.id.forgot_pswd).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        //TODO: show "send new password dialog"
       }
     });
   }

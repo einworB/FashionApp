@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools">
+
+  <android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <include layout="@layout/cb_base_error_view"/>
+      <include layout="@layout/cb_base_loading_view"/>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar_container"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+    <LinearLayout android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:elevation="6dp"
+        android:layout_height="match_parent">
+
+      <com.astuetz.PagerSlidingTabStrip
+          android:id="@+id/tabs"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          app:pstsShouldExpand="true"
+          app:pstsTextAllCaps="true"
+          android:elevation="6dp"
+          android:background="@color/md_white"
+          app:pstsUnderlineHeight="2dp"/>
+
+
+      <android.support.v4.view.ViewPager
+          android:id="@+id/contentView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/md_white"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#E5E5E5">
+
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/drawer_recycler_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="156dp"
+          android:scrollbars="none"/>
+
+    </FrameLayout>
+
+  </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>
