@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_pink_600">
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_txt"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:textColor="@color/md_white"/>
 
     <ImageView
         android:id="@+id/profile_pic"
@@ -26,42 +28,52 @@
         android:layout_marginTop="20dp"
         android:hint="@string/user_name"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@color/md_white"
+        android:textColorHint="@color/md_grey_300" />
 
     <EditText
         android:id="@+id/email_edit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/email_txt"
         android:layout_gravity="center_horizontal"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@color/md_white"
+        android:textColorHint="@color/md_grey_300"/>
 
     <EditText
         android:id="@+id/password_edit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/password"
         android:textSize="20sp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/md_white"
+        android:textColorHint="@color/md_grey_300"/>
 
     <EditText
         android:id="@+id/password_confirm_edit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/password"
         android:textSize="20sp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/md_white"
+        android:textColorHint="@color/md_grey_300"/>
 
     <TextView
         android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:text="@string/register_txt"
         android:gravity="center"
         android:textSize="30sp"
+        android:background="@color/md_pink_800"
+        android:textColor="@color/md_white"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

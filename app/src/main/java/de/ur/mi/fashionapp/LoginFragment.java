@@ -39,5 +39,11 @@ public class LoginFragment extends Fragment {
         ((MainActivity) getActivity()).openRegisterFragment();
       }
     });
+
+    view.findViewById(R.id.forgot_pswd).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        //TODO: show "send new password dialog"
+      }
+    });
   }
 }
