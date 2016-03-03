@@ -4,9 +4,11 @@ package de.ur.mi.fashionapp;
  * Created by Mario on 01.03.2016.
  */
 public class CatWrapper {
+    private static final int CATEGORY_TOP = 0;
+  // TODO: replace other "magic numbers"
     public String catWrap(int num){
         switch(num){
-            case 0: return "top";
+            case CATEGORY_TOP: return "top";
             case 1: return "bottom";
             case 2: return "shoe";
             case 3: return "accessoire";

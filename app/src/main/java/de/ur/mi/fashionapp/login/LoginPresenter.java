@@ -10,7 +10,7 @@ import com.parse.SignUpCallback;
 /**
  * Created by Philip on 24/02/2016.
  */
-// TODO: replace toasts with getView().showError(cause);
+// TODO: replace toasts with getView().showError(cause); show getView().showLoading() during loading; showContent() on success nicht vergessen!
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
   Context context;
 
@@ -26,12 +26,14 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     if(username.length()>0) {
       if(p.length()>0) {
         // Call the Parse login method
+        getView().showLoading(false);
         ParseUser.logInInBackground(username, p, new LogInCallback() {
           @Override
           public void done(ParseUser user, ParseException e) {
             if (e == null) {//if no error occurred
               if (isViewAttached()) {
                 getView().onLoginSuccess();
+                getView().showContent();
               }
             } else {
               Toast.makeText(context, (CharSequence) "Login didn't work", Toast.LENGTH_SHORT).show();

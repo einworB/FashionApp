@@ -21,7 +21,12 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     items.add(item);
 
     if (isViewAttached()) {
+      getView().showLoading(false);
+    }
+
+    if (isViewAttached()) {
       getView().setData(items);
+      getView().showContent();
     }
   }
 }

@@ -33,4 +33,10 @@ dependencies {
     compile 'com.christianbahl.appkit:core:2.0.4'
     compile 'com.christianbahl.appkit:viewstate:2.0.4'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
+        transitive = true
+    }
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
+        transitive = true
+    }
 }
