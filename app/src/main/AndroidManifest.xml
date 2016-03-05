@@ -31,7 +31,7 @@
     <activity
         android:name=".wardrobe.WardrobeActivity"
         android:label="@string/title_activity_main"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.AppBarOverlay">
     </activity>
     <activity
         android:name=".settings.SettingsActivity"

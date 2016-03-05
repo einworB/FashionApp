@@ -7,18 +7,12 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-/**
- * Created by Philip on 24/02/2016.
- */
-// TODO: replace toasts with getView().showError(cause);
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
   Context context;
 
   public LoginPresenter (Context context){
     this.context = context;
   }
-
-
   /*
   *   Function for calling the login; needs the entries of the edit fields username and password
    */
@@ -26,15 +20,17 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     if(username.length()>0) {
       if(p.length()>0) {
         // Call the Parse login method
+        getView().showLoading(false);
         ParseUser.logInInBackground(username, p, new LogInCallback() {
           @Override
           public void done(ParseUser user, ParseException e) {
             if (e == null) {//if no error occurred
               if (isViewAttached()) {
                 getView().onLoginSuccess();
+                getView().showContent();
               }
             } else {
-              Toast.makeText(context, (CharSequence) "Login didn't work", Toast.LENGTH_SHORT).show();
+              getView().showError(e,false);
             }
           }
         });
@@ -74,15 +70,16 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     user.setEmail(mail);
     user.setUsername(username);
     user.setPassword(p);
-
+    getView().showLoading(false);
     user.signUpInBackground(new SignUpCallback() {
       public void done(ParseException e) {
         if (e == null) {//if no error occurred
           if (isViewAttached()) {
             getView().onRegisterSuccess();
+            getView().showContent();
           }
         } else {
-          Toast.makeText(context, (CharSequence) "Registering didn't work", Toast.LENGTH_SHORT).show();
+          getView().showError(e,false);
         }
       }
     });
