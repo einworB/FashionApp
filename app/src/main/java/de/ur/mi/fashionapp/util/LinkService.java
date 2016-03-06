@@ -2,7 +2,10 @@ package de.ur.mi.fashionapp.util;
 
 import android.content.Context;
 import android.content.Intent;
+import de.ur.mi.fashionapp.create.outfit.CreateOutfitActivity;
+import de.ur.mi.fashionapp.create.piece.CreatePieceActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
+import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 
 /**
  * Created by Philip on 01/03/2016.
@@ -25,6 +28,17 @@ public class LinkService {
         return new Intent(context, SettingsActivity.class);
       case LINK_TITLE_HELP:
         return new Intent(context, SettingsActivity.class);
+      default:
+        return null;
+    }
+  }
+
+  public static Intent getCreateIntent(Context context, int type) {
+    switch (type) {
+      case WardrobeFragment.TYPE_OUTFIT:
+        return new Intent(context, CreateOutfitActivity.class);
+      case WardrobeFragment.TYPE_PIECE:
+        return new Intent(context, CreatePieceActivity.class);
       default:
         return null;
     }

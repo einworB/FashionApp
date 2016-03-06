@@ -1,10 +1,23 @@
 <resources>
   <string name="app_name">FashionApp</string>
-  <string name="title_activity_main">MainActivity</string>
-  <string name="user_name">Benutzername</string>
-  <string name="password">Passwort</string>
+  <!-- Login -->
+  <string name="title_activity_login">Login</string>
+  <string name="user_name">Username</string>
+  <string name="password">Password</string>
   <string name="longin_txt">Login</string>
-  <string name="register_txt">Registrieren</string>
+  <string name="register_txt">Register</string>
   <string name="email_txt">E-mail</string>
-  <string name="title_activity_settings">SettingsActivity</string>
+
+  <!-- Wardrobe -->
+  <string name="title_activity_wardrobe">My Wardrobe</string>
+
+  <!-- Settings -->
+  <string name="title_activity_settings">Settings</string>
+
+  <!-- New Piece -->
+  <string name="title_activity_create_piece">New Piece</string>
+
+  <!-- New Outfit -->
+  <string name="title_activity_create_outfit">New Outfit</string>
+  <string name="title_activity_main2">Main2Activity</string>
 </resources>

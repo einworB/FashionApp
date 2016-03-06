@@ -16,6 +16,16 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     // TODO: extend item models, maybe load only one big wrapper item which has getPieces() and getOutfits() functions
     // TODO: replace dummy list with real items loaded from parse
 
+
+
+  }
+
+  public void loadPieces(int userID, int wardrobeID, boolean pullToRefresh) {
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
+    }
+
+    // TODO: replace dummy model with model loading from parse
     List<WardrobeItem> items = new ArrayList<>();
     WardrobePieceItem piece1 = new WardrobePieceItem();
     piece1.setTitle("Eine Hose");
@@ -26,6 +36,27 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     WardrobePieceItem piece3 = new WardrobePieceItem();
     piece3.setTitle("Ein Hut");
     items.add(piece3);
+
+    if (isViewAttached()) {
+      // TODO: show real Error if model loading failed
+      if (true) {
+        getView().setData(items);
+        getView().showContent();
+      }
+      else {
+        Throwable e = new Exception();
+        getView().showError(e, pullToRefresh);
+      }
+    }
+  }
+
+  public void loadOutfits(int userID, int wardrobeID, boolean pullToRefresh) {
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
+    }
+
+    // TODO: replace dummy model with model loading from parse
+    List<WardrobeItem> items = new ArrayList<>();
     WardrobeOutfitItem outfit1 = new WardrobeOutfitItem();
     outfit1.setTitle("Mein 1. Outfit");
     items.add(outfit1);
@@ -34,7 +65,15 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     items.add(outfit2);
 
     if (isViewAttached()) {
-      getView().setData(items);
+      // TODO: show real Error if model loading failed
+      if (true) {
+        getView().setData(items);
+        getView().showContent();
+      }
+      else {
+        Throwable e = new Exception();
+        getView().showError(e, pullToRefresh);
+      }
     }
   }
 }
