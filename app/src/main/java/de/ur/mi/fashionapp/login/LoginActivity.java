@@ -1,6 +1,8 @@
 package de.ur.mi.fashionapp.login;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +10,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarFragment;
 import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.text.ParseException;
+
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.settings.SettingsPresenter;
 import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
 public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
@@ -33,8 +47,22 @@ public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, St
 
     //Parse initialization
     Parse.enableLocalDatastore(this);
-    Parse.initialize(this,"TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf","GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS");
+    Parse.initialize(this, "TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf", "GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS");
+  }
 
+
+  public void addWardrope(String wardropeName){
+    //This Method is to create a new wardrope;
+    String userID =ParseUser.getCurrentUser().getObjectId();
+    ParseObject wr = new ParseObject("Wardrope");
+    wr.put("Name",wardropeName);
+    wr.put("UserID", userID);
+    wr.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(com.parse.ParseException e) {
+
+      }
+    });
   }
 
   @Override protected Fragment createFragmentToDisplay() {
