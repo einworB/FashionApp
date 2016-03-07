@@ -1,8 +1,6 @@
 package de.ur.mi.fashionapp.login;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,11 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarFragment;
 import com.parse.Parse;
@@ -22,10 +16,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.text.ParseException;
-
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.settings.SettingsPresenter;
 import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
 public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, String, LoginView, LoginPresenter>
@@ -36,7 +27,7 @@ public class LoginActivity extends CBActivityMvpToolbarFragment<LinearLayout, St
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_login);
     setContext(getApplicationContext());
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
