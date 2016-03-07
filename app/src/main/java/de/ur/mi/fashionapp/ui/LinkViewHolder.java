@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuLinkItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuLinkItem;
 
 /**
  * Created by Philip on 24/02/2016.

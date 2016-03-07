@@ -4,15 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.LinkService;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuAdapter;
+import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuPresenter;
+import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import java.util.List;
 
 /**
@@ -25,15 +32,30 @@ public class WardrobeActivity extends
   private WardrobeMenuAdapter menuAdapter;
   private RecyclerView menuRecyclerView;
   private FragmentManager fragmentManager;
+  private FloatingActionButton fab;
+  private DrawerLayout drawerLayout;
   private PagerSlidingTabStrip tabs;
   private WardrobePagerAdapter adapter;
+  private ActionBar actionBar;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
-    setTitle("Mein Kleiderschrank");
   }
 
   @Override protected void onMvpViewCreated() {
+    fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Fragment f = fragmentManager.findFragmentByTag(
+            "android:switcher:" + contentView.getId() + ":" + contentView.getCurrentItem());
+        if (f instanceof WardrobeFragment) {
+          Intent i = LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType());
+          startActivity(i);
+        }
+
+      }
+    });
+    drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
     if (tabs == null) {
       throw new NullPointerException(
@@ -50,6 +72,11 @@ public class WardrobeActivity extends
 
     contentView.setAdapter(adapter);
     tabs.setViewPager(contentView);
+
+    actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setDisplayShowTitleEnabled(true);
+    }
 
     int margin = Math.max(getPageMargin(), 0);
 
@@ -92,12 +119,20 @@ public class WardrobeActivity extends
     return new WardrobePagerAdapter(fragmentManager);
   }
 
-  @Override public void onWardrobeClicked(int ID) {
+  @Override public void onWardrobeClicked(int ID, String title) {
     for (Fragment f : fragmentManager.getFragments()) {
       if (f instanceof WardrobeFragment) {
         ((WardrobeFragment) f).setWardrobe(ID);
       }
     }
+    if (actionBar != null) {
+      actionBar.setTitle(title);
+    }
+    drawerLayout.closeDrawers();
+  }
+
+  @Override public void onNewWardrobeClicked() {
+    // TODO: create new Wardrobe here
   }
 
   @Override public void onLinkClicked(String title) {

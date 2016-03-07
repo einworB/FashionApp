@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import com.christianbahl.appkit.core.fragment.CBFragmentMvpRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +17,13 @@ public class WardrobeFragment extends
     CBFragmentMvpRecyclerView<List<WardrobeItem>, WardrobeView, WardrobePresenter, WardrobeAdapter>
     implements WardrobeView {
 
-  static final int TYPE_PIECE = 0;
-  static final int TYPE_OUTFIT = 1;
+  public static final int TYPE_PIECE = 0;
+  public static final int TYPE_OUTFIT = 1;
 
   private int type;
+  // TODO: replace dummy ids
   private int wardrobeID = 1;
+  private int userID = 1;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -43,28 +42,16 @@ public class WardrobeFragment extends
   }
 
   @Override public void setData(List<WardrobeItem> data) {
-    if (data != null && !data.isEmpty()) {
-      List<WardrobeItem> items = new ArrayList<>();
-      if (type == TYPE_OUTFIT) {
-        for (WardrobeItem item : data) {
-          if (item instanceof WardrobeOutfitItem) {
-            items.add(item);
-          }
-        }
-      }
-      else if (type == TYPE_PIECE) {
-        for (WardrobeItem item : data) {
-          if (item instanceof WardrobePieceItem) {
-            items.add(item);
-          }
-        }
-      }
-      adapter.setItems(items);
-    }
+    adapter.setItems(data);
+    adapter.notifyDataSetChanged();
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    presenter.loadWardrobe(wardrobeID);
+    if (type == TYPE_OUTFIT) {
+      presenter.loadOutfits(userID, wardrobeID, pullToRefresh);
+    } else if (type == TYPE_PIECE) {
+      presenter.loadPieces(userID, wardrobeID, pullToRefresh);
+    }
   }
 
   @Override public WardrobePresenter createPresenter() {
@@ -74,5 +61,9 @@ public class WardrobeFragment extends
   public void setWardrobe(int ID) {
     wardrobeID = ID;
     loadData(true);
+  }
+
+  public int getType() {
+    return type;
   }
 }

@@ -1,8 +1,8 @@
-package de.ur.mi.fashionapp.wardrobe;
+package de.ur.mi.fashionapp.wardrobe.menu;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     // TODO: load wardrobes from parse, wrap them in wardrobe items and return the wardrobes from parse instead of this dummy
     WardrobeMenuWardrobeItem item = new WardrobeMenuWardrobeItem();
     item.setID(1);
-    item.setTitle("MeinKleiderschrank");
+    item.setTitle("My First Wardrobe");
     items.add(item);
 
     if (isViewAttached()) {

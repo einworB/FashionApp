@@ -1,6 +1,11 @@
 <resources>
   <string name="app_name">FashionApp</string>
+
   <string name="title_activity_main">MainActivity</string>
+
+  <!-- Login -->
+  <string name="title_activity_login">Login</string>
+
   <string name="user_name">Username</string>
   <string name="password">Password</string>
   <string name="longin_txt">Login</string>
@@ -13,7 +18,6 @@
   <string name="change_password">Change password</string>
   <string name="delete_data">Delete data</string>
   <string name="delete_account">Delete account</string>
-  <string name="title_activity_settings">SettingsActivity</string>
   <string name="change_password_dialog_title">Change Passoword?</string>
   <string name="delete_data_dialog_title">Delete Data?</string>
   <string name="delete_account_dialog_title">Delete Account?</string>
@@ -24,4 +28,17 @@
   <string name="forgot_password_dialog_content">Do you want to receive a new password?</string>
   <string name="dialog_positive">Yes</string>
   <string name="dialog_negative">No</string>
+
+  <!-- Wardrobe -->
+  <string name="title_activity_wardrobe">My Wardrobe</string>
+
+  <!-- Settings -->
+  <string name="title_activity_settings">Settings</string>
+
+  <!-- New Piece -->
+  <string name="title_activity_create_piece">New Piece</string>
+
+  <!-- New Outfit -->
+  <string name="title_activity_create_outfit">New Outfit</string>
+  <string name="title_activity_main2">Main2Activity</string>
 </resources>

@@ -1,7 +1,7 @@
-package de.ur.mi.fashionapp.wardrobe;
+package de.ur.mi.fashionapp.wardrobe.menu;
 
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import java.util.List;
 
 /**

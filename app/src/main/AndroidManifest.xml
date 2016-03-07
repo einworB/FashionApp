@@ -20,8 +20,7 @@
       android:theme="@style/AppTheme">
     <activity
         android:name=".login.LoginActivity"
-        android:label="@string/title_activity_main"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:label="@string/title_activity_login">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -30,13 +29,19 @@
     </activity>
     <activity
         android:name=".wardrobe.WardrobeActivity"
-        android:label="@string/title_activity_main"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:label="@string/title_activity_wardrobe">
     </activity>
     <activity
         android:name=".settings.SettingsActivity"
-        android:label="@string/title_activity_settings"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:label="@string/title_activity_settings">
+    </activity>
+    <activity
+        android:name=".create.piece.CreatePieceActivity"
+        android:label="@string/title_activity_create_piece">
+    </activity>
+    <activity
+        android:name=".create.outfit.CreateOutfitActivity"
+        android:label="@string/title_activity_create_outfit">
     </activity>
   </application>
 

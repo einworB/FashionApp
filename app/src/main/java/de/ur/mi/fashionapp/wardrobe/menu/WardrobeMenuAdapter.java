@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp.wardrobe;
+package de.ur.mi.fashionapp.wardrobe.menu;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,27 +6,35 @@ import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.LinkViewHolder;
+import de.ur.mi.fashionapp.ui.NewWardrobeViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobeViewHolder;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuLinkItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeMenuWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuLinkItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuNewWardrobeItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
  */
-public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem> implements
-    LinkViewHolder.LinkViewHolderListener, WardrobeViewHolder.WardrobeViewHolderListener {
+public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
+    implements LinkViewHolder.LinkViewHolderListener,
+    WardrobeViewHolder.WardrobeViewHolderListener,
+    NewWardrobeViewHolder.NewWardrobeViewHolderListener{
 
   private static final int VIEWTYPE_LINK = 0;
   private static final int VIEWTYPE_WARDROBE = 1;
+  private static final int VIEWTYPE_NEW_WARDROBE = 2;
   private final WardrobeMenuAdapterListener listener;
   private List<WardrobeMenuItem> defaultItems;
 
-  interface WardrobeMenuAdapterListener {
+  public interface WardrobeMenuAdapterListener {
     void onLinkClicked(String title);
-    void onWardrobeClicked(int ID);
+
+    void onWardrobeClicked(int ID, String title);
+
+    void onNewWardrobeClicked();
   }
 
   public WardrobeMenuAdapter(Context context, WardrobeMenuAdapterListener listener) {
@@ -35,6 +43,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     this.listener = listener;
 
     defaultItems = new ArrayList<>();
+    defaultItems.add(new WardrobeMenuNewWardrobeItem("Create new Wardrobe"));
     defaultItems.add(new WardrobeMenuLinkItem("Settings"));
     defaultItems.add(new WardrobeMenuLinkItem("Impressum"));
     defaultItems.add(new WardrobeMenuLinkItem("Help"));
@@ -50,7 +59,9 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
       case VIEWTYPE_WARDROBE:
         ((WardrobeViewHolder) viewHolder).bind((WardrobeMenuWardrobeItem) getItem(position), this);
         break;
-
+      case VIEWTYPE_NEW_WARDROBE:
+        ((NewWardrobeViewHolder) viewHolder).bind((WardrobeMenuNewWardrobeItem) getItem(position), this);
+        break;
     }
   }
 
@@ -60,6 +71,8 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
         return new LinkViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       case VIEWTYPE_WARDROBE:
         return new WardrobeViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
+      case VIEWTYPE_NEW_WARDROBE:
+        return new NewWardrobeViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       default:
         return null;
     }
@@ -68,9 +81,10 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   @Override public int getItemViewType(int position) {
     if (getItem(position) instanceof WardrobeMenuLinkItem) {
       return VIEWTYPE_LINK;
-    }
-    else if (getItem(position) instanceof WardrobeMenuWardrobeItem) {
+    } else if (getItem(position) instanceof WardrobeMenuWardrobeItem) {
       return VIEWTYPE_WARDROBE;
+    } else if (getItem(position) instanceof WardrobeMenuNewWardrobeItem) {
+      return VIEWTYPE_NEW_WARDROBE;
     }
     return super.getItemViewType(position);
   }
@@ -81,9 +95,9 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     }
   }
 
-  @Override public void onWardrobeClicked(int ID) {
+  @Override public void onWardrobeClicked(int ID, String title) {
     if (listener != null) {
-      listener.onWardrobeClicked(ID);
+      listener.onWardrobeClicked(ID, title);
     }
   }
 
@@ -91,4 +105,11 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     super.setItems(items);
     addNewItems(defaultItems);
   }
+
+  @Override public void onNewWardrobeClicked() {
+    if (listener != null) {
+      listener.onNewWardrobeClicked();
+    }
+  }
+
 }
