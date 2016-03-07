@@ -1,9 +1,9 @@
-package de.ur.mi.fashionapp.create.model;
+package de.ur.mi.fashionapp.edit.model;
 
 /**
  * Created by Philip on 05/03/2016.
  */
-public class NewItem {
+public class EditItem {
 
   private String title;
   // TODO: add other common(outfit+piece) properties + getters/setters

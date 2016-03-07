@@ -1,9 +1,9 @@
-package de.ur.mi.fashionapp.create.model;
+package de.ur.mi.fashionapp.edit.model;
 
 /**
  * Created by Philip on 05/03/2016.
  */
-public class NewOutfitItem extends NewItem {
+public class EditOutfitItem extends EditItem {
 
   // TODO: add other outfit properties + getters/setters
 }
