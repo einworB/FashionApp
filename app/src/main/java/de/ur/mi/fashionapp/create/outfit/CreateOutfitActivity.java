@@ -13,13 +13,11 @@ import de.ur.mi.fashionapp.create.model.NewOutfitItem;
  */
 public class CreateOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Object, CreateOutfitView, CreateOutfitPresenter> implements CreateOutfitView {
 
-  private int userID;
   private NewOutfitItem newItem;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
     // TODO: create layout; register createOutfit() method on create Button click listener
-    // TODO: get userID from sharedPrefernces or pass it from Wardrobe
   }
 
   @NonNull @Override public CreateOutfitPresenter createPresenter() {
@@ -44,7 +42,7 @@ public class CreateOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Obj
   }
 
   private void createOutfit() {
-    // TODO: get data from EditTexts for the new NewOutfitItem(userID, itemID, title)
-    presenter.createOutfit(userID, newItem, true);
+    // TODO: get data from EditTexts for the new NewOutfitItem(newItem, title)
+    presenter.createOutfit(newItem, true);
   }
 }

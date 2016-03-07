@@ -13,13 +13,11 @@ import de.ur.mi.fashionapp.create.model.NewPieceItem;
  */
 public class CreatePieceActivity extends CBActivityMvpToolbar<LinearLayout, Object, CreatePieceView, CreatePiecePresenter> implements CreatePieceView {
 
-  private int userID;
   private NewPieceItem newItem;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
     // TODO: create layout; register createPiece() method on create Button click listener
-    // TODO: get userID from sharedPrefernces or pass it from Wardrobe
   }
 
   @NonNull @Override public CreatePiecePresenter createPresenter() {
@@ -32,7 +30,6 @@ public class CreatePieceActivity extends CBActivityMvpToolbar<LinearLayout, Obje
 
   @Override public void loadData(boolean pullToRefresh) {
     // not needed
-    // TODO: maybe needed for a "prepareNewPiece" function which returns a itemID?
   }
 
   @Override protected Integer getLayoutRes() {
@@ -44,7 +41,7 @@ public class CreatePieceActivity extends CBActivityMvpToolbar<LinearLayout, Obje
   }
 
   private void createOutfit() {
-    // TODO: get data from EditTexts for the new NewPieceItem(userID, itemID, title)
-    presenter.createPiece(userID, newItem, true);
+    // TODO: get data from EditTexts for the new NewPieceItem(newItem, title)
+    presenter.createPiece(newItem, true);
   }
 }

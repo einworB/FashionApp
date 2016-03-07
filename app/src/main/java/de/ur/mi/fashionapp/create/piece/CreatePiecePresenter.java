@@ -11,7 +11,7 @@ public class CreatePiecePresenter extends MvpBasePresenter<CreatePieceView>{
   // TODO: maybe implement a "prepareNewPiece" function which returns a itemID?
 
 
-  public void createPiece(int userID, NewPieceItem item, boolean pullToRefresh) {
+  public void createPiece(NewPieceItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
