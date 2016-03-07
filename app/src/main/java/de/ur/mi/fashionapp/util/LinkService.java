@@ -2,6 +2,8 @@ package de.ur.mi.fashionapp.util;
 
 import android.content.Context;
 import android.content.Intent;
+import de.ur.mi.fashionapp.detail.OutfitDetailActivity;
+import de.ur.mi.fashionapp.detail.PieceDetailActivity;
 import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
 import de.ur.mi.fashionapp.edit.piece.EditPieceActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
@@ -53,6 +55,22 @@ public class LinkService {
         return i;
       case WardrobeFragment.TYPE_PIECE:
         i = new Intent(context, EditPieceActivity.class);
+        i.putExtra(EditPieceActivity.KEY_ID, itemID);
+        return i;
+      default:
+        return null;
+    }
+  }
+
+  public static Intent getDetailIntent(Context context, int type, int itemID) {
+    Intent i;
+    switch (type) {
+      case WardrobeFragment.TYPE_OUTFIT:
+        i = new Intent(context, OutfitDetailActivity.class);
+        i.putExtra(EditOutfitActivity.KEY_ID, itemID);
+        return i;
+      case WardrobeFragment.TYPE_PIECE:
+        i = new Intent(context, PieceDetailActivity.class);
         i.putExtra(EditPieceActivity.KEY_ID, itemID);
         return i;
       default:

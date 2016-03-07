@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class WardrobeFragment extends
     CBFragmentMvpRecyclerView<List<WardrobeItem>, WardrobeView, WardrobePresenter, WardrobeAdapter>
-    implements WardrobeView {
+    implements WardrobeView, WardrobeAdapter.WardrobeAdapterListener {
 
   public static final int TYPE_PIECE = 0;
   public static final int TYPE_OUTFIT = 1;
@@ -34,7 +34,7 @@ public class WardrobeFragment extends
   }
 
   @Override protected WardrobeAdapter createAdapter() {
-    return new WardrobeAdapter(getContext());
+    return new WardrobeAdapter(getContext(), this);
   }
 
   public void setType(int type) {
@@ -65,5 +65,9 @@ public class WardrobeFragment extends
 
   public int getType() {
     return type;
+  }
+
+  @Override public void onWardrobeItemClicked(int itemID) {
+    ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, itemID);
   }
 }

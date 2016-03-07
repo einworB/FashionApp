@@ -43,6 +43,24 @@
         android:name=".edit.outfit.EditOutfitActivity"
         android:label="@string/title_activity_create_outfit">
     </activity>
+    <activity
+        android:name=".detail.PieceDetailActivity"
+        android:label="@string/title_activity_piece_detail"
+        android:parentActivityName=".wardrobe.WardrobeActivity"
+        android:theme="@style/AppTheme">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity"/>
+    </activity>
+    <activity
+        android:name=".detail.OutfitDetailActivity"
+        android:label="@string/title_activity_outfit_detail"
+        android:parentActivityName=".wardrobe.WardrobeActivity"
+        android:theme="@style/AppTheme">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity"/>
+    </activity>
   </application>
 
 </manifest>

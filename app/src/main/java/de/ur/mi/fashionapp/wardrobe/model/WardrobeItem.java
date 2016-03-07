@@ -6,6 +6,7 @@ package de.ur.mi.fashionapp.wardrobe.model;
 public class WardrobeItem {
 
   private String title;
+  private int ID;
 
   public String getTitle() {
     return title;
@@ -13,5 +14,13 @@ public class WardrobeItem {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public int getID() {
+    return ID;
+  }
+
+  public void setID(int ID) {
+    this.ID = ID;
   }
 }

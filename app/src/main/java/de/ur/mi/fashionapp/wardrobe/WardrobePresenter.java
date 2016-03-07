@@ -29,12 +29,15 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     List<WardrobeItem> items = new ArrayList<>();
     WardrobePieceItem piece1 = new WardrobePieceItem();
     piece1.setTitle("Eine Hose");
+    piece1.setID(0);
     items.add(piece1);
     WardrobePieceItem piece2 = new WardrobePieceItem();
     piece2.setTitle("Ein Hemd");
+    piece2.setID(1);
     items.add(piece2);
     WardrobePieceItem piece3 = new WardrobePieceItem();
     piece3.setTitle("Ein Hut");
+    piece3.setID(2);
     items.add(piece3);
 
     if (isViewAttached()) {
@@ -59,9 +62,11 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     List<WardrobeItem> items = new ArrayList<>();
     WardrobeOutfitItem outfit1 = new WardrobeOutfitItem();
     outfit1.setTitle("Mein 1. Outfit");
+    outfit1.setID(0);
     items.add(outfit1);
     WardrobeOutfitItem outfit2 = new WardrobeOutfitItem();
     outfit2.setTitle("Mein 2. Outfit");
+    outfit2.setID(1);
     items.add(outfit2);
 
     if (isViewAttached()) {

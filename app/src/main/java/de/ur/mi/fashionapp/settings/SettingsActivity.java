@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import de.ur.mi.fashionapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -23,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         changePassword = (TextView) findViewById(R.id.change_password);
         deleteData = (TextView) findViewById(R.id.delete_data);
         deleteAccount = (TextView) findViewById(R.id.delete_account);
