@@ -36,11 +36,11 @@
         android:label="@string/title_activity_settings">
     </activity>
     <activity
-        android:name=".create.piece.CreatePieceActivity"
+        android:name=".edit.piece.EditPieceActivity"
         android:label="@string/title_activity_create_piece">
     </activity>
     <activity
-        android:name=".create.outfit.CreateOutfitActivity"
+        android:name=".edit.outfit.EditOutfitActivity"
         android:label="@string/title_activity_create_outfit">
     </activity>
   </application>
