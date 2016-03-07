@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_pink_600">
+    android:background="@color/md_pink_600"
+    >
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -39,11 +43,24 @@
             android:layout_marginTop="16dp"
             android:layout_marginLeft="160dp"/>
     </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:layout_marginLeft="20dp"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/darker_gray"/>
     <TableRow
+        android:id="@+id/change_password"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <TextView
-            android:id="@+id/change_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/change_password"
@@ -60,10 +77,10 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/delete_data"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <TextView
-            android:id="@+id/delete_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_data"
@@ -79,10 +96,10 @@
             android:layout_marginLeft="170dp"/>
     </TableRow>
     <TableRow
+        android:id="@+id/delete_account"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <TextView
-            android:id="@+id/delete_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_account"
@@ -97,6 +114,28 @@
             android:layout_marginTop="16dp"
             android:layout_marginLeft="130dp"/>
     </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wardrobes"
+        android:layout_marginLeft="20dp"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/darker_gray"/>
 
+    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp">
+
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
+</ScrollView>

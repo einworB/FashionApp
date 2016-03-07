@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -15,7 +16,7 @@ import de.ur.mi.fashionapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private TextView changePassword, deleteData, deleteAccount;
+    private TableRow changePassword, deleteData, deleteAccount;
     private MaterialDialog changePasswordDialog, deleteDataDialog, deleteAccountDialog;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +24,15 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        changePassword = (TextView) findViewById(R.id.change_password);
-        deleteData = (TextView) findViewById(R.id.delete_data);
-        deleteAccount = (TextView) findViewById(R.id.delete_account);
+        changePassword = (TableRow) findViewById(R.id.change_password);
+        deleteData = (TableRow) findViewById(R.id.delete_data);
+        deleteAccount = (TableRow) findViewById(R.id.delete_account);
         setupDialogues(changePassword, changePasswordDialog, R.string.change_password_dialog_title, R.string.change_password_dialog_content);
         setupDialogues(deleteData, deleteDataDialog, R.string.delete_data_dialog_title, R.string.delete_data_dialog_content);
         setupDialogues(deleteAccount, deleteAccountDialog, R.string.delete_account_dialog_title, R.string.delete_account_dialog_content);
     }
 
-    private void setupDialogues(TextView dialogView, MaterialDialog dialog, int dialog_title, int dialog_content) {
+    private void setupDialogues(TableRow dialogView, MaterialDialog dialog, int dialog_title, int dialog_content) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
                 .title(dialog_title)
                 .content(dialog_content)

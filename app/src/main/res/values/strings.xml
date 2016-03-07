@@ -2,10 +2,6 @@
   <string name="app_name">FashionApp</string>
 
   <string name="title_activity_main">MainActivity</string>
-
-  <!-- Login -->
-  <string name="title_activity_login">Login</string>
-
   <string name="user_name">Username</string>
   <string name="password">Password</string>
   <string name="longin_txt">Login</string>
@@ -29,6 +25,8 @@
   <string name="dialog_positive">Yes</string>
   <string name="dialog_negative">No</string>
 
+  <!-- Login -->
+  <string name="title_activity_login">Login</string>
   <!-- Wardrobe -->
   <string name="title_activity_wardrobe">My Wardrobe</string>
 
