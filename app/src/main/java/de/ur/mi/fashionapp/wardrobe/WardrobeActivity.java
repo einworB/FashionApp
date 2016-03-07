@@ -136,7 +136,10 @@ public class WardrobeActivity extends
   }
 
   @Override public void onLinkClicked(String title) {
-    Intent intent = LinkService.getLink(this, title);
-    startActivity(intent);
+    startActivity(LinkService.getLink(this, title));
+  }
+
+  public void onWardrobeItemClicked(int type, int itemID) {
+    startActivity(LinkService.getDetailIntent(this, type, itemID));
   }
 }

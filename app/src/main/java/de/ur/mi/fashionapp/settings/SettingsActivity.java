@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import de.ur.mi.fashionapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -27,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword = (TableRow) findViewById(R.id.change_password);
         deleteData = (TableRow) findViewById(R.id.delete_data);
         deleteAccount = (TableRow) findViewById(R.id.delete_account);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupDialogues(changePassword, changePasswordDialog, R.string.change_password_dialog_title, R.string.change_password_dialog_content);
         setupDialogues(deleteData, deleteDataDialog, R.string.delete_data_dialog_title, R.string.delete_data_dialog_content);
         setupDialogues(deleteAccount, deleteAccountDialog, R.string.delete_account_dialog_title, R.string.delete_account_dialog_content);

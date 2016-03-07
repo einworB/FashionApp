@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.edit.outfit;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
@@ -22,7 +23,18 @@ public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Objec
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
     editItemID = getIntent().getIntExtra(KEY_ID, 0);
+    // TODO: get parcelable item from bundle if editItemID != 0
     // TODO: create layout; register if(editItemID == 0) createOutfit() else updateOutfit() to on save Button click listener
+  }
+
+  @Override protected void onMvpViewCreated() {
+    super.onMvpViewCreated();
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    if (editItemID != 0) {
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setTitle("Edit Item "+editItemID);
+    }
   }
 
   @NonNull @Override public EditOutfitPresenter createPresenter() {

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.ui.TextViewHolder;
+import de.ur.mi.fashionapp.ui.WardrobeItemViewHolder;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -13,13 +13,21 @@ import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 /**
  * Created by Philip on 29/02/2016.
  */
-public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem> {
+public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
+    implements WardrobeItemViewHolder.WardrobeItemViewHolderListener {
 
   private static final int VIEWTYPE_PIECE = 0;
   private static final int VIEWTYPE_OUTFIT = 1;
 
-  public WardrobeAdapter(Context context) {
+  private WardrobeAdapterListener listener;
+
+  interface WardrobeAdapterListener{
+    void onWardrobeItemClicked(int itemID);
+  }
+
+  public WardrobeAdapter(Context context, WardrobeAdapterListener listener) {
     super(context);
+    this.listener = listener;
   }
 
   @Override
@@ -27,7 +35,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem> {
     switch (viewType) {
       case VIEWTYPE_PIECE:
       case VIEWTYPE_OUTFIT:
-        ((TextViewHolder) viewHolder).bind(getItem(position).getTitle());
+        ((WardrobeItemViewHolder) viewHolder).bind(getItem(position), this);
         break;
     }
   }
@@ -36,7 +44,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem> {
     switch (viewType) {
       case VIEWTYPE_PIECE:
       case VIEWTYPE_OUTFIT:
-        return new TextViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
+        return new WardrobeItemViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       default:
         return null;
     }
@@ -52,5 +60,9 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem> {
     else {
       return super.getItemViewType(position);
     }
+  }
+
+  @Override public void onWardrobeItemClicked(int itemID) {
+    listener.onWardrobeItemClicked(itemID);
   }
 }
