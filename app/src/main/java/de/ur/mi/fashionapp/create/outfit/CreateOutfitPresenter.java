@@ -10,7 +10,7 @@ public class CreateOutfitPresenter extends MvpBasePresenter<CreateOutfitView>{
 
   // TODO: maybe implement a "prepareNewOutfit" function which returns a itemID?
 
-  public void createOutfit(int userID, NewOutfitItem item, boolean pullToRefresh) {
+  public void createOutfit(NewOutfitItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);

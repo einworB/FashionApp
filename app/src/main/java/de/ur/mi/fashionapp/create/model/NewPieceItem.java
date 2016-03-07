@@ -6,8 +6,4 @@ package de.ur.mi.fashionapp.create.model;
 public class NewPieceItem extends NewItem {
 
   // TODO: add other piece properties + getters/setters
-
-  public NewPieceItem(int userID, int itemID) {
-    super(userID, itemID);
-  }
 }
