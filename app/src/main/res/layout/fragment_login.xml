@@ -18,7 +18,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/cb_ic_no_data_found"/>
+        android:src="@drawable/ic_icon_accessoires"/>
 
     <EditText
         android:id="@+id/username_edit"
