@@ -39,4 +39,5 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
     }
+    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 }
