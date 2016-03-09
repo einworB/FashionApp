@@ -44,4 +44,7 @@
   <!-- Detail -->
   <string name="title_activity_piece_detail">PieceDetailActivity</string>
   <string name="title_activity_outfit_detail">OutfitDetailActivity</string>
+
+  <!-- Edit -->
+  <string name="edit_piece_title">Name your new Piece</string>
 </resources>

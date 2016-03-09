@@ -30,7 +30,8 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/md_white"
-        android:textColorHint="@color/md_grey_300" />
+        android:textColorHint="@color/md_grey_300"
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/email_edit"
@@ -41,7 +42,9 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/md_white"
-        android:textColorHint="@color/md_grey_300"/>
+        android:textColorHint="@color/md_grey_300"
+        android:singleLine="true"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/password_edit"
@@ -52,7 +55,9 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/md_white"
-        android:textColorHint="@color/md_grey_300"/>
+        android:textColorHint="@color/md_grey_300"
+        android:singleLine="true"
+        android:inputType="textPassword"/>
 
     <EditText
         android:id="@+id/password_confirm_edit"
@@ -63,7 +68,9 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/md_white"
-        android:textColorHint="@color/md_grey_300"/>
+        android:textColorHint="@color/md_grey_300"
+        android:singleLine="true"
+        android:inputType="textPassword"/>
 
     <TextView
         android:id="@+id/register_btn"
