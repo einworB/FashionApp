@@ -33,7 +33,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView>{
     }
   }
 
-  public void updateOutfit(int itemID, EditPieceItem item, boolean pullToRefresh) {
+  public void updatePiece(int itemID, EditPieceItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
