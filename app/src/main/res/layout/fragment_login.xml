@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_pink_600">
+    android:background="@color/md_pink_700">
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,6 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_icon_accessoires"/>
 
