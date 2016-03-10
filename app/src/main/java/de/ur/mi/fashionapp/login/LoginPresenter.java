@@ -10,8 +10,9 @@ import com.parse.SignUpCallback;
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
   Context context;
 
-  public LoginPresenter (Context context){
+  public LoginPresenter (Context context, LoginView view){
     this.context = context;
+    attachView(view);
   }
   /*
   *   Function for calling the login; needs the entries of the edit fields username and password

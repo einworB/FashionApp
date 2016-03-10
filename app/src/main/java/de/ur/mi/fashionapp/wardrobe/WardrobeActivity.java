@@ -96,7 +96,7 @@ public class WardrobeActivity extends
   }
 
   @NonNull @Override public WardrobeMenuPresenter createPresenter() {
-    return new WardrobeMenuPresenter();
+    return new WardrobeMenuPresenter(this, this);
   }
 
   @Override public void setData(List<WardrobeMenuItem> data) {

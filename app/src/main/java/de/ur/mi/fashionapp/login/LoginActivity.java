@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.LinearLayout;
-import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -54,7 +53,7 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
   }
 
   @NonNull @Override public LoginPresenter createPresenter() {
-    return new LoginPresenter(this);
+    return new LoginPresenter(this, this);
   }
 
   @Override public void setData(String data) {

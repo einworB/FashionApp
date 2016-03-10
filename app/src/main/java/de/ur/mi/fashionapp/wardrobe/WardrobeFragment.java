@@ -55,7 +55,7 @@ public class WardrobeFragment extends
   }
 
   @Override public WardrobePresenter createPresenter() {
-    return new WardrobePresenter();
+    return new WardrobePresenter(getContext(), this);
   }
 
   public void setWardrobe(int ID) {

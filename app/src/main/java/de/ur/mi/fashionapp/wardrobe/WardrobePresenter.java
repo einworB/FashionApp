@@ -1,5 +1,6 @@
 package de.ur.mi.fashionapp.wardrobe;
 
+import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
@@ -11,6 +12,13 @@ import java.util.List;
  * Created by Philip on 29/02/2016.
  */
 public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
+
+  private Context context;
+
+  public WardrobePresenter(Context context, WardrobeView view) {
+    this.context = context;
+    attachView(view);
+  }
 
   public void loadWardrobe(int ID) {
     // TODO: extend item models, maybe load only one big wrapper item which has getPieces() and getOutfits() functions

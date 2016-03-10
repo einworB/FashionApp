@@ -1,5 +1,6 @@
 package de.ur.mi.fashionapp.wardrobe.menu;
 
+import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
@@ -10,6 +11,13 @@ import java.util.List;
  * Created by Philip on 01/03/2016.
  */
 public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
+
+  private Context context;
+
+  public WardrobeMenuPresenter(Context context, WardrobeMenuView view) {
+    this.context = context;
+    attachView(view);
+  }
 
   public void loadMenu() {
     List<WardrobeMenuItem> items = new ArrayList<>();

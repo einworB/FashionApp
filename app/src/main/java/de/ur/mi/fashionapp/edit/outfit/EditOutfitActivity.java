@@ -38,7 +38,7 @@ public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Objec
   }
 
   @NonNull @Override public EditOutfitPresenter createPresenter() {
-    return new EditOutfitPresenter();
+    return new EditOutfitPresenter(this, this);
   }
 
   @Override public void setData(Object data) {

@@ -115,7 +115,7 @@ public class EditPieceActivity
   }
 
   @NonNull @Override public EditPiecePresenter createPresenter() {
-    return new EditPiecePresenter();
+    return new EditPiecePresenter(this, this);
   }
 
   @Override public void setData(Object data) {

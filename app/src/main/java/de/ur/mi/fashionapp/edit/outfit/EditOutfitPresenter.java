@@ -1,5 +1,6 @@
 package de.ur.mi.fashionapp.edit.outfit;
 
+import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import de.ur.mi.fashionapp.edit.model.EditOutfitItem;
 
@@ -7,6 +8,13 @@ import de.ur.mi.fashionapp.edit.model.EditOutfitItem;
  * Created by Philip on 29/02/2016.
  */
 public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
+
+  private Context context;
+
+  public EditOutfitPresenter(Context context, EditOutfitView view) {
+    this.context = context;
+    attachView(view);
+  }
 
   // TODO: maybe implement a "prepareNewOutfit" function which returns a itemID?
 
