@@ -13,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
 import de.ur.mi.fashionapp.R;
@@ -142,5 +144,24 @@ public class WardrobeActivity extends
 
   public void onWardrobeItemClicked(int type, int itemID) {
     startActivity(LinkService.getDetailIntent(this, type, itemID));
+  }
+
+  @Override public void onBackPressed() {
+    MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+        .title("Quit")
+        .content("Do you really want to quit the application?")
+        .positiveText(R.string.dialog_positive)
+        .negativeText(R.string.dialog_negative);
+    builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+      @Override
+      public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+        // "exits" the application
+        //Intent intent = new Intent(Intent.ACTION_MAIN);
+        //intent.addCategory(Intent.CATEGORY_HOME);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivity(intent);
+        finish();
+      }
+    }).build().show();
   }
 }

@@ -29,10 +29,6 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
     //adapter = new LoginAdapter(this);
     //contentView.setLayoutManager(new LinearLayoutManager(this));
     //contentView.setAdapter(adapter);
-
-    //Parse initialization
-    Parse.enableLocalDatastore(this);
-    Parse.initialize(this, "TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf", "GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS");
   }
 
   public void addWardrobe(String wardropeName){
