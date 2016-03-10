@@ -26,6 +26,10 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     setContext(getApplicationContext());
+    //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    //setSupportActionBar(toolbar);
+    //setTitle("Login");
+
     //adapter = new LoginAdapter(this);
     //contentView.setLayoutManager(new LinearLayoutManager(this));
     //contentView.setAdapter(adapter);
