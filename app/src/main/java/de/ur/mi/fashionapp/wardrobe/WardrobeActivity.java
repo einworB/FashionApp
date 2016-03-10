@@ -8,9 +8,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
@@ -36,7 +37,7 @@ public class WardrobeActivity extends
   private DrawerLayout drawerLayout;
   private PagerSlidingTabStrip tabs;
   private WardrobePagerAdapter adapter;
-  private ActionBar actionBar;
+  private ActionBarDrawerToggle drawerToggle;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
@@ -56,6 +57,13 @@ public class WardrobeActivity extends
       }
     });
     drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setNavigationIcon(R.drawable.ic_menu);
+    setSupportActionBar(toolbar);
+
+    drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+
     tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
     if (tabs == null) {
       throw new NullPointerException(
@@ -72,11 +80,6 @@ public class WardrobeActivity extends
 
     contentView.setAdapter(adapter);
     tabs.setViewPager(contentView);
-
-    actionBar = getSupportActionBar();
-    if (actionBar != null) {
-      actionBar.setDisplayShowTitleEnabled(true);
-    }
 
     int margin = Math.max(getPageMargin(), 0);
 
@@ -125,9 +128,7 @@ public class WardrobeActivity extends
         ((WardrobeFragment) f).setWardrobe(ID);
       }
     }
-    if (actionBar != null) {
-      actionBar.setTitle(title);
-    }
+    toolbar.setTitle(title);
     drawerLayout.closeDrawers();
   }
 

@@ -31,6 +31,8 @@
   <string name="title_activity_login">Login</string>
   <!-- Wardrobe -->
   <string name="title_activity_wardrobe">My Wardrobe</string>
+  <string name="drawer_open">Open Menu</string>
+  <string name="drawer_close">Close Menu</string>
 
   <!-- Settings -->
   <string name="title_activity_settings">Settings</string>
