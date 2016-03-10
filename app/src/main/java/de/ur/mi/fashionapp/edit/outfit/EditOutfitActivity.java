@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
@@ -12,8 +13,9 @@ import de.ur.mi.fashionapp.edit.model.EditOutfitItem;
 /**
  * Created by Philip on 05/03/2016.
  */
-public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Object, EditOutfitView, EditOutfitPresenter> implements
-    EditOutfitView {
+public class EditOutfitActivity
+    extends CBActivityMvpToolbar<LinearLayout, Object, EditOutfitView, EditOutfitPresenter>
+    implements EditOutfitView {
 
   public static final String KEY_ID = "itemID";
 
@@ -33,7 +35,8 @@ public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Objec
     setSupportActionBar(toolbar);
     if (editItemID != 0) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
-      getSupportActionBar().setTitle("Edit Item "+editItemID);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("Edit Item " + editItemID);
     }
   }
 
@@ -51,7 +54,7 @@ public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Objec
   }
 
   @Override protected Integer getLayoutRes() {
-    return R.layout.activity_edit_piece;
+    return R.layout.activity_edit_outfit;
   }
 
   @Override public void onOutfitEdited() {
@@ -66,5 +69,15 @@ public class EditOutfitActivity extends CBActivityMvpToolbar<LinearLayout, Objec
   private void updateOutfit() {
     // TODO: get data from EditTexts for the updated EditOutfitItem(editItemID, editItem, title)
     presenter.updateOutfit(editItemID, editItem, true);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home: {
+        finish();
+        break;
+      }
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

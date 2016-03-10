@@ -33,6 +33,6 @@ public class PieceDetailActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(true);
     // TODO: replace with item title
-    getSupportActionBar().setTitle("Edit Item "+itemID);
+    getSupportActionBar().setTitle("Item "+itemID+" Detail");
   }
 }

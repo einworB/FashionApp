@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableRow;
 import com.afollestad.materialdialogs.DialogAction;
@@ -91,6 +92,16 @@ public class SettingsActivity
 
   @Override public void onPasswordResetSuccess() {
     // TODO: do something on success or remove this function(from the view interface)
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home: {
+        finish();
+        break;
+      }
+    }
+    return super.onOptionsItemSelected(item);
   }
 }
 
