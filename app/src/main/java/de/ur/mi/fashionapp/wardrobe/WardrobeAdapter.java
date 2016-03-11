@@ -22,7 +22,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   private WardrobeAdapterListener listener;
 
   interface WardrobeAdapterListener{
-    void onWardrobeItemClicked(int itemID);
+    void onWardrobeItemClicked(String itemID);
   }
 
   public WardrobeAdapter(Context context, WardrobeAdapterListener listener) {
@@ -62,7 +62,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
     }
   }
 
-  @Override public void onWardrobeItemClicked(int itemID) {
+  @Override public void onWardrobeItemClicked(String itemID) {
     listener.onWardrobeItemClicked(itemID);
   }
 }

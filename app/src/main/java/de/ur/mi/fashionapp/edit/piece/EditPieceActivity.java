@@ -20,12 +20,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import com.soundcloud.android.crop.Crop;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.edit.model.EditItem;
 import de.ur.mi.fashionapp.edit.model.EditPieceItem;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
@@ -136,6 +138,9 @@ public class EditPieceActivity
 
   private void createPiece() {
     // TODO: get data from EditTexts and ImageView for the new EditPieceItem(editItem, title)
+   // EditText et = (EditText)findViewById(R.id.edit_piece_name);
+   // editItem.setTitle(et.getText().toString());
+    // TODO: editItem class always says null object reference
     presenter.createPiece(editItem, true);
   }
 

@@ -61,36 +61,6 @@ public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
     builder.show();
   }
 
-  // TODO: replace with setNewPassword(String password) resetting only needed in login, not in settings
-  public void resetPassword() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setTitle("Passwort zurücksetzen lassen?");
-
-    // Set up the buttons
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override public void onClick(DialogInterface dialog, int which) {
-        String email = ParseUser.getCurrentUser().getEmail();
-        getView().showLoading(false);
-        ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
-          @Override public void done(com.parse.ParseException e) {
-            if (e == null) {
-              getView().onPasswordResetSuccess();
-              getView().showContent();
-            } else {
-              getView().showError(e, false);
-            }
-          }
-        });
-      }
-    });
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-      @Override public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-      }
-    });
-    builder.show();
-  }
-
   public void setNewPassword(String password) {
 
   }

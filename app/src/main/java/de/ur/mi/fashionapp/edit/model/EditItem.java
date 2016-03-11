@@ -5,7 +5,7 @@ package de.ur.mi.fashionapp.edit.model;
  */
 public class EditItem {
 
-  private String title;
+  private String title = "test";
   // TODO: add other common(outfit+piece) properties + getters/setters
 
   public String getTitle() {

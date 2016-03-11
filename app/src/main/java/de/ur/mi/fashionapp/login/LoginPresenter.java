@@ -1,10 +1,13 @@
 package de.ur.mi.fashionapp.login;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.Toast;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 import com.parse.SignUpCallback;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
@@ -84,6 +87,38 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         }
       }
     });
+  }
+
+  public void resetPassword() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    builder.setTitle("Passwort zurücksetzen lassen?");
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        String email = ParseUser.getCurrentUser().getEmail();
+        getView().showLoading(false);
+        ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+          @Override
+          public void done(com.parse.ParseException e) {
+            if (e == null) {
+              getView().onPasswordResetSuccess();
+              getView().showContent();
+            } else {
+              getView().showError(e, false);
+            }
+          }
+        });
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+    builder.show();
   }
 }
 

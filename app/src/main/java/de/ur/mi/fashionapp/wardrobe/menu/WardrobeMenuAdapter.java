@@ -32,7 +32,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   public interface WardrobeMenuAdapterListener {
     void onLinkClicked(String title);
 
-    void onWardrobeClicked(int ID, String title);
+    void onWardrobeClicked(String ID, String title);
 
     void onNewWardrobeClicked();
   }
@@ -95,7 +95,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     }
   }
 
-  @Override public void onWardrobeClicked(int ID, String title) {
+  @Override public void onWardrobeClicked(String ID, String title) {
     if (listener != null) {
       listener.onWardrobeClicked(ID, title);
     }

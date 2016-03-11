@@ -1,5 +1,7 @@
 package de.ur.mi.fashionapp.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 import de.ur.mi.fashionapp.R;
 
@@ -44,29 +49,37 @@ public class LoginFragment extends Fragment {
     builder.onPositive(new MaterialDialog.SingleButtonCallback() {
         @Override
         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            // TODO re-send password
+            ParseUser.requestPasswordResetInBackground(usernameEdit.toString(), new RequestPasswordResetCallback() {
+                @Override
+                public void done(com.parse.ParseException e) {
+                    if(e!=null) Toast.makeText(getContext(),(CharSequence)"Mail has been sent",Toast.LENGTH_LONG).show();
+                }
+            });
             Log.d("password", "do sth at forgot password yes");
         }
     });
 
     view.findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        ((LoginActivity) getActivity()).performLogin(String.valueOf(usernameEdit.getText()),
-            String.valueOf(passwordEdit.getText()));
-      }
+        @Override
+        public void onClick(View v) {
+            ((LoginActivity) getActivity()).performLogin(String.valueOf(usernameEdit.getText()),
+                    String.valueOf(passwordEdit.getText()));
+        }
     });
     view.findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        ((LoginActivity) getActivity()).openRegisterFragment();
-      }
+        @Override
+        public void onClick(View v) {
+            ((LoginActivity) getActivity()).openRegisterFragment();
+        }
     });
 
     view.findViewById(R.id.forgot_pswd).setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
 
-        forgotPasswordDialog = builder.build();
-        forgotPasswordDialog.show();
-      }
+            forgotPasswordDialog = builder.build();
+            forgotPasswordDialog.show();
+        }
     });
   }
 }
