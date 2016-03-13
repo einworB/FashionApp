@@ -43,28 +43,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
 
   }
 
-  public void addNewWardrobe(String name){
 
-    String wardropeName = "test";
-    if(name!=null)wardropeName=name;
-
-    //This Method is to create a new wardrope;
-    String userID = ParseUser.getCurrentUser().getObjectId();
-    ParseObject wr = new ParseObject("Wardrope");
-    wr.put("Name",wardropeName);
-    wr.put("UserID", userID);
-    getView().showLoading(true);
-    wr.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(com.parse.ParseException e) {
-        if (e == null) {
-          getView().showLoading(false);
-        } else {
-          getView().showError(e, false);
-        }
-      }
-    });
-  }
 
   public void loadPieces(boolean pullToRefresh) {
     if (isViewAttached()) {
@@ -105,6 +84,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
             items.add(piece);
           }
           getView().setData(items);
+          getView().onItemEdited();
           getView().showContent();
         }
         else{

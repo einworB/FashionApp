@@ -103,5 +103,9 @@ public class SettingsActivity
     }
     return super.onOptionsItemSelected(item);
   }
+
+  public void onUserDeleted(){
+
+  }
 }
 

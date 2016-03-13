@@ -6,9 +6,19 @@ import android.content.DialogInterface;
 import android.text.InputType;
 import android.widget.EditText;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 
 /**
  * Created by Mario on 06.03.2016.
@@ -64,13 +74,39 @@ public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
   public void setNewPassword(String password) {
 
   }
-
-  // TODO: implement functions for data and account deletion (fake deletion by using other id if neccessary)
-  // do these functions need a userID? if userID is changed by deleteAccount() don't all functions in all presenters need an userID to work correctly after "deletion"???
   public void deleteData() {
 
   }
   public void deleteAccount() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    builder.setTitle("Do you really want to delete this user?");
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        ParseUser thisIsMe = ParseUser.getCurrentUser();
+        thisIsMe.deleteInBackground(new DeleteCallback() {
+          @Override
+          public void done(ParseException e) {
+            getView().showLoading(false);
+            if (e == null) {
+              getView().onUserDeleted();
+              getView().showContent();
+            } else {
+              getView().showError(e, false);
+            }
+          }
+        });
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+    builder.show();
 
   }
 

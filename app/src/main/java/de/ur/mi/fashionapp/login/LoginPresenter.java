@@ -2,12 +2,15 @@ package de.ur.mi.fashionapp.login;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
@@ -79,6 +82,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
       public void done(ParseException e) {
         if (e == null) {//if no error occurred
           if (isViewAttached()) {
+            addNewWardrobe();
             getView().onRegisterSuccess();
             getView().showContent();
           }
@@ -87,6 +91,29 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         }
       }
     });
+  }
+
+  public void addNewWardrobe(){
+    String wardropeName = "My first Wardrobe";
+
+    //This Method is to create a new wardrope;
+    String userID = ParseUser.getCurrentUser().getObjectId();
+    ParseObject wr = new ParseObject("Wardrope");
+    wr.put("Name", wardropeName);
+    wr.put("UserID", userID);
+    getView().showLoading(true);
+    wr.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(com.parse.ParseException e) {
+        if (e == null) {
+          getView().showLoading(false);
+        } else {
+          getView().showError(e, false);
+        }
+      }
+    });
+
+
   }
 
   public void resetPassword() {

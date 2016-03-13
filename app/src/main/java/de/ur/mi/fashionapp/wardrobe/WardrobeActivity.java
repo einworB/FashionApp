@@ -139,7 +139,7 @@ public class WardrobeActivity extends
   }
 
   @Override public void onNewWardrobeClicked() {
-
+      presenter.addNewWardrobe();
   }
 
   @Override public void onLinkClicked(String title) {
@@ -167,5 +167,13 @@ public class WardrobeActivity extends
         finish();
       }
     }).build().show();
+  }
+
+  public  void onNewWardrobeCreated(){
+    presenter.loadMenu();
+  }
+
+  public void onItemEdited(){//wieso braucht der das hier nicht? ..
+    // TODO: aktualisiere Activity
   }
 }
