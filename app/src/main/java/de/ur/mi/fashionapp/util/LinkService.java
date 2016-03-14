@@ -62,7 +62,7 @@ public class LinkService {
     }
   }
 
-  public static Intent getDetailIntent(Context context, int type, int itemID) {
+  public static Intent getDetailIntent(Context context, int type, String itemID) {
     Intent i;
     switch (type) {
       case WardrobeFragment.TYPE_OUTFIT:

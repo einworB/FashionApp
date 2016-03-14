@@ -9,4 +9,5 @@ public interface LoginView extends MvpLceView<String> {
 
   void onLoginSuccess();
   void onRegisterSuccess();
+  void onPasswordResetSuccess();
 }

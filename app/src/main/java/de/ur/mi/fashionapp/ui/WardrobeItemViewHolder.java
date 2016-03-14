@@ -14,7 +14,7 @@ public class WardrobeItemViewHolder extends RecyclerView.ViewHolder {
   private TextView text;
 
   public interface WardrobeItemViewHolderListener {
-    void onWardrobeItemClicked(int itemID);
+    void onWardrobeItemClicked(String itemID);
   }
 
   public WardrobeItemViewHolder(View itemView) {

@@ -8,4 +8,5 @@ import java.util.List;
  * Created by Philip on 29/02/2016.
  */
 public interface WardrobeView extends MvpLceView<List<WardrobeItem>>{
+    void onItemEdited();
 }

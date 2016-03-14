@@ -32,7 +32,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   public interface WardrobeMenuAdapterListener {
     void onLinkClicked(String title);
 
-    void onWardrobeClicked(int ID, String title);
+    void onWardrobeClicked(String ID, String title);
 
     void onNewWardrobeClicked();
   }
@@ -43,6 +43,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     this.listener = listener;
 
     defaultItems = new ArrayList<>();
+    defaultItems.add(new WardrobeMenuNewWardrobeItem("---------------------"));
     defaultItems.add(new WardrobeMenuNewWardrobeItem("Create new Wardrobe"));
     defaultItems.add(new WardrobeMenuLinkItem("Settings"));
     defaultItems.add(new WardrobeMenuLinkItem("Impressum"));
@@ -95,7 +96,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     }
   }
 
-  @Override public void onWardrobeClicked(int ID, String title) {
+  @Override public void onWardrobeClicked(String ID, String title) {
     if (listener != null) {
       listener.onWardrobeClicked(ID, title);
     }
@@ -109,6 +110,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   @Override public void onNewWardrobeClicked() {
     if (listener != null) {
       listener.onNewWardrobeClicked();
+
     }
   }
 

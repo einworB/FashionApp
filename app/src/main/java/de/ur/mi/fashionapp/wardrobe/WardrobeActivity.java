@@ -17,6 +17,10 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuAdapter;
@@ -124,7 +128,7 @@ public class WardrobeActivity extends
     return new WardrobePagerAdapter(fragmentManager);
   }
 
-  @Override public void onWardrobeClicked(int ID, String title) {
+  @Override public void onWardrobeClicked(String ID, String title) {
     for (Fragment f : fragmentManager.getFragments()) {
       if (f instanceof WardrobeFragment) {
         ((WardrobeFragment) f).setWardrobe(ID);
@@ -135,14 +139,14 @@ public class WardrobeActivity extends
   }
 
   @Override public void onNewWardrobeClicked() {
-    // TODO: create new Wardrobe here
+      presenter.addNewWardrobe();
   }
 
   @Override public void onLinkClicked(String title) {
     startActivity(LinkService.getLink(this, title));
   }
 
-  public void onWardrobeItemClicked(int type, int itemID) {
+  public void onWardrobeItemClicked(int type, String itemID) {
     startActivity(LinkService.getDetailIntent(this, type, itemID));
   }
 
@@ -163,5 +167,13 @@ public class WardrobeActivity extends
         finish();
       }
     }).build().show();
+  }
+
+  public  void onNewWardrobeCreated(){
+    presenter.loadMenu();
+  }
+
+  public void onItemEdited(){//wieso braucht der das hier nicht? ..
+    // TODO: aktualisiere Activity
   }
 }

@@ -5,7 +5,7 @@ package de.ur.mi.fashionapp.wardrobe.menu.model;
  */
 public class WardrobeMenuWardrobeItem extends WardrobeMenuItem {
 
-  private int ID;
+  private String ID;
   private String title;
 
   public void setTitle(String title) {
@@ -16,11 +16,11 @@ public class WardrobeMenuWardrobeItem extends WardrobeMenuItem {
     return title;
   }
 
-  public void setID(int ID) {
+  public void setID(String ID) {
     this.ID = ID;
   }
 
-  public int getID() {
+  public String getID() {
     return ID;
   }
 }

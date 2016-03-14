@@ -10,4 +10,5 @@ import java.util.List;
 public interface SettingsView extends MvpLceView<List<WardrobeMenuWardrobeItem>> {
   void onMailChangeSuccess();
   void onPasswordResetSuccess();
+  void onUserDeleted();
 }

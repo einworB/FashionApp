@@ -10,7 +10,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 @ParcelablePlease public class WardrobeItem implements Parcelable{
 
   String title;
-  int ID;
+  String ID;
 
   public static final Creator<WardrobeItem> CREATOR = new Creator<WardrobeItem>() {
     @Override public WardrobeItem createFromParcel(Parcel source) {
@@ -32,11 +32,11 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
     this.title = title;
   }
 
-  public int getID() {
+  public String getID() {
     return ID;
   }
 
-  public void setID(int ID) {
+  public void setID(String ID) {
     this.ID = ID;
   }
 

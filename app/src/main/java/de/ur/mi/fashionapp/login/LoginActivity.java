@@ -90,6 +90,9 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
     transaction.replace(R.id.contentView, new RegisterFragment());
     transaction.commit();
   }
+  public void onPasswordResetSuccess(){
+
+  }
 
   //getter for the current context
   public static Context getContext(){

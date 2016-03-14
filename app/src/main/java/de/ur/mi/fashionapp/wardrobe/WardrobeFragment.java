@@ -21,9 +21,7 @@ public class WardrobeFragment extends
   public static final int TYPE_OUTFIT = 1;
 
   private int type;
-  // TODO: replace dummy ids
-  private int wardrobeID = 1;
-  private int userID = 1;
+  private String wardrobeID;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -48,9 +46,9 @@ public class WardrobeFragment extends
 
   @Override public void loadData(boolean pullToRefresh) {
     if (type == TYPE_OUTFIT) {
-      presenter.loadOutfits(userID, wardrobeID, pullToRefresh);
+      presenter.loadOutfits(pullToRefresh);
     } else if (type == TYPE_PIECE) {
-      presenter.loadPieces(userID, wardrobeID, pullToRefresh);
+      presenter.loadPieces(pullToRefresh);
     }
   }
 
@@ -58,7 +56,7 @@ public class WardrobeFragment extends
     return new WardrobePresenter(getContext(), this);
   }
 
-  public void setWardrobe(int ID) {
+  public void setWardrobe(String ID) {
     wardrobeID = ID;
     loadData(true);
   }
@@ -67,7 +65,7 @@ public class WardrobeFragment extends
     return type;
   }
 
-  @Override public void onWardrobeItemClicked(int itemID) {
+  @Override public void onWardrobeItemClicked(String itemID) {
     ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, itemID);
   }
 }
