@@ -61,11 +61,6 @@ public class ImageSlider {
     slideRight.setDuration(500);
     slideRight.setInterpolator(new ImageSliderInterpolator());
 
-    //slideReset = ObjectAnimator.ofFloat(root, "translationX",
-    //    -dpToPixel(context, 120), 0);
-    //slideReset.setDuration(1);
-    //slideReset.setInterpolator(new ImageSliderInterpolator());
-
   }
 
   private void bindView() {
@@ -129,13 +124,6 @@ public class ImageSlider {
 
     slideIn = !slideIn;
   }
-
-  //private void resetAnimation() {
-  //  if (!slideIn) {
-  //    slideReset.start();
-  //    slideIn = !slideIn;
-  //  }
-  //}
 
   public int dpToPixel(Context context, int dp) {
     return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);

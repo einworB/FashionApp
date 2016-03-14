@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.edit.model.EditOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
  * Created by Philip on 05/03/2016.
@@ -19,7 +19,7 @@ public class EditOutfitActivity
 
   public static final String KEY_ID = "itemID";
 
-  private EditOutfitItem editItem;
+  private WardrobeOutfitItem editItem;
   private int editItemID;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -62,12 +62,12 @@ public class EditOutfitActivity
   }
 
   private void createOutfit() {
-    // TODO: get data from EditTexts for the new EditOutfitItem(editItem, title)
+    // TODO: get data from EditTexts for the new WardrobeOutfitItem(editItem, title)
     presenter.createOutfit(editItem, true);
   }
 
   private void updateOutfit() {
-    // TODO: get data from EditTexts for the updated EditOutfitItem(editItemID, editItem, title)
+    // TODO: get data from EditTexts for the updated WardrobeOutfitItem(editItemID, editItem, title)
     presenter.updateOutfit(editItemID, editItem, true);
   }
 

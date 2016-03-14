@@ -1,5 +1,7 @@
 package de.ur.mi.fashionapp.wardrobe;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -67,5 +69,12 @@ public class WardrobeFragment extends
 
   @Override public void onWardrobeItemClicked(String itemID) {
     ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, itemID);
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == WardrobeActivity.REQUESTCODE_CREATE && resultCode == Activity.RESULT_OK) {
+      // new item created
+      loadData(true);
+    }
   }
 }

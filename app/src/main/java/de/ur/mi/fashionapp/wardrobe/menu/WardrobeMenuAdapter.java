@@ -7,11 +7,13 @@ import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.LinkViewHolder;
 import de.ur.mi.fashionapp.ui.NewWardrobeViewHolder;
+import de.ur.mi.fashionapp.ui.TextViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobeViewHolder;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuLinkItem;
-import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuNewWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuSectionItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   private static final int VIEWTYPE_LINK = 0;
   private static final int VIEWTYPE_WARDROBE = 1;
   private static final int VIEWTYPE_NEW_WARDROBE = 2;
+  private static final int VIEWTYPE_SECTION = 3;
   private final WardrobeMenuAdapterListener listener;
   private List<WardrobeMenuItem> defaultItems;
 
@@ -43,7 +46,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     this.listener = listener;
 
     defaultItems = new ArrayList<>();
-    defaultItems.add(new WardrobeMenuNewWardrobeItem("---------------------"));
+    defaultItems.add(new WardrobeMenuSectionItem("---------------------"));
     defaultItems.add(new WardrobeMenuNewWardrobeItem("Create new Wardrobe"));
     defaultItems.add(new WardrobeMenuLinkItem("Settings"));
     defaultItems.add(new WardrobeMenuLinkItem("Impressum"));
@@ -63,6 +66,9 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
       case VIEWTYPE_NEW_WARDROBE:
         ((NewWardrobeViewHolder) viewHolder).bind((WardrobeMenuNewWardrobeItem) getItem(position), this);
         break;
+      case VIEWTYPE_SECTION:
+        ((TextViewHolder) viewHolder).bind(((WardrobeMenuSectionItem) getItem(position)).getTitle());
+        break;
     }
   }
 
@@ -74,6 +80,8 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
         return new WardrobeViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       case VIEWTYPE_NEW_WARDROBE:
         return new NewWardrobeViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
+      case VIEWTYPE_SECTION:
+        return new TextViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       default:
         return null;
     }
@@ -86,6 +94,8 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
       return VIEWTYPE_WARDROBE;
     } else if (getItem(position) instanceof WardrobeMenuNewWardrobeItem) {
       return VIEWTYPE_NEW_WARDROBE;
+    } else if (getItem(position) instanceof WardrobeMenuSectionItem) {
+      return VIEWTYPE_SECTION;
     }
     return super.getItemViewType(position);
   }

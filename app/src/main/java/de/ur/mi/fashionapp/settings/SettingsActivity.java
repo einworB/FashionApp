@@ -55,8 +55,8 @@ public class SettingsActivity
         // TODO use better differentiation
         String title = getString(dialog_title);
         if (title.contains("Email")) {
-          // TODO: implement other dialog that has edittext for old and new password; check old password before setting new
-          presenter.setNewPassword("");
+          // TODO: implement other dialog that has edittext for new email; check old password before setting new
+          presenter.changeMail("");
         }
         else if (title.contains("Data")) {
           presenter.deleteData();

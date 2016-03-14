@@ -1,24 +1,13 @@
 package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.view.View;
-import android.widget.Toast;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +73,6 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
             items.add(piece);
           }
           getView().setData(items);
-          getView().onItemEdited();
           getView().showContent();
         }
         else{
