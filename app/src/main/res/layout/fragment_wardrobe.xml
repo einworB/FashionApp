@@ -17,12 +17,14 @@
 
   </LinearLayout>
 
-  <RelativeLayout android:layout_width="match_parent"
-      android:layout_height="match_parent">
+  <GridLayout android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:columnCount="3"
+      android:orientation="horizontal">
 
     <include layout="@layout/cb_base_error_view"/>
     <include layout="@layout/cb_base_loading_view"/>
     <include layout="@layout/cb_base_empty_view"/>
 
-  </RelativeLayout>
+  </GridLayout>
 </FrameLayout>

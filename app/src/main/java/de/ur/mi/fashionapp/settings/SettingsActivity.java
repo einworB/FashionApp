@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableRow;
@@ -35,12 +36,35 @@ public class SettingsActivity
     deleteData = (TableRow) findViewById(R.id.delete_data);
     deleteAccount = (TableRow) findViewById(R.id.delete_account);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    setupDialogues(changeEmail, changeEmailDialog, R.string.change_email_dialog_title,
-        R.string.change_email_dialog_content);
+    //setupDialogues(changeEmail, changeEmailDialog, R.string.change_email_dialog_title,
+       // R.string.change_email_dialog_content);
     setupDialogues(deleteData, deleteDataDialog, R.string.delete_data_dialog_title,
         R.string.delete_data_dialog_content);
     setupDialogues(deleteAccount, deleteAccountDialog, R.string.delete_account_dialog_title,
-        R.string.delete_account_dialog_content);
+            R.string.delete_account_dialog_content);
+      MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.change_email_dialog_title)
+              .content(R.string.change_email_dialog_content)
+              .positiveText(R.string.dialog_positive)
+              .negativeText(R.string.dialog_negative)
+              .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+              .input(R.string.change_email_input_hint, R.string.change_email_input_prefill, new MaterialDialog.InputCallback() {
+                  @Override
+                  public void onInput(MaterialDialog dialog, CharSequence input) {
+                      //do we need this?
+                  }});
+      builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+          @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+            //TODO: change email
+              presenter.changeMail("");
+          }
+      });
+      changeEmailDialog = builder.build();
+      changeEmail.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              changeEmailDialog.show();
+          }
+      });
     adapter = new SettingsAdapter(this, this);
     contentView.setAdapter(adapter);
     contentView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,11 +89,7 @@ public class SettingsActivity
       @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         // TODO use better differentiation
         String title = getString(dialog_title);
-        if (title.contains("Email")) {
-          // TODO: implement other dialog that has edittext for new email; check old password before setting new
-          presenter.changeMail("");
-        }
-        else if (title.contains("Data")) {
+        if (title.contains("Data")) {
           presenter.deleteData();
         }
         else if (title.contains("Account")) {

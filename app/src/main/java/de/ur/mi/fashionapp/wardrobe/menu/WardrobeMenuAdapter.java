@@ -66,9 +66,6 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
       case VIEWTYPE_NEW_WARDROBE:
         ((NewWardrobeViewHolder) viewHolder).bind((WardrobeMenuNewWardrobeItem) getItem(position), this);
         break;
-      case VIEWTYPE_SECTION:
-        ((TextViewHolder) viewHolder).bind(((WardrobeMenuSectionItem) getItem(position)).getTitle());
-        break;
     }
   }
 
@@ -81,7 +78,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
       case VIEWTYPE_NEW_WARDROBE:
         return new NewWardrobeViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
       case VIEWTYPE_SECTION:
-        return new TextViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
+        return new TextViewHolder(inflater.inflate(R.layout.simple_divider, parent, false));
       default:
         return null;
     }

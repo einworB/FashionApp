@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/outfitItem"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/mainPiece"
+        app:layout_widthPercent="33%"
+        app:layout_aspectRatio="100%"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/ic_icon_accessoires"/>
+
+    <ImageView
+        android:id="@+id/left"
+        app:layout_widthPercent="8%"
+        app:layout_aspectRatio="100%"
+        android:layout_below="@+id/mainPiece"
+        android:src="@drawable/ic_icon_bottom" />
+
+    <ImageView
+        android:id="@+id/midLeft"
+        app:layout_widthPercent="8%"
+        app:layout_aspectRatio="100%"
+        android:layout_below="@+id/mainPiece"
+        android:layout_toRightOf="@+id/left"
+        android:layout_marginLeft="2dp"
+        android:src="@drawable/ic_icon_bottom"/>
+
+    <ImageView
+        android:id="@+id/midRight"
+        app:layout_widthPercent="8%"
+        app:layout_aspectRatio="100%"
+        android:layout_below="@+id/mainPiece"
+        android:layout_toRightOf="@+id/midLeft"
+        android:layout_marginLeft="2dp"
+        android:src="@drawable/ic_icon_bottom"/>
+
+    <ImageView
+        app:layout_widthPercent="8%"
+        app:layout_aspectRatio="100%"
+        android:layout_gravity="top|left"
+        android:layout_below="@+id/mainPiece"
+        android:layout_toRightOf="@+id/midRight"
+        android:layout_marginLeft="2dp"
+        android:src="@drawable/ic_icon_bottom"/>
+
+
+
+</android.support.percent.PercentRelativeLayout>

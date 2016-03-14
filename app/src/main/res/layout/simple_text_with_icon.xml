@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/md_white">
+    android:background="@color/colorPrimary">
 
     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
         android:id="@+id/text"
@@ -12,14 +12,14 @@
         android:layout_margin="10dp"
         android:textSize="20sp"
         android:layout_gravity="start|center_vertical"
-        android:textColor="@color/md_black"
+        android:textColor="@color/colorTextLight"
         android:layout_weight="1"
         />
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
         android:id="@+id/icon"
         tools:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:tint="@color/md_black"
+        android:tint="@color/colorTextLight"
         android:layout_marginRight="10dp"/>
 
 </LinearLayout>

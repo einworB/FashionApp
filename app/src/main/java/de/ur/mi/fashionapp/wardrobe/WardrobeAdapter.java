@@ -34,6 +34,8 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
     switch (viewType) {
       case VIEWTYPE_PIECE:
+        ((WardrobeItemViewHolder) viewHolder).bind(getItem(position), this);
+        break;
       case VIEWTYPE_OUTFIT:
         ((WardrobeItemViewHolder) viewHolder).bind(getItem(position), this);
         break;
@@ -43,8 +45,9 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     switch (viewType) {
       case VIEWTYPE_PIECE:
+        return new WardrobeItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
       case VIEWTYPE_OUTFIT:
-        return new WardrobeItemViewHolder(inflater.inflate(R.layout.simple_text, parent, false));
+        return new WardrobeItemViewHolder(inflater.inflate(R.layout.outfit_item, parent, false));
       default:
         return null;
     }

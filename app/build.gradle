@@ -43,5 +43,6 @@ dependencies {
     compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 
     compile 'com.hannesdorfmann.parcelableplease:annotation:1.0.1'
+    compile 'com.android.support:percent:23.1.0'
     apt 'com.hannesdorfmann.parcelableplease:processor:1.0.1'
 }
