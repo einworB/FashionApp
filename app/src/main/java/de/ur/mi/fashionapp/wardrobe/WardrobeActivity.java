@@ -18,11 +18,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuAdapter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuPresenter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +36,7 @@ public class WardrobeActivity extends
     implements WardrobeMenuAdapter.WardrobeMenuAdapterListener, WardrobeMenuView {
 
   static int REQUESTCODE_CREATE = 101;
+  public static int REQUESTCODE_SETTINGS = 102;
   private WardrobeMenuAdapter menuAdapter;
   private RecyclerView menuRecyclerView;
   private FragmentManager fragmentManager;
@@ -141,7 +145,18 @@ public class WardrobeActivity extends
   }
 
   @Override public void onLinkClicked(String title) {
-    startActivity(LinkService.getLink(this, title));
+    Intent intent = LinkService.getLink(this, title);
+    if(intent != null && title.contains("Settings")) {
+      ArrayList<WardrobeMenuWardrobeItem> wardrobes = new ArrayList<>();
+      List<WardrobeMenuItem> menuItems = menuAdapter.getItems();
+      for (WardrobeMenuItem item : menuItems) {
+        if (item instanceof WardrobeMenuWardrobeItem) {
+          wardrobes.add((WardrobeMenuWardrobeItem)item);
+        }
+      }
+      intent.putParcelableArrayListExtra(SettingsActivity.EXTRAS_WARDROBES, wardrobes);
+    }
+    startActivity(intent);
   }
 
   public void onWardrobeItemClicked(int type, String itemID) {
@@ -170,9 +185,16 @@ public class WardrobeActivity extends
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    for (Fragment f : fragmentManager.getFragments()) {
-      f.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REQUESTCODE_SETTINGS && resultCode == SettingsActivity.RESULTCODE_WARDROBE_DELETED) {
+      // wardrobe was deleted, reload menu
+      loadData(true);
+    } else if(requestCode == REQUESTCODE_CREATE) {
+      // pieces and outfits may have changed, handled by fragments
+      for (Fragment f : fragmentManager.getFragments()) {
+        f.onActivityResult(requestCode, resultCode, data);
+      }
     }
+
     super.onActivityResult(requestCode, resultCode, data);
   }
 }

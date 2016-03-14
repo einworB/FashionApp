@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp.settings;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,11 +17,15 @@ import java.util.List;
 
 public class SettingsActivity
     extends CBActivityMvpToolbar<RecyclerView, List<WardrobeMenuWardrobeItem>, SettingsView, SettingsPresenter>
-    implements SettingsView {
+    implements SettingsView, SettingsAdapter.SettingsAdapterListener {
+
+  public static final String EXTRAS_WARDROBES = "wardrobes";
+  public static final int RESULTCODE_WARDROBE_DELETED = 201;
 
   private TableRow changeEmail, deleteData, deleteAccount;
   private MaterialDialog changeEmailDialog, deleteDataDialog, deleteAccountDialog;
   private SettingsAdapter adapter;
+  private List<WardrobeMenuWardrobeItem> wardrobes;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -37,7 +42,14 @@ public class SettingsActivity
         R.string.delete_data_dialog_content);
     setupDialogues(deleteAccount, deleteAccountDialog, R.string.delete_account_dialog_title,
         R.string.delete_account_dialog_content);
-    adapter = new SettingsAdapter(this);
+    adapter = new SettingsAdapter(this, this);
+    contentView.setAdapter(adapter);
+    contentView.setLayoutManager(new LinearLayoutManager(this));
+    wardrobes = getIntent().getParcelableArrayListExtra(EXTRAS_WARDROBES);
+    if (wardrobes != null) {
+      adapter.setItems(wardrobes);
+      adapter.notifyDataSetChanged();
+    }
   }
 
   @NonNull @Override public SettingsPresenter createPresenter() {
@@ -106,6 +118,12 @@ public class SettingsActivity
 
   public void onUserDeleted(){
 
+  }
+
+  // delete icon of wardrobe has been clicked
+  @Override public void onWardrobeDeleted(WardrobeMenuWardrobeItem wardrobe) {
+    presenter.deleteWardrobe(wardrobe);
+    setResult(RESULTCODE_WARDROBE_DELETED);
   }
 }
 

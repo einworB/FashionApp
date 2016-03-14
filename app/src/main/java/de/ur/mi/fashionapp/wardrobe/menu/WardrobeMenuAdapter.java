@@ -124,4 +124,8 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     }
   }
 
+  public List<WardrobeMenuItem> getItems() {
+    return items;
+  }
+
 }
