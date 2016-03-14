@@ -27,10 +27,9 @@ import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import com.soundcloud.android.crop.Crop;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.edit.model.EditItem;
-import de.ur.mi.fashionapp.edit.model.EditPieceItem;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -49,7 +48,7 @@ public class EditPieceActivity
   private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
   public static final String KEY_ID = "itemID";
 
-  private EditPieceItem editItem;
+  private WardrobePieceItem editItem;
   private int editItemID;
 
   private View seasonContainer;
@@ -101,14 +100,15 @@ public class EditPieceActivity
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home: {
+        setResult(RESULT_CANCELED);
         finish();
         break;
       }
       case R.id.menu_piece_edit_save:
+        setResult(RESULT_OK);
         if (editItemID == 0) {
           createPiece();
-        }
-        else {
+        } else {
           updatePiece();
         }
         break;
@@ -137,20 +137,21 @@ public class EditPieceActivity
   }
 
   private void createPiece() {
-    // TODO: get data from EditTexts and ImageView for the new EditPieceItem(editItem, title)
-   // EditText et = (EditText)findViewById(R.id.edit_piece_name);
-   // editItem.setTitle(et.getText().toString());
-    // TODO: editItem class always says null object reference
+    EditText et = (EditText) findViewById(R.id.edit_piece_name);
+    editItem = new WardrobePieceItem();
+    editItem.setTitle(et.getText().toString());
+    // TODO: get categories and other data from EditTexts and ImageView for the new WardrobePieceItem(editItem, title)
     presenter.createPiece(editItem, true);
   }
 
   private void updatePiece() {
-    // TODO: get data from EditTexts and ImageView for the updated EditPieceItem(editItemID, editItem, title)
+    // TODO: get data from EditTexts and ImageView for the updated WardrobePieceItem(editItemID, editItem, title)
     presenter.updatePiece(editItemID, editItem, true);
   }
 
   @Override public void onImageSelected(View root, int id) {
     // TODO: set the selected season/occasion/color/category to the piece
+    // TODO: CAUTION: id is null based!
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));
     } else if (root == categoryContainer) {

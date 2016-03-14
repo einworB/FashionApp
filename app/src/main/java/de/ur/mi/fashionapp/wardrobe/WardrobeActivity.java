@@ -17,16 +17,15 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuAdapter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuPresenter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +35,8 @@ public class WardrobeActivity extends
     CBActivityMvpToolbarTabs<List<WardrobeMenuItem>, WardrobeMenuView, WardrobeMenuPresenter, WardrobePagerAdapter>
     implements WardrobeMenuAdapter.WardrobeMenuAdapterListener, WardrobeMenuView {
 
+  static int REQUESTCODE_CREATE = 101;
+  public static int REQUESTCODE_SETTINGS = 102;
   private WardrobeMenuAdapter menuAdapter;
   private RecyclerView menuRecyclerView;
   private FragmentManager fragmentManager;
@@ -56,10 +57,10 @@ public class WardrobeActivity extends
         Fragment f = fragmentManager.findFragmentByTag(
             "android:switcher:" + contentView.getId() + ":" + contentView.getCurrentItem());
         if (f instanceof WardrobeFragment) {
-          Intent i = LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType());
-          startActivity(i);
+          Intent i =
+              LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType());
+          startActivityForResult(i, REQUESTCODE_CREATE);
         }
-
       }
     });
     drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -68,7 +69,8 @@ public class WardrobeActivity extends
     toolbar.setNavigationIcon(R.drawable.ic_menu);
     setSupportActionBar(toolbar);
 
-    drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+    drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
+        R.string.drawer_close);
 
     tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
     if (tabs == null) {
@@ -139,11 +141,22 @@ public class WardrobeActivity extends
   }
 
   @Override public void onNewWardrobeClicked() {
-      presenter.addNewWardrobe();
+    presenter.addNewWardrobe();
   }
 
   @Override public void onLinkClicked(String title) {
-    startActivity(LinkService.getLink(this, title));
+    Intent intent = LinkService.getLink(this, title);
+    if(intent != null && title.contains("Settings")) {
+      ArrayList<WardrobeMenuWardrobeItem> wardrobes = new ArrayList<>();
+      List<WardrobeMenuItem> menuItems = menuAdapter.getItems();
+      for (WardrobeMenuItem item : menuItems) {
+        if (item instanceof WardrobeMenuWardrobeItem) {
+          wardrobes.add((WardrobeMenuWardrobeItem)item);
+        }
+      }
+      intent.putParcelableArrayListExtra(SettingsActivity.EXTRAS_WARDROBES, wardrobes);
+    }
+    startActivity(intent);
   }
 
   public void onWardrobeItemClicked(int type, String itemID) {
@@ -151,14 +164,12 @@ public class WardrobeActivity extends
   }
 
   @Override public void onBackPressed() {
-    MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
-        .title("Quit")
+    MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Quit")
         .content("Do you really want to quit the application?")
         .positiveText(R.string.dialog_positive)
         .negativeText(R.string.dialog_negative);
     builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-      @Override
-      public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+      @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         // "exits" the application
         //Intent intent = new Intent(Intent.ACTION_MAIN);
         //intent.addCategory(Intent.CATEGORY_HOME);
@@ -169,11 +180,21 @@ public class WardrobeActivity extends
     }).build().show();
   }
 
-  public  void onNewWardrobeCreated(){
+  public void onNewWardrobeCreated() {
     presenter.loadMenu();
   }
 
-  public void onItemEdited(){//wieso braucht der das hier nicht? ..
-    // TODO: aktualisiere Activity
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUESTCODE_SETTINGS && resultCode == SettingsActivity.RESULTCODE_WARDROBE_DELETED) {
+      // wardrobe was deleted, reload menu
+      loadData(true);
+    } else if(requestCode == REQUESTCODE_CREATE) {
+      // pieces and outfits may have changed, handled by fragments
+      for (Fragment f : fragmentManager.getFragments()) {
+        f.onActivityResult(requestCode, resultCode, data);
+      }
+    }
+
+    super.onActivityResult(requestCode, resultCode, data);
   }
 }

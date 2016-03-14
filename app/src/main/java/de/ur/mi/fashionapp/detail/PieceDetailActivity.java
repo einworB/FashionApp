@@ -34,5 +34,7 @@ public class PieceDetailActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayShowTitleEnabled(true);
     // TODO: replace with item title
     getSupportActionBar().setTitle("Item "+itemID+" Detail");
+
+    // TODO: start activity for result and set result for wardrobe activity to enable reload if item was updated
   }
 }

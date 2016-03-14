@@ -7,17 +7,9 @@ import android.text.InputType;
 import android.widget.EditText;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 
 /**
@@ -110,9 +102,7 @@ public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
 
   }
 
-
-  // TODO: load users wardrobes and set them with getView().setData(wardrobeList)
-  public void loadWardrobes() {
-
+  public void deleteWardrobe(WardrobeMenuWardrobeItem wardrobe) {
+    // TODO: implement
   }
 }

@@ -2,7 +2,6 @@ package de.ur.mi.fashionapp.login;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.EditText;
 import android.widget.Toast;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.LogInCallback;
@@ -82,7 +81,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
       public void done(ParseException e) {
         if (e == null) {//if no error occurred
           if (isViewAttached()) {
-            addNewWardrobe();
+            addFirstWardrobe();
             getView().onRegisterSuccess();
             getView().showContent();
           }
@@ -93,7 +92,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     });
   }
 
-  public void addNewWardrobe(){
+  public void addFirstWardrobe(){
     String wardropeName = "My first Wardrobe";
 
     //This Method is to create a new wardrope;
@@ -105,9 +104,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     wr.saveInBackground(new SaveCallback() {
       @Override
       public void done(com.parse.ParseException e) {
-        if (e == null) {
-          getView().showLoading(false);
-        } else {
+        if (e != null) {
           getView().showError(e, false);
         }
       }
@@ -116,7 +113,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
   }
 
-  public void resetPassword() {
+  public void resetPassword(final String userName) {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Passwort zurücksetzen lassen?");
 
@@ -124,9 +121,8 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        String email = ParseUser.getCurrentUser().getEmail();
         getView().showLoading(false);
-        ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+        ParseUser.requestPasswordResetInBackground(userName, new RequestPasswordResetCallback() {
           @Override
           public void done(com.parse.ParseException e) {
             if (e == null) {

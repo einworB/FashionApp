@@ -5,13 +5,12 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import de.ur.mi.fashionapp.edit.model.EditPieceItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
  * Created by Philip on 29/02/2016.
  */
-public class EditPiecePresenter extends MvpBasePresenter<EditPieceView>{
+public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
 
   private Context context;
 
@@ -20,18 +19,15 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView>{
     attachView(view);
   }
 
-
-  public void createPiece(EditPieceItem item, boolean pullToRefresh) {
+  public void createPiece(WardrobePieceItem item, boolean pullToRefresh) {
     if (isViewAttached()) {
-      // item.getTitle();
-      String pieceName ="neu";
+      String pieceName = item.getTitle();
       ParseObject wr = new ParseObject("Piece");
-      wr.put("Name",pieceName);
+      wr.put("Name", pieceName);
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
       getView().showLoading(true);
       wr.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(com.parse.ParseException e) {
+        @Override public void done(com.parse.ParseException e) {
           if (e == null) {
             getView().showLoading(false);
             getView().onPieceEdited();
@@ -40,11 +36,10 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView>{
           }
         }
       });
-
     }
   }
 
-  public void updatePiece(int itemID, EditPieceItem item, boolean pullToRefresh) {
+  public void updatePiece(int itemID, WardrobePieceItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
@@ -52,14 +47,12 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView>{
 
     // TODO: insert upload logic
 
-
     if (isViewAttached()) {
       // TODO: show real Error if model loading failed
       if (true) {
         getView().onPieceEdited();
         getView().showContent();
-      }
-      else {
+      } else {
         Throwable e = new Exception();
         getView().showError(e, pullToRefresh);
       }

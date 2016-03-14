@@ -1,26 +1,51 @@
 package de.ur.mi.fashionapp.wardrobe.menu.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
+
 /**
  * Created by Philip on 29/02/2016.
  */
-public class WardrobeMenuWardrobeItem extends WardrobeMenuItem {
+@ParcelablePlease public class WardrobeMenuWardrobeItem extends WardrobeMenuItem implements
+    Parcelable {
 
-  private String ID;
-  private String title;
+  String title;
+  String ID;
+
+  public static final Creator<WardrobeMenuWardrobeItem> CREATOR = new Creator<WardrobeMenuWardrobeItem>() {
+    @Override public WardrobeMenuWardrobeItem createFromParcel(Parcel source) {
+      WardrobeMenuWardrobeItem target = new WardrobeMenuWardrobeItem();
+      WardrobeMenuWardrobeItemParcelablePlease.readFromParcel(target, source);
+      return target;
+    }
+
+    @Override public WardrobeMenuWardrobeItem[] newArray(int size) {
+      return new WardrobeMenuWardrobeItem[size];
+    }
+  };
+
+  public String getTitle() {
+    return title;
+  }
 
   public void setTitle(String title) {
     this.title = title;
   }
 
-  public String getTitle() {
-    return title;
+  public String getID() {
+    return ID;
   }
 
   public void setID(String ID) {
     this.ID = ID;
   }
 
-  public String getID() {
-    return ID;
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    WardrobeMenuWardrobeItemParcelablePlease.writeToParcel(this, dest, flags);
   }
 }

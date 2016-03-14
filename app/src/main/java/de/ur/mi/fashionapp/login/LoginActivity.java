@@ -94,6 +94,10 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
 
   }
 
+  void resetPassword(String userName) {
+    presenter.resetPassword(userName);
+  }
+
   //getter for the current context
   public static Context getContext(){
     return context;

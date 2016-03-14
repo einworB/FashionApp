@@ -2,7 +2,7 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import de.ur.mi.fashionapp.edit.model.EditOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
  * Created by Philip on 29/02/2016.
@@ -18,7 +18,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
 
   // TODO: maybe implement a "prepareNewOutfit" function which returns a itemID?
 
-  public void createOutfit(EditOutfitItem item, boolean pullToRefresh) {
+  public void createOutfit(WardrobeOutfitItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
@@ -40,7 +40,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
     }
   }
 
-  public void updateOutfit(int itemID, EditOutfitItem item, boolean pullToRefresh) {
+  public void updateOutfit(int itemID, WardrobeOutfitItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
