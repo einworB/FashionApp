@@ -16,7 +16,7 @@
   <string name="change_password">Change password</string>
   <string name="delete_data">Delete data</string>
   <string name="delete_account">Delete account</string>
-  <string name="change_password_dialog_title">Change Password?</string>
+  <string name="change_email_dialog_title">Change Email?</string>
   <string name="delete_data_dialog_title">Delete Data?</string>
   <string name="delete_account_dialog_title">Delete Account?</string>
   <string name="change_password_dialog_content">Do you want to change your passoword?</string>

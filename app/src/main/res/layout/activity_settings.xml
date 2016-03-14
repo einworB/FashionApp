@@ -60,7 +60,7 @@
           android:layout_marginRight="20dp"
           android:background="@android:color/darker_gray"/>
       <TableRow
-          android:id="@+id/change_password"
+          android:id="@+id/change_email"
           android:layout_height="wrap_content"
           android:layout_width="match_parent">
         <TextView
