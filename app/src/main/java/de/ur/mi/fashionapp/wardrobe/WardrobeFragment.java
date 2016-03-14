@@ -68,4 +68,9 @@ public class WardrobeFragment extends
   @Override public void onWardrobeItemClicked(String itemID) {
     ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, itemID);
   }
+
+  @Override
+  public void onItemEdited() {
+
+  }
 }

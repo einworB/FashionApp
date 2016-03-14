@@ -18,8 +18,8 @@ public class SettingsActivity
     extends CBActivityMvpToolbar<RecyclerView, List<WardrobeMenuWardrobeItem>, SettingsView, SettingsPresenter>
     implements SettingsView {
 
-  private TableRow changePassword, deleteData, deleteAccount;
-  private MaterialDialog changePasswordDialog, deleteDataDialog, deleteAccountDialog;
+  private TableRow changeEmail, deleteData, deleteAccount;
+  private MaterialDialog changeEmailDialog, deleteDataDialog, deleteAccountDialog;
   private SettingsAdapter adapter;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +27,12 @@ public class SettingsActivity
     setContentView(R.layout.activity_settings);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    changePassword = (TableRow) findViewById(R.id.change_password);
+    changeEmail = (TableRow) findViewById(R.id.change_email);
     deleteData = (TableRow) findViewById(R.id.delete_data);
     deleteAccount = (TableRow) findViewById(R.id.delete_account);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    setupDialogues(changePassword, changePasswordDialog, R.string.change_password_dialog_title,
-        R.string.change_password_dialog_content);
+    setupDialogues(changeEmail, changeEmailDialog, R.string.change_email_dialog_title,
+        R.string.change_email_dialog_content);
     setupDialogues(deleteData, deleteDataDialog, R.string.delete_data_dialog_title,
         R.string.delete_data_dialog_content);
     setupDialogues(deleteAccount, deleteAccountDialog, R.string.delete_account_dialog_title,

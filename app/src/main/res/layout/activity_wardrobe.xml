@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
@@ -48,7 +48,10 @@
           app:pstsShouldExpand="true"
           app:pstsTextAllCaps="true"
           android:elevation="6dp"
-          android:background="@color/md_white"
+          app:pstsDividerColor="@color/colorTextLight"
+          app:pstsIndicatorColor="@color/colorTextLight"
+          android:textColor="@color/colorTextLight"
+          android:background="@color/colorPrimary"
           app:pstsUnderlineHeight="2dp"/>
 
 
@@ -56,7 +59,7 @@
           android:id="@+id/contentView"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:background="@color/md_white"/>
+          android:background="@color/colorSecondaryLight"/>
     </LinearLayout>
 
     <FrameLayout
@@ -64,7 +67,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#E5E5E5">
+        android:background="@color/colorPrimaryDark">
 
 
       <android.support.v7.widget.RecyclerView
@@ -84,7 +87,7 @@
       android:layout_gravity="bottom|end"
       android:layout_margin="@dimen/fab_margin"
       android:src="@android:drawable/ic_input_add"
-      android:tint="@color/md_white"
+      android:tint="@color/colorTextLight"
       android:clickable="true"
       app:borderWidth="0dp"
       app:elevation="8dp"/>

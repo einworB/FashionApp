@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"/>
   </android.support.design.widget.AppBarLayout>
 
@@ -160,7 +160,7 @@
               android:layout_gravity="end">
 
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_beach"
+                android:src="@drawable/ic_icon_couch"
                 android:layout_marginLeft="5dp"
                 android:tag="selector"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
@@ -172,7 +172,7 @@
                 android:layout_marginLeft="5dp"
                 android:tag="icon2"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_evening"
+                android:src="@drawable/ic_icon_sport"
                 android:layout_marginLeft="5dp"
                 android:tag="icon3"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"

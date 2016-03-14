@@ -6,7 +6,7 @@
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/md_pink_700"
+      android:background="@color/colorPrimary"
       >
     <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@string/notifications_txt"
             android:textSize="24sp"
-            android:textColor="@color/md_white"
+            android:textColor="@color/colorTextLight"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
         <Switch
@@ -60,13 +60,13 @@
           android:layout_marginRight="20dp"
           android:background="@android:color/darker_gray"/>
       <TableRow
-          android:id="@+id/change_password"
+          android:id="@+id/change_email"
           android:layout_height="wrap_content"
           android:layout_width="match_parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/change_password"
+            android:text="@string/change_email"
             android:textSize="24sp"
             android:textColor="@color/md_white"
             android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:text="@string/delete_data"
             android:textSize="24sp"
-            android:textColor="@color/md_white"
+            android:textColor="@color/colorTextLight"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
         <ImageView
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:text="@string/delete_account"
             android:textSize="24sp"
-            android:textColor="@color/md_white"
+            android:textColor="@color/colorTextLight"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
         <ImageView
@@ -129,7 +129,7 @@
           android:layout_height="1dp"
           android:layout_marginLeft="20dp"
           android:layout_marginRight="20dp"
-          android:background="@android:color/darker_gray"/>
+          android:background="@color/colorTextDark"/>
 
       <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
           android:layout_height="match_parent"
