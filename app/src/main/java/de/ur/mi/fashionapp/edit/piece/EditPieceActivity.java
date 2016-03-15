@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -89,6 +90,7 @@ public class EditPieceActivity
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
 
     uploadImage.setOnClickListener(new OnImageClickListener());
+    uploadImage.setTag("0");
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
     sliderController.addSlider(seasonContainer, false);
@@ -141,49 +143,21 @@ public class EditPieceActivity
     finish();
   }
 
-  public static Bitmap decodeSampledBitmapFromFile (File imageFile,
-                                                    int reqWidth, int reqHeight) {
 
-    // First decode with inJustDecodeBounds=true to check dimensions
-    final BitmapFactory.Options options = new BitmapFactory.Options();
-    options.inJustDecodeBounds = true;
-    BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-
-    // Calculate inSampleSize
-    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-    // Decode bitmap with inSampleSize set
-    options.inJustDecodeBounds = false;
-    return BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-  }
-  private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-
-    final int height = options.outHeight;
-    final int width = options.outWidth;
-    int inSampleSize = 1;
-
-    if (height > reqHeight || width > reqWidth) {
-      // Calculate ratios of height and width to requested height and width
-      final int heightRatio = Math.round((float) height / (float) reqHeight);
-      final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-      // Choose the smallest ratio as inSampleSize value, this will guarantee
-      // a final image with both dimensions larger than or equal to the
-      // requested height and width.
-      inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-    }
-    return inSampleSize;
-  }
 
   private void createPiece() {
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
-    editItem.setCat(container[1]);
-    editItem.setTag1(container[0]);
+    editItem.setCat(container[0]);
+    editItem.setTag1(container[1]);
     editItem.setTag2(container[2]);
     editItem.setTag3(container[3]);
-    Bitmap bitmap = ((BitmapDrawable)uploadImage.getDrawable()).getBitmap();
+    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
+           drCon[container[0]]);
+   if( uploadImage.getTag().equals("set")) {
+     bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
+   }
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     // Compress image to lower quality scale 1 - 100
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -199,20 +173,21 @@ public class EditPieceActivity
     presenter.updatePiece(editItemID, editItem, true);
   }
 
-  int[] container = new int[]{0,0,0,0};
+  int[] container = new int[]{4,0,0,0};
+  int[] drCon = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoes, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
   @Override public void onImageSelected(View root, int id) {
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));
-      container[1] = id;
+      container[1] = id;//tag1
     } else if (root == categoryContainer) {
       Log.d("EDITPIECE", "Selected category #" + (id + 1));
-      container[0] = id;
+      container[0] = id;//category
     } else if (root == occasionContainer) {
       Log.d("EDITPIECE", "Selected occasion #" + (id + 1));
-      container[2] = id;
+      container[2] = id;//tag2
     } else if (root == colorContainer) {
       Log.d("EDITPIECE", "Selected color #" + (id + 1));
-      container[3] = id;
+      container[3] = id;//tag3
     }
   }
 
@@ -233,6 +208,7 @@ public class EditPieceActivity
           Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
       uploadImage.setImageBitmap(rotatedBitmap);
+      uploadImage.setTag("set");
       uploadImage.invalidate();
       // TODO: save Image to Piece Item, e.g. encoded as Base64 String
     } else if (resultCode == Crop.RESULT_ERROR) {
