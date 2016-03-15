@@ -7,10 +7,18 @@ import android.text.InputType;
 import android.widget.EditText;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
  * Created by Mario on 06.03.2016.
@@ -62,13 +70,62 @@ public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
 
     builder.show();
   }
-
-  public void setNewPassword(String password) {
-
-  }
   public void deleteData() {
-
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
+    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+        for (int i = 0; i < objects.size(); i++) {
+          ParseObject tempTest = objects.get(i);
+          tempTest.deleteInBackground();
+        }
+      }
+    });
+    ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Outfit");
+    query2.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    query2.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+        for (int i = 0; i < objects.size(); i++) {
+          ParseObject tempTest = objects.get(i);
+          tempTest.deleteInBackground();
+        }
+      }
+    });
+    ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Piece");
+    query3.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    query3.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+        for (int i = 0; i < objects.size(); i++) {
+          ParseObject tempTest = objects.get(i);
+          tempTest.deleteInBackground();
+        }
+      }
+    });
+    addFirstWardrobe();
   }
+
+  public void addFirstWardrobe(){
+    String wardropeName = "My first Wardrobe";
+
+    //This Method is to create a new wardrope;
+    String userID = ParseUser.getCurrentUser().getObjectId();
+    ParseObject wr = new ParseObject("Wardrope");
+    wr.put("Name", wardropeName);
+    wr.put("UserID", userID);
+    getView().showLoading(true);
+    wr.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(com.parse.ParseException e) {
+        if (e != null) {
+          getView().showError(e, false);
+        }
+      }
+    });
+  }
+
   public void deleteAccount() {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Do you really want to delete this user?");
@@ -102,7 +159,58 @@ public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
 
   }
 
-  public void deleteWardrobe(WardrobeMenuWardrobeItem wardrobe) {
-    // TODO: implement
+  public void deleteWardrobe(final WardrobeMenuWardrobeItem wardrobe) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    builder.setTitle("Do you really want to delete this wardobe?");
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
+        query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+        query.whereEqualTo("objectId", wardrobe.getID());
+        query.findInBackground(new FindCallback<ParseObject>() {
+          @Override
+          public void done(List<ParseObject> objects, com.parse.ParseException e) {
+            for (int i = 0; i < objects.size(); i++) {
+              ParseObject tempTest = objects.get(i);
+              tempTest.deleteInBackground();
+            }
+          }
+        });
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Outfit");
+        query2.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+        query2.whereEqualTo("WardropeID", wardrobe.getID());
+        query2.findInBackground(new FindCallback<ParseObject>() {
+          @Override
+          public void done(List<ParseObject> objects, com.parse.ParseException e) {
+            for (int i = 0; i < objects.size(); i++) {
+              ParseObject tempTest = objects.get(i);
+              tempTest.deleteInBackground();
+            }
+          }
+        });
+        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Piece");
+        query3.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+        query3.whereEqualTo("WardrobeID", wardrobe.getID());
+        query3.findInBackground(new FindCallback<ParseObject>() {
+          @Override
+          public void done(List<ParseObject> objects, com.parse.ParseException e) {
+            for (int i = 0; i < objects.size(); i++) {
+              ParseObject tempTest = objects.get(i);
+              tempTest.deleteInBackground();
+            }
+          }
+        });
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+    builder.show();
   }
 }

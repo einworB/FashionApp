@@ -7,6 +7,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
  * Created by Philip on 29/02/2016.
  */
 @ParcelablePlease public class WardrobeOutfitItem extends WardrobeItem {
+  String[] pieces = new String[]{null, null, null, null, null, null, null, null, null, null};
 
   public static final Creator<WardrobeOutfitItem> CREATOR = new Creator<WardrobeOutfitItem>() {
     @Override public WardrobeOutfitItem createFromParcel(Parcel source) {
@@ -19,4 +20,12 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
       return new WardrobeOutfitItem[size];
     }
   };
+
+  public String[] getpicture(){
+    return pieces;
+  }
+
+  public void setPieces(String[] pieces){
+    this.pieces = pieces;
+  }
 }
