@@ -20,8 +20,8 @@ public class ImageSliderController {
     sliders = new ArrayList<>();
   }
 
-  public void addSlider(View root, boolean reverse) {
-    sliders.add(new ImageSlider(context, root, listener, reverse, this));
+  public void addSlider(View root, boolean reverse, int length) {
+    sliders.add(new ImageSlider(context, root, listener, reverse, this, length));
   }
 
   public void onSliderOpen(ImageSlider sliderToOpen) {

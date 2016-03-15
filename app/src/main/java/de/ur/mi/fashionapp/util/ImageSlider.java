@@ -2,9 +2,12 @@ package de.ur.mi.fashionapp.util;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Philip on 09/03/2016.
@@ -12,51 +15,57 @@ import android.widget.ImageView;
 public class ImageSlider {
 
   private View root;
-  private ImageView icon1, icon2, icon3, icon4, selector;
+  private ImageView selector;
+  private List<ImageView> icons;
 
-  private ObjectAnimator slideLeft, slideRight, slideReset;
+  private ObjectAnimator slideLeft, slideRight;
   private boolean slideIn = true;
 
   private Context context;
   private ImageSliderListener listener;
   private boolean reverse;
   private ImageSliderController controller;
+  private int length;
+  private int maxTranslation;
 
   public interface ImageSliderListener {
     void onImageSelected(View root, int id);
   }
 
-  public ImageSlider(Context context, View root, ImageSliderListener listener, boolean reverse, ImageSliderController controller) {
+  public ImageSlider(Context context, View root, ImageSliderListener listener, boolean reverse,
+      ImageSliderController controller, int length) {
     this.context = context;
     this.root = root;
     this.listener = listener;
     this.reverse = reverse;
     this.controller = controller;
+    this.length = length;
+    maxTranslation = (length - 1) * 45;
     init();
     bindView();
   }
 
   private void init() {
-    icon1 = (ImageView) root.findViewWithTag("icon1");
-    icon2 = (ImageView) root.findViewWithTag("icon2");
-    icon3 = (ImageView) root.findViewWithTag("icon3");
-    icon4 = (ImageView) root.findViewWithTag("icon4");
+    icons = new ArrayList<>(length-1);
+    for (int i = 1; i < length; i++) {
+      icons.add((ImageView) root.findViewWithTag("icon"+i));
+    }
     selector = (ImageView) root.findViewWithTag("selector");
 
     if (reverse) {
-      slideLeft = ObjectAnimator.ofFloat(root, "translationX", 0, -dpToPixel(context, 180));
+      slideLeft = ObjectAnimator.ofFloat(root, "translationX", 0, -dpToPixel(context, maxTranslation));
     }
     else {
-      slideLeft = ObjectAnimator.ofFloat(root, "translationX", dpToPixel(context, 180), 0);
+      slideLeft = ObjectAnimator.ofFloat(root, "translationX", dpToPixel(context, maxTranslation), 0);
     }
     slideLeft.setDuration(500);
     slideLeft.setInterpolator(new ImageSliderInterpolator());
 
     if (reverse) {
-      slideRight = ObjectAnimator.ofFloat(root, "translationX", -dpToPixel(context, 180), 0);
+      slideRight = ObjectAnimator.ofFloat(root, "translationX", -dpToPixel(context, maxTranslation), 0);
     }
     else {
-      slideRight = ObjectAnimator.ofFloat(root, "translationX", 0, dpToPixel(context, 180));
+      slideRight = ObjectAnimator.ofFloat(root, "translationX", 0, dpToPixel(context, maxTranslation));
     }
     slideRight.setDuration(500);
     slideRight.setInterpolator(new ImageSliderInterpolator());
@@ -64,8 +73,6 @@ public class ImageSlider {
   }
 
   private void bindView() {
-    //resetAnimation();
-
     selector.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         animateContainer();
@@ -73,34 +80,16 @@ public class ImageSlider {
     });
 
     if (listener != null) {
-      icon1.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          animateContainer();
-          listener.onImageSelected(root, 0);
-          selector.setImageDrawable(icon1.getDrawable());
-        }
-      });
-      icon2.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          animateContainer();
-          listener.onImageSelected(root, 1);
-          selector.setImageDrawable(icon2.getDrawable());
-        }
-      });
-      icon3.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          animateContainer();
-          listener.onImageSelected(root, 2);
-          selector.setImageDrawable(icon3.getDrawable());
-        }
-      });
-      icon4.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          animateContainer();
-          listener.onImageSelected(root, 3);
-          selector.setImageDrawable(icon4.getDrawable());
-        }
-      });
+      for (ImageView icon : icons) {
+        final Drawable drawable = icon.getDrawable();
+        icon.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            animateContainer();
+            listener.onImageSelected(root, 0);
+            selector.setImageDrawable(drawable);
+          }
+        });
+      }
     }
   }
 

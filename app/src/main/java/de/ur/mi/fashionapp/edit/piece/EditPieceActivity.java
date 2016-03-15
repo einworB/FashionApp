@@ -87,10 +87,10 @@ public class EditPieceActivity
     uploadImage.setTag("0");
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
-    sliderController.addSlider(seasonContainer, false);
-    sliderController.addSlider(categoryContainer, false);
-    sliderController.addSlider(colorContainer, true);
-    sliderController.addSlider(occasionContainer, true);
+    sliderController.addSlider(seasonContainer, false, 5);
+    sliderController.addSlider(categoryContainer, false, 6);
+    sliderController.addSlider(colorContainer, false, 7);
+    sliderController.addSlider(occasionContainer, true, 5);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

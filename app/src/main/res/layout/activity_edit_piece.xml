@@ -23,12 +23,12 @@
   </android.support.design.widget.AppBarLayout>
 
   <ScrollView android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:layout_marginTop="?attr/actionBarSize">
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/contentView"
-        android:layout_marginTop="?attr/actionBarSize"
         android:padding="20dp">
 
 
@@ -74,7 +74,7 @@
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_spring"
                 android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="3dp"
                 android:tag="icon1"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_summer"
@@ -103,8 +103,8 @@
           <LinearLayout android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/edit_piece_category_container"
-              android:layout_marginLeft="-180dp"
-              android:layout_marginStart="-180dp"
+              android:layout_marginLeft="-225dp"
+              android:layout_marginStart="-225dp"
               android:background="@drawable/rect_dark_grey"
               android:paddingTop="3dp"
               android:paddingBottom="3dp"
@@ -113,7 +113,7 @@
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_accessoires"
                 android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="3dp"
                 android:tag="icon1"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_onepiece"
@@ -129,6 +129,60 @@
                 android:tag="icon4"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_top"
+                android:layout_marginRight="5dp"
+                android:tag="icon5"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/ic_icon_top"
+                android:layout_marginRight="5dp"
+                android:tag="selector"/>
+
+          </LinearLayout>
+
+          <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Color"
+            android:textColor="@color/cb_text_color_gray_dark"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="start"/>
+          <LinearLayout android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/edit_piece_color_container"
+              android:layout_marginLeft="-270dp"
+              android:layout_marginStart="-270dp"
+              android:background="@drawable/rect_dark_grey"
+              android:paddingTop="3dp"
+              android:paddingBottom="3dp"
+              android:layout_marginBottom="20dp">
+
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_red_500"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="3dp"
+                android:tag="icon1"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_yellow_500"
+                android:layout_marginRight="5dp"
+                android:tag="icon2"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_blue_500"
+                android:layout_marginRight="5dp"
+                android:tag="icon3"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_green_500"
+                android:layout_marginRight="5dp"
+                android:tag="icon4"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_black"
+                android:layout_marginRight="5dp"
+                android:tag="icon5"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@color/md_white"
+                android:layout_marginRight="5dp"
+                android:background="@color/md_black"
+                android:padding="1dp"
+                android:tag="icon6"/>
+            <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/ic_icon_colors"
                 android:layout_marginRight="5dp"
                 android:tag="selector"/>
 
@@ -147,7 +201,7 @@
               android:textColor="@color/cb_text_color_gray_dark"
               android:textSize="16sp"
               android:layout_marginBottom="10dp"
-              android:layout_gravity="end"/>
+              android:layout_gravity="end|top"/>
           <LinearLayout android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/edit_piece_occasion_container"
@@ -157,7 +211,7 @@
               android:paddingTop="3dp"
               android:paddingBottom="3dp"
               android:layout_marginBottom="20dp"
-              android:layout_gravity="end">
+              android:layout_gravity="end|top">
 
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_couch"
@@ -176,53 +230,14 @@
                 android:layout_marginLeft="5dp"
                 android:tag="icon3"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_beach"
+                android:src="@drawable/ic_icon_couch"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="3dp"
                 android:tag="icon4"/>
 
           </LinearLayout>
 
-          <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="Color"
-              android:textColor="@color/cb_text_color_gray_dark"
-              android:textSize="16sp"
-              android:layout_marginBottom="10dp"
-              android:layout_gravity="end"/>
-          <LinearLayout android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/edit_piece_color_container"
-              android:layout_marginRight="-180dp"
-              android:layout_marginEnd="-180dp"
-              android:background="@drawable/rect_dark_grey"
-              android:paddingTop="3dp"
-              android:paddingBottom="3dp"
-              android:layout_marginBottom="20dp"
-              android:layout_gravity="end">
 
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_colors"
-                android:layout_marginLeft="5dp"
-                android:tag="selector"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@color/md_green_500"
-                android:layout_marginLeft="5dp"
-                android:tag="icon1"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@color/md_blue_500"
-                android:layout_marginLeft="5dp"
-                android:tag="icon2"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@color/md_red_500"
-                android:layout_marginLeft="5dp"
-                android:tag="icon3"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@color/md_yellow_500"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:tag="icon4"/>
-
-          </LinearLayout>
 
         </LinearLayout>
 
