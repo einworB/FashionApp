@@ -1,10 +1,17 @@
 package de.ur.mi.fashionapp.edit.piece;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
+
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
@@ -21,15 +28,34 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
 
   public void createPiece(WardrobePieceItem item, boolean pullToRefresh) {
     if (isViewAttached()) {
-      String pieceName = item.getTitle();
       ParseObject wr = new ParseObject("Piece");
-      wr.put("Name", pieceName);
+      wr.put("Name",item.getTitle());
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
+      wr.put("Category",item.getCat());
+      wr.put("Tag1",item.getTag1());
+      wr.put("Tag2",item.getTag2());
+      wr.put("Tag3", item.getTag3());
+
+      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage());
+      // Upload the image into Parse Cloud
+      getView().showLoading(true);
+      file.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+          if (e == null) {
+            getView().showContent();
+          } else {
+            getView().showError(e, false);
+          }
+        }
+      });
+
+      wr.put("Image",file);
       getView().showLoading(true);
       wr.saveInBackground(new SaveCallback() {
         @Override public void done(com.parse.ParseException e) {
           if (e == null) {
-            getView().showLoading(false);
+            getView().showContent();
             getView().onPieceEdited();
           } else {
             getView().showError(e, false);

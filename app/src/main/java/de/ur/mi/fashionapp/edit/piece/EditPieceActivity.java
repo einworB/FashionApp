@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,11 +26,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
+import com.parse.ParseFile;
 import com.soundcloud.android.crop.Crop;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -61,7 +67,6 @@ public class EditPieceActivity
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
-
     // TODO: get parcelable item from bundle if editItemID != 0
     // TODO: create layout; register if(editItemID == 0) createPiece() else updatePiece to on create Button click listener
   }
@@ -136,12 +141,57 @@ public class EditPieceActivity
     finish();
   }
 
+  public static Bitmap decodeSampledBitmapFromFile (File imageFile,
+                                                    int reqWidth, int reqHeight) {
+
+    // First decode with inJustDecodeBounds=true to check dimensions
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inJustDecodeBounds = true;
+    BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+
+    // Calculate inSampleSize
+    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+    // Decode bitmap with inSampleSize set
+    options.inJustDecodeBounds = false;
+    return BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+  }
+  private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+
+    if (height > reqHeight || width > reqWidth) {
+      // Calculate ratios of height and width to requested height and width
+      final int heightRatio = Math.round((float) height / (float) reqHeight);
+      final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+      // Choose the smallest ratio as inSampleSize value, this will guarantee
+      // a final image with both dimensions larger than or equal to the
+      // requested height and width.
+      inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+    }
+    return inSampleSize;
+  }
+
   private void createPiece() {
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
-    // TODO: get categories and other data from EditTexts and ImageView for the new WardrobePieceItem(editItem, title)
-    presenter.createPiece(editItem, true);
+    editItem.setCat(container[1]);
+    editItem.setTag1(container[0]);
+    editItem.setTag2(container[2]);
+    editItem.setTag3(container[3]);
+    Bitmap bitmap = ((BitmapDrawable)uploadImage.getDrawable()).getBitmap();
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    // Compress image to lower quality scale 1 - 100
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+    byte[] image = stream.toByteArray();
+    editItem.setImage(image);
+    if(et.getText().toString().length()>0) {
+      presenter.createPiece(editItem, true);
+    }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
   }
 
   private void updatePiece() {
@@ -149,17 +199,20 @@ public class EditPieceActivity
     presenter.updatePiece(editItemID, editItem, true);
   }
 
+  int[] container = new int[]{0,0,0,0};
   @Override public void onImageSelected(View root, int id) {
-    // TODO: set the selected season/occasion/color/category to the piece
-    // TODO: CAUTION: id is null based!
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));
+      container[1] = id;
     } else if (root == categoryContainer) {
       Log.d("EDITPIECE", "Selected category #" + (id + 1));
+      container[0] = id;
     } else if (root == occasionContainer) {
       Log.d("EDITPIECE", "Selected occasion #" + (id + 1));
+      container[2] = id;
     } else if (root == colorContainer) {
       Log.d("EDITPIECE", "Selected color #" + (id + 1));
+      container[3] = id;
     }
   }
 

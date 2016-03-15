@@ -11,6 +11,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   String title;
   String ID;
+  byte[] image;
 
   public static final Creator<WardrobeItem> CREATOR = new Creator<WardrobeItem>() {
     @Override public WardrobeItem createFromParcel(Parcel source) {
@@ -38,6 +39,14 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   public void setID(String ID) {
     this.ID = ID;
+  }
+
+  public byte[] getImage(){
+    return image;
+  }
+
+  public void setImage(byte[] image){
+    this.image = image;
   }
 
   @Override public int describeContents() {
