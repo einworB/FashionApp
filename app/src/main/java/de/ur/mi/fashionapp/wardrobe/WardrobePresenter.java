@@ -8,6 +8,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,27 +29,25 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     // TODO: extend item models, maybe load only one big wrapper item which has getPieces() and getOutfits() functions
     // TODO: replace dummy list with real items loaded from parse
 
-
-
   }
 
 
 
   public void loadPieces(boolean pullToRefresh) {
     if (isViewAttached()) {
-      loadWardrobeItems("Piece");
+      loadWardrobeItems(false, pullToRefresh);
     }
   }
 
   public void loadOutfits(boolean pullToRefresh) {
     if (isViewAttached()) {
-      loadWardrobeItems("Outfit");
+      loadWardrobeItems(true, pullToRefresh);
     }
   }
 
-  public void loadWardrobeItems(String kind){
+  public void loadWardrobeItems(final boolean isOutfit, boolean pullToRefresh){
     ParseQuery<ParseObject> query;
-    if(kind.equals("Outfit")) {
+    if(isOutfit) {
       query = ParseQuery.getQuery("Outfit");
     }
     else{
@@ -67,10 +66,21 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
         if (e == null) {
           items = new ArrayList<>();
           for( int i = 0; i<objects.size(); i++) {
-            WardrobeOutfitItem piece = new WardrobeOutfitItem();
-            piece.setTitle(objects.get(i).getString("Name"));
-            piece.setID(objects.get(i).getObjectId());
-            items.add(piece);
+            if (isOutfit) {
+              WardrobeOutfitItem outfit = new WardrobeOutfitItem();
+              outfit.setTitle(objects.get(i).getString("Name"));
+              outfit.setID(objects.get(i).getObjectId());
+              // TODO: add image, category, color, occasion etc properties!!
+              items.add(outfit);
+            }
+            else {
+              WardrobePieceItem piece = new WardrobePieceItem();
+              piece.setTitle(objects.get(i).getString("Name"));
+              piece.setID(objects.get(i).getObjectId());
+              // TODO: add image, pieces, piece images etc properties!!!
+              items.add(piece);
+            }
+
           }
           getView().setData(items);
           getView().showContent();

@@ -67,8 +67,8 @@ public class WardrobeFragment extends
     return type;
   }
 
-  @Override public void onWardrobeItemClicked(String itemID) {
-    ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, itemID);
+  @Override public void onWardrobeItemClicked(WardrobeItem item) {
+    ((WardrobeActivity) getActivity()).onWardrobeItemClicked(type, item);
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {

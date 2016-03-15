@@ -25,6 +25,7 @@ import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuPresenter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,8 +160,8 @@ public class WardrobeActivity extends
     startActivity(intent);
   }
 
-  public void onWardrobeItemClicked(int type, String itemID) {
-    startActivity(LinkService.getDetailIntent(this, type, itemID));
+  public void onWardrobeItemClicked(int type, WardrobeItem item) {
+    startActivity(LinkService.getDetailIntent(this, type, item));
   }
 
   @Override public void onBackPressed() {

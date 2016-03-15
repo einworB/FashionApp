@@ -11,6 +11,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   String title;
   String ID;
+  // TODO: image in Piece item?? outfit hat kein eigenes image, setzt sich aus den images der pieces zusammen!
   byte[] image;
 
   public static final Creator<WardrobeItem> CREATOR = new Creator<WardrobeItem>() {

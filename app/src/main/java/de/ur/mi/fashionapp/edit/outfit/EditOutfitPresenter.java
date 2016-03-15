@@ -69,7 +69,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
     }
   }
 
-  public void updateOutfit(int itemID, WardrobeOutfitItem item, boolean pullToRefresh) {
+  public void updateOutfit(String itemID, WardrobeOutfitItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);

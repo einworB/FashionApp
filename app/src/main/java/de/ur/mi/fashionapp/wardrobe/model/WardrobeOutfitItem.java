@@ -7,6 +7,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
  * Created by Philip on 29/02/2016.
  */
 @ParcelablePlease public class WardrobeOutfitItem extends WardrobeItem {
+  // TODO: wieso String?? wieso keine WardrobePieceItems? Das Image der pieces brauchen wir auf jeden Fall!
   String[] pieces = new String[]{null, null, null, null, null, null, null, null, null, null};
 
   public static final Creator<WardrobeOutfitItem> CREATOR = new Creator<WardrobeOutfitItem>() {
