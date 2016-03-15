@@ -7,6 +7,8 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,11 +27,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
+import com.parse.ParseFile;
 import com.soundcloud.android.crop.Crop;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -61,7 +68,6 @@ public class EditPieceActivity
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
-
     // TODO: get parcelable item from bundle if editItemID != 0
     // TODO: create layout; register if(editItemID == 0) createPiece() else updatePiece to on create Button click listener
   }
@@ -84,6 +90,7 @@ public class EditPieceActivity
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
 
     uploadImage.setOnClickListener(new OnImageClickListener());
+    uploadImage.setTag("0");
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
     sliderController.addSlider(seasonContainer, false);
@@ -136,12 +143,29 @@ public class EditPieceActivity
     finish();
   }
 
+
+
   private void createPiece() {
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
-    // TODO: get categories and other data from EditTexts and ImageView for the new WardrobePieceItem(editItem, title)
-    presenter.createPiece(editItem, true);
+    editItem.setCat(container[0]);
+    editItem.setTag1(container[1]);
+    editItem.setTag2(container[2]);
+    editItem.setTag3(container[3]);
+    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
+           drCon[container[0]]);
+   if( uploadImage.getTag().equals("set")) {
+     bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
+   }
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    // Compress image to lower quality scale 1 - 100
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+    byte[] image = stream.toByteArray();
+    editItem.setImage(image);
+    if(et.getText().toString().length()>0) {
+      presenter.createPiece(editItem, true);
+    }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
   }
 
   private void updatePiece() {
@@ -149,17 +173,21 @@ public class EditPieceActivity
     presenter.updatePiece(editItemID, editItem, true);
   }
 
+  int[] container = new int[]{4,0,0,0};
+  int[] drCon = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoes, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
   @Override public void onImageSelected(View root, int id) {
-    // TODO: set the selected season/occasion/color/category to the piece
-    // TODO: CAUTION: id is null based!
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));
+      container[1] = id;//tag1
     } else if (root == categoryContainer) {
       Log.d("EDITPIECE", "Selected category #" + (id + 1));
+      container[0] = id;//category
     } else if (root == occasionContainer) {
       Log.d("EDITPIECE", "Selected occasion #" + (id + 1));
+      container[2] = id;//tag2
     } else if (root == colorContainer) {
       Log.d("EDITPIECE", "Selected color #" + (id + 1));
+      container[3] = id;//tag3
     }
   }
 
@@ -180,6 +208,7 @@ public class EditPieceActivity
           Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
       uploadImage.setImageBitmap(rotatedBitmap);
+      uploadImage.setTag("set");
       uploadImage.invalidate();
       // TODO: save Image to Piece Item, e.g. encoded as Base64 String
     } else if (resultCode == Crop.RESULT_ERROR) {

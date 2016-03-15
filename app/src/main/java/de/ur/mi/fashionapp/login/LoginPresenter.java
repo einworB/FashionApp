@@ -109,8 +109,6 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         }
       }
     });
-
-
   }
 
   public void resetPassword(final String userName) {

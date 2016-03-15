@@ -8,6 +8,11 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
  */
 @ParcelablePlease public class WardrobePieceItem extends WardrobeItem {
 
+  int category = 0;
+  int tag1 = 0;
+  int tag2 = 0;
+  int tag3 = 0;
+
   public static final Creator<WardrobePieceItem> CREATOR = new Creator<WardrobePieceItem>() {
     @Override public WardrobePieceItem createFromParcel(Parcel source) {
       WardrobePieceItem target = new WardrobePieceItem();
@@ -19,5 +24,31 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
       return new WardrobePieceItem[size];
     }
   };
+
+  public int getCat() {
+    return category;
+  }
+  public int getTag1() {
+    return tag1;
+  }
+  public int getTag2() {
+    return tag2;
+  }
+  public int getTag3() {
+    return tag3;
+  }
+
+  public void setCat(int cat) {
+    category = cat;
+  }
+  public void setTag2(int tag) {
+    tag2 = tag;
+  }
+  public void setTag1(int tag) {
+    tag1 = tag;
+  }
+  public void setTag3(int tag) {
+    tag3 = tag;
+  }
 
 }
