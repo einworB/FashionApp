@@ -47,7 +47,8 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
       case VIEWTYPE_PIECE:
         return new WardrobeItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
       case VIEWTYPE_OUTFIT:
-        return new WardrobeItemViewHolder(inflater.inflate(R.layout.outfit_item, parent, false));
+        return new WardrobeItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
+        //return new WardrobeItemViewHolder(inflater.inflate(R.layout.outfit_item, parent, false));
       default:
         return null;
     }

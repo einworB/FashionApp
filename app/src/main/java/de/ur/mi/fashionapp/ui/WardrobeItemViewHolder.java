@@ -26,17 +26,17 @@ public class WardrobeItemViewHolder extends RecyclerView.ViewHolder {
   public void bind(final WardrobeItem item, final WardrobeItemViewHolderListener listener) {
     //itemLayout.setText(item.getTitle());
     //TODO: get outfit / piece image(s)
-    outfitItem.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        listener.onWardrobeItemClicked(item.getID());
-      }
-    });
-    /*pieceItem.setOnClickListener(new View.OnClickListener() {
+    /*outfitItem.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         listener.onWardrobeItemClicked(item.getID());
       }
     });*/
+    pieceItem.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        listener.onWardrobeItemClicked(item.getID());
+      }
+    });
   }
 }
