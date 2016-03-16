@@ -186,8 +186,9 @@ public class EditPieceActivity
   }
 
   private void beginCrop(Uri source) {
+    //withAspact(x,y) defines the ratio of the cropped image's sides!! also possible .asSquare()
     Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
-    Crop.of(source, destination).withAspect(4, 3).start(this);
+    Crop.of(source, destination).asSquare().start(this);
   }
 
   private void handleCrop(int resultCode, Intent result) {

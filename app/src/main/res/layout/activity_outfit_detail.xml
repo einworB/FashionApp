@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/colorSecondaryLight"
     tools:context=".detail.OutfitDetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -17,10 +18,40 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+        <ImageView
+            android:id="@+id/mainPiece"
+            app:layout_heightPercent="70%"
+            android:layout_width="match_parent"
+            android:src="@drawable/ic_icon_top"/>
+        <ImageView
+            android:id="@+id/leftPiece"
+            app:layout_widthPercent="33%"
+            app:layout_aspectRatio="100%"
+            android:src="@drawable/ic_icon_bottom"
+            android:layout_alignParentBottom="true"/>
+        <ImageView
+            android:id="@+id/midPiece"
+            app:layout_widthPercent="33%"
+            app:layout_aspectRatio="100%"
+            android:src="@drawable/ic_icon_accessoires"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/leftPiece"/>
+        <ImageView
+            android:id="@+id/rightPiece"
+            app:layout_widthPercent="33%"
+            app:layout_aspectRatio="100%"
+            android:src="@drawable/ic_icon_onepiece"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/midPiece"/>
+    </android.support.percent.PercentRelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -22,6 +22,69 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="?attr/actionBarSize">
+        <TextView
+            android:id="@+id/pieceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            />
+        <ImageView
+            app:layout_widthPercent="80%"
+            app:layout_aspectRatio="100%"
+            android:id="@+id/pieceImage"
+            android:src="@drawable/ic_icon_addpic"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:layout_below="@+id/pieceName"
+            android:background="@drawable/rect_light_grey_round_corners"
+            android:layout_marginBottom="20dp"/>
+
+        <android.support.percent.PercentRelativeLayout
+            app:layout_widthPercent="80%"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/pieceImage">
+
+            <ImageView
+                android:id="@+id/pieceType"
+                app:layout_widthPercent="20%"
+                app:layout_aspectRatio="100%"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_icon_top"/>
+            <ImageView
+                android:id="@+id/pieceColor"
+                app:layout_widthPercent="20%"
+                app:layout_aspectRatio="100%"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_icon_colors"
+                android:layout_toRightOf="@+id/pieceType"/>
+            <ImageView
+                android:id="@+id/pieceSeason"
+                app:layout_widthPercent="20%"
+                app:layout_aspectRatio="100%"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_icon_seasons"
+                android:layout_toRightOf="@+id/pieceColor"/>
+            <ImageView
+                android:id="@+id/pieceOccasion"
+                app:layout_widthPercent="25%"
+                app:layout_aspectRatio="100%"
+                android:src="@drawable/ic_icon_couch"
+                android:layout_toRightOf="@+id/pieceSeason"/>
+        </android.support.percent.PercentRelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
