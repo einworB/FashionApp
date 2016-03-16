@@ -25,7 +25,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
 
   public void createOutfit(WardrobeOutfitItem item, boolean pullToRefresh) {
     if (isViewAttached()) {
-      ParseObject wr = new ParseObject("Piece");
+      ParseObject wr = new ParseObject("Outfit");
       wr.put("Name",item.getTitle());
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
 
@@ -39,7 +39,8 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
         }
       }
 
-      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage());
+      /*
+      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage1());
       // Upload the image into Parse Cloud
       getView().showLoading(true);
       file.saveInBackground(new SaveCallback() {
@@ -54,7 +55,56 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
         }
       });
 
+      ParseFile file2 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage2());
+      // Upload the image into Parse Cloud
+      getView().showLoading(true);
+      file.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+          if (e == null) {
+            getView().showContent();
+            getView().onOutfitEdited();
+          } else {
+            getView().showError(e, false);
+          }
+        }
+      });
+
+      ParseFile file3 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage3());
+      // Upload the image into Parse Cloud
+      getView().showLoading(true);
+      file.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+          if (e == null) {
+            getView().showContent();
+            getView().onOutfitEdited();
+          } else {
+            getView().showError(e, false);
+          }
+        }
+      });
+
+      ParseFile file4 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage4());
+      // Upload the image into Parse Cloud
+      getView().showLoading(true);
+      file.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+          if (e == null) {
+            getView().showContent();
+            getView().onOutfitEdited();
+          } else {
+            getView().showError(e, false);
+          }
+        }
+      });
+      */
+
+      /*Müssten noch hinzugefügt werden
       wr.put("Image",file);
+      */
+
       getView().showLoading(true);
       wr.saveInBackground(new SaveCallback() {
         @Override public void done(com.parse.ParseException e) {

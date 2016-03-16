@@ -37,7 +37,6 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
   public int getTag3() {
     return tag3;
   }
-
   public void setCat(int cat) {
     category = cat;
   }
