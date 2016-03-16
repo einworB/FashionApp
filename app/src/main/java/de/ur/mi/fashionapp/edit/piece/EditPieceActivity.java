@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,14 +26,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
-import com.parse.ParseFile;
 import com.soundcloud.android.crop.Crop;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,10 +49,9 @@ public class EditPieceActivity
     implements EditPieceView, ImageSlider.ImageSliderListener {
 
   private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-  public static final String KEY_ID = "itemID";
+  public static final String KEY_ITEM = "item";
 
   private WardrobePieceItem editItem;
-  private int editItemID;
 
   private View seasonContainer;
   private View categoryContainer;
@@ -68,8 +63,7 @@ public class EditPieceActivity
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
-    // TODO: get parcelable item from bundle if editItemID != 0
-    // TODO: create layout; register if(editItemID == 0) createPiece() else updatePiece to on create Button click listener
+    // TODO: get parcelable item from bundle; if editItem == null new item is created
   }
 
   @Override protected void onMvpViewCreated() {
@@ -77,11 +71,11 @@ public class EditPieceActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    if (editItemID != 0) {
+    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+    if (editItem != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
-      getSupportActionBar().setTitle("Edit Item " + editItemID);
+      getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
     }
-    editItemID = getIntent().getIntExtra(KEY_ID, 0);
 
     seasonContainer = findViewById(R.id.edit_piece_season_container);
     categoryContainer = findViewById(R.id.edit_piece_category_container);
@@ -93,10 +87,10 @@ public class EditPieceActivity
     uploadImage.setTag("0");
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
-    sliderController.addSlider(seasonContainer, false);
-    sliderController.addSlider(categoryContainer, false);
-    sliderController.addSlider(colorContainer, true);
-    sliderController.addSlider(occasionContainer, true);
+    sliderController.addSlider(seasonContainer, false, 5);
+    sliderController.addSlider(categoryContainer, false, 6);
+    sliderController.addSlider(colorContainer, false, 7);
+    sliderController.addSlider(occasionContainer, true, 5);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,7 +107,7 @@ public class EditPieceActivity
       }
       case R.id.menu_piece_edit_save:
         setResult(RESULT_OK);
-        if (editItemID == 0) {
+        if (editItem == null) {
           createPiece();
         } else {
           updatePiece();
@@ -170,7 +164,7 @@ public class EditPieceActivity
 
   private void updatePiece() {
     // TODO: get data from EditTexts and ImageView for the updated WardrobePieceItem(editItemID, editItem, title)
-    presenter.updatePiece(editItemID, editItem, true);
+    presenter.updatePiece(editItem.getID(), editItem, true);
   }
 
   int[] container = new int[]{4,0,0,0};
@@ -219,7 +213,6 @@ public class EditPieceActivity
   public int getImageOrientation(String imagePath) {
     int rotate = 0;
     try {
-
       File imageFile = new File(imagePath);
       ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
       int orientation =

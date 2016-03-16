@@ -1,13 +1,19 @@
 package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,27 +34,25 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     // TODO: extend item models, maybe load only one big wrapper item which has getPieces() and getOutfits() functions
     // TODO: replace dummy list with real items loaded from parse
 
-
-
   }
 
 
 
   public void loadPieces(boolean pullToRefresh) {
     if (isViewAttached()) {
-      loadWardrobeItems("Piece");
+      loadWardrobeItems(false, pullToRefresh);
     }
   }
 
   public void loadOutfits(boolean pullToRefresh) {
     if (isViewAttached()) {
-      loadWardrobeItems("Outfit");
+      loadWardrobeItems(true, pullToRefresh);
     }
   }
 
-  public void loadWardrobeItems(String kind){
+  public void loadWardrobeItems(final boolean isOutfit, boolean pullToRefresh){
     ParseQuery<ParseObject> query;
-    if(kind.equals("Outfit")) {
+    if(isOutfit) {
       query = ParseQuery.getQuery("Outfit");
     }
     else{
@@ -66,17 +70,84 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
         getView().showLoading(false);
         if (e == null) {
           items = new ArrayList<>();
-          for( int i = 0; i<objects.size(); i++) {
-            WardrobeOutfitItem piece = new WardrobeOutfitItem();
-            piece.setTitle(objects.get(i).getString("Name"));
-            piece.setID(objects.get(i).getObjectId());
-            items.add(piece);
+          for (int i = 0; i < objects.size(); i++) {
+            if (isOutfit) {
+              items.add(createOutfit(objects.get(i)));
+            } else {
+              items.add(createPiece(objects.get(i)));
+            }
           }
           getView().setData(items);
           getView().showContent();
-        }
-        else{
+        } else {
           getView().showError(e, false);
+        }
+      }
+    });
+  }
+
+  private WardrobePieceItem createPiece(ParseObject obj){
+    final WardrobePieceItem piece = new WardrobePieceItem();
+    piece.setTitle(obj.getString("Name"));
+    piece.setID(obj.getObjectId());
+    ParseFile fileObject = (ParseFile) obj.get("Image");
+    fileObject.getDataInBackground(new GetDataCallback() {
+      @Override
+      public void done(byte[] data, ParseException e) {
+        if (e == null) piece.setImage(data);
+      }
+    });
+    piece.setCat(obj.getInt("Category"));
+    piece.setTag1(obj.getInt("Tag1"));
+    piece.setTag2(obj.getInt("Tag2"));
+    piece.setTag3(obj.getInt("Tag3"));
+    return piece;
+  }
+
+  private WardrobeOutfitItem createOutfit(ParseObject obj) {
+    WardrobeOutfitItem outfit = new WardrobeOutfitItem();
+    outfit.setTitle(obj.getString("Name"));
+    outfit.setID(obj.getObjectId());
+    String[] pieces = new String[]{"0","0","0","0","0","0","0","0","0","0"};
+    for (int i=0; i<10;i++){
+      if(obj.getString("Piece"+(i+1))!=null)pieces[i]=obj.getString("Piece"+(i+1));
+    }
+    getPiecePicture(outfit, pieces, 0);
+    getPiecePicture(outfit, pieces, 1);
+    getPiecePicture(outfit, pieces, 2);
+    getPiecePicture(outfit, pieces, 3);
+    return outfit;
+  }
+
+
+  private void getPiecePicture(final WardrobeOutfitItem outfit, String[] pieces, final int number){
+    ParseQuery<ParseObject> query= ParseQuery.getQuery("Piece");
+    query.whereEqualTo("objectId", (pieces[number]));
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, ParseException e) {
+        if (e == null && objects.size() > 0) {
+          ParseObject obj = objects.get(0);
+          ParseFile fileObject = (ParseFile) obj.get("Image");
+          fileObject.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, ParseException e) {
+              if (e == null) {
+                switch (number) {
+                  case 0:
+                    outfit.setImage1(data);
+                    Log.d("00000000000000data", outfit.getImage1() + "");
+                    break;
+                  case 1:
+                    outfit.setImage2(data); break;
+                  case 2:
+                    outfit.setImage3(data); break;
+                  case 3:
+                    outfit.setImage4(data); break;
+                }
+              }
+            }
+          });
         }
       }
     });

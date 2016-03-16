@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.WardrobeItemViewHolder;
+import de.ur.mi.fashionapp.ui.WardrobeOutfitItemViewHolder;
+import de.ur.mi.fashionapp.ui.WardrobePieceItemViewHolder;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -22,7 +24,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   private WardrobeAdapterListener listener;
 
   interface WardrobeAdapterListener{
-    void onWardrobeItemClicked(String itemID);
+    void onWardrobeItemClicked(WardrobeItem item);
   }
 
   public WardrobeAdapter(Context context, WardrobeAdapterListener listener) {
@@ -34,10 +36,10 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
     switch (viewType) {
       case VIEWTYPE_PIECE:
-        ((WardrobeItemViewHolder) viewHolder).bind(getItem(position), this);
+        ((WardrobePieceItemViewHolder) viewHolder).bind(getItem(position), this);
         break;
       case VIEWTYPE_OUTFIT:
-        ((WardrobeItemViewHolder) viewHolder).bind(getItem(position), this);
+        ((WardrobeOutfitItemViewHolder) viewHolder).bind((WardrobeOutfitItem)getItem(position), this);
         break;
     }
   }
@@ -45,10 +47,9 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     switch (viewType) {
       case VIEWTYPE_PIECE:
-        return new WardrobeItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
+        return new WardrobePieceItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
       case VIEWTYPE_OUTFIT:
-        return new WardrobeItemViewHolder(inflater.inflate(R.layout.piece_item, parent, false));
-        //return new WardrobeItemViewHolder(inflater.inflate(R.layout.outfit_item, parent, false));
+        return new WardrobeOutfitItemViewHolder(inflater.inflate(R.layout.outfit_item, parent, false));
       default:
         return null;
     }
@@ -66,7 +67,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
     }
   }
 
-  @Override public void onWardrobeItemClicked(String itemID) {
-    listener.onWardrobeItemClicked(itemID);
+  @Override public void onWardrobeItemClicked(WardrobeItem item) {
+    listener.onWardrobeItemClicked(item);
   }
 }

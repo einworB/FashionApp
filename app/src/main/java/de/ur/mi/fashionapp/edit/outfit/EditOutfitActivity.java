@@ -17,26 +17,24 @@ public class EditOutfitActivity
     extends CBActivityMvpToolbar<LinearLayout, Object, EditOutfitView, EditOutfitPresenter>
     implements EditOutfitView {
 
-  public static final String KEY_ID = "itemID";
+  public static final String KEY_ITEM = "item";
 
   private WardrobeOutfitItem editItem;
-  private int editItemID;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
-    editItemID = getIntent().getIntExtra(KEY_ID, 0);
-    // TODO: get parcelable item from bundle if editItemID != 0
-    // TODO: create layout; register if(editItemID == 0) createOutfit() else updateOutfit() to on save Button click listener
+    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+    // TODO: get parcelable item from bundle; if editItem == null new item is created
   }
 
   @Override protected void onMvpViewCreated() {
     super.onMvpViewCreated();
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    if (editItemID != 0) {
+    if (editItem != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setTitle("Edit Item " + editItemID);
+      getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
     }
   }
 
@@ -68,7 +66,7 @@ public class EditOutfitActivity
 
   private void updateOutfit() {
     // TODO: get data from EditTexts for the updated WardrobeOutfitItem(editItemID, editItem, title)
-    presenter.updateOutfit(editItemID, editItem, true);
+    presenter.updateOutfit(editItem.getID(), editItem, true);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

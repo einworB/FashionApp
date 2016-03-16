@@ -1,17 +1,12 @@
 package de.ur.mi.fashionapp.edit.piece;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.io.ByteArrayOutputStream;
-
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
@@ -65,7 +60,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
     }
   }
 
-  public void updatePiece(int itemID, WardrobePieceItem item, boolean pullToRefresh) {
+  public void updatePiece(String itemID, WardrobePieceItem item, boolean pullToRefresh) {
     // show loading while uploading
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
