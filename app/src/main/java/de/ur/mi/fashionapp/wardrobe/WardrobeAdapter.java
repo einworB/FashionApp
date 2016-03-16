@@ -39,7 +39,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
         ((WardrobePieceItemViewHolder) viewHolder).bind(getItem(position), this);
         break;
       case VIEWTYPE_OUTFIT:
-        ((WardrobeOutfitItemViewHolder) viewHolder).bind(getItem(position), this);
+        ((WardrobeOutfitItemViewHolder) viewHolder).bind((WardrobeOutfitItem)getItem(position), this);
         break;
     }
   }
