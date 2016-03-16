@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import de.ur.mi.fashionapp.CatWrapper;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
@@ -26,6 +27,8 @@ public class PieceDetailActivity extends AppCompatActivity {
   private ImageView pieceImage, pieceType, pieceColor, pieceSeason, pieceOccasion;
   private TextView pieceName;
 
+  private CatWrapper cW;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
     // TODO: get parcelable item from bundle
@@ -35,6 +38,7 @@ public class PieceDetailActivity extends AppCompatActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
+    cW = new CatWrapper();
     pieceName = (TextView)findViewById(R.id.pieceName);
     pieceName.setText(item.getTitle());
 
@@ -44,10 +48,17 @@ public class PieceDetailActivity extends AppCompatActivity {
     pieceImage.setImageDrawable(dImage);
 
     pieceColor = (ImageView)findViewById(R.id.pieceColor);
-    pieceType = (ImageView)findViewById(R.id.pieceType);
-    pieceSeason = (ImageView)findViewById(R.id.pieceSeason);
-    pieceOccasion = (ImageView)findViewById(R.id.pieceOccasion);
+      pieceColor.setImageResource(0);
+    pieceColor.setBackgroundColor(cW.colorWrap(item.getTag3()));
 
+    pieceType = (ImageView)findViewById(R.id.pieceType);
+    pieceType.setImageResource(cW.catWrap(item.getCat()));
+
+    pieceSeason = (ImageView)findViewById(R.id.pieceSeason);
+    pieceSeason.setImageResource(cW.seasonWrap(item.getTag1()));
+
+    pieceOccasion = (ImageView)findViewById(R.id.pieceOccasion);
+    pieceOccasion.setImageResource(cW.occasionWrap(item.getTag2()));
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {

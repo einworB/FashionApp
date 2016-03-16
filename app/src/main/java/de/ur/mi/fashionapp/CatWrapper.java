@@ -25,50 +25,50 @@ public class CatWrapper {
     public static final int OCCASION_EVENING = 0;
     public static final int OCCASION_BEACH = 1;
     public static final int OCCASION_COUCH = 2;
-    public static final int OCCASION_OCCASIONAL = 3;
+    public static final int OCCASION_SPORT = 3;
 
 
 
-    public String catWrap(int num){
+    public int catWrap(int num){
         switch(num){
-            case CATEGORY_TOP: return "top";
-            case CATEGORY_BOTTOM: return "bottom";
-            case CATEGORY_SHOE: return "shoe";
-            case CATEGORY_ACCESSOIRE: return "accessoire";
+            case CATEGORY_TOP: return R.drawable.ic_icon_top;
+            case CATEGORY_BOTTOM: return R.drawable.ic_icon_bottom;
+            case CATEGORY_SHOE: return R.drawable.ic_icon_shoes;
+            case CATEGORY_ACCESSOIRE: return R.drawable.ic_icon_accessoires;
         }
-        return "Out of Array";
+        return -1;
     }
-    public String seasonWrap(int num){
+    public int seasonWrap(int num){
         switch(num){
-            case SEASON_SPRING: return "spring";
-            case SEASON_SUMMER: return "summer";
-            case SEASON_FALL: return "fall";
-            case SEASON_WINTER: return "winter";
+            case SEASON_SPRING: return R.drawable.ic_icon_spring;
+            case SEASON_SUMMER: return R.drawable.ic_icon_summer;
+            case SEASON_FALL: return R.drawable.ic_icon_autumn;
+            case SEASON_WINTER: return R.drawable.ic_icon_winter;
         }
-        return "Out of Array";
+        return -1;
     }
-    public String colorWrap(int num){
+    public int colorWrap(int num){
         switch(num){
-            case COLOR_RED: return "red";
-            case COLOR_BLUE: return "blue";
-            case COLOR_GREEN: return "green";
-            case COLOR_YELLOW: return "yellow";
-            case COLOR_BLACK: return "black";
-            case COLOR_WHITE: return "white";
-            case COLOR_PINK: return "pink";
-            case COLOR_PURPLE: return "purple";
-            case COLOR_ORANGE: return "orange";
-            case COLOR_TURQUOISE: return "turquoise";
+            case COLOR_RED: return R.color.md_red_600;
+            case COLOR_BLUE: return R.color.md_blue_600;
+            case COLOR_GREEN: return  R.color.md_green_600;
+            case COLOR_YELLOW: return R.color.md_yellow_600;
+            case COLOR_BLACK: return R.color.md_black;
+            case COLOR_WHITE: return R.color.md_white;
+            case COLOR_PINK: return R.color.md_pink_600;
+            case COLOR_PURPLE: return R.color.md_purple_600;
+            case COLOR_ORANGE: return R.color.md_orange_600;
+            case COLOR_TURQUOISE: return R.color.md_green_200;
         }
-        return "Out of Array";
+        return -1;
     }
-    public String occasionWrap(int num){
+    public int occasionWrap(int num){
         switch(num){
-            case OCCASION_EVENING: return "evening";
-            case OCCASION_BEACH: return "beach";
-            case OCCASION_COUCH: return "couch";
-            case OCCASION_OCCASIONAL: return "occasional";
+            case OCCASION_EVENING: return R.drawable.ic_icon_evening;
+            case OCCASION_BEACH: return R.drawable.ic_icon_beach;
+            case OCCASION_COUCH: return R.drawable.ic_icon_couch;
+            case OCCASION_SPORT: return R.drawable.ic_icon_sport;
         }
-        return "Out of Array";
+        return -1;
     }
 }
