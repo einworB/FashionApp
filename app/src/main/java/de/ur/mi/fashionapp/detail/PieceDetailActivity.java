@@ -105,6 +105,11 @@ public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Obje
   }
 
   @Override public void onImageLoaded(String pieceID) {
-
+    Bitmap image = item.getImage();
+    if (image != null) {
+      Drawable dImage = new BitmapDrawable(getResources(), image);
+      pieceImage.setImageDrawable(dImage);
+      pieceImage.requestLayout();
+    }
   }
 }
