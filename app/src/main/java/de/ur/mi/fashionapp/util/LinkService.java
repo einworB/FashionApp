@@ -9,6 +9,8 @@ import de.ur.mi.fashionapp.edit.piece.EditPieceActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
  * Created by Philip on 01/03/2016.
@@ -63,16 +65,16 @@ public class LinkService {
     }
   }
 
-  public static Intent getDetailIntent(Context context, int type, WardrobeItem itemID) {
+  public static Intent getDetailIntent(Context context, int type, WardrobeItem item) {
     Intent i;
     switch (type) {
       case WardrobeFragment.TYPE_OUTFIT:
         i = new Intent(context, OutfitDetailActivity.class);
-        i.putExtra(OutfitDetailActivity.KEY_ITEM, itemID);
+        i.putExtra(OutfitDetailActivity.KEY_ITEM, (WardrobeOutfitItem)item);
         return i;
       case WardrobeFragment.TYPE_PIECE:
         i = new Intent(context, PieceDetailActivity.class);
-        i.putExtra(PieceDetailActivity.KEY_ITEM, itemID);
+        i.putExtra(PieceDetailActivity.KEY_ITEM, (WardrobePieceItem)item);
         return i;
       default:
         return null;

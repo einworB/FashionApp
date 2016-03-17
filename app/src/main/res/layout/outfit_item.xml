@@ -9,34 +9,31 @@
 
     <ImageView
         android:id="@+id/mainPiece"
-        app:layout_widthPercent="33%"
+        app:layout_widthPercent="90%"
         app:layout_aspectRatio="100%"
         android:layout_marginBottom="2dp"
         android:src="@drawable/ic_icon_accessoires"/>
 
     <ImageView
         android:id="@+id/left"
-        app:layout_widthPercent="8%"
+        app:layout_widthPercent="30%"
         app:layout_aspectRatio="100%"
-        android:layout_marginLeft="10dp"
         android:layout_below="@+id/mainPiece"
         android:src="@drawable/ic_icon_bottom" />
 
     <ImageView
         android:id="@+id/mid"
-        app:layout_widthPercent="8%"
+        app:layout_widthPercent="30%"
         app:layout_aspectRatio="100%"
         android:layout_below="@+id/mainPiece"
         android:layout_toRightOf="@+id/left"
-        android:layout_marginLeft="10dp"
         android:src="@drawable/ic_icon_bottom"/>
 
     <ImageView
         android:id="@+id/right"
-        app:layout_widthPercent="8%"
+        app:layout_widthPercent="30%"
         app:layout_aspectRatio="100%"
         android:layout_gravity="top|left"
-        android:layout_marginLeft="10dp"
         android:layout_below="@+id/mainPiece"
         android:layout_toRightOf="@+id/mid"
         android:src="@drawable/ic_icon_bottom"/>

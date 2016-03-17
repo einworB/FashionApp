@@ -63,11 +63,16 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     * TODO: Filter Wardrobe
     * query.whereEqualTo("WardrobeID", currentName);
      */
-    getView().showLoading(true);
+      if(isViewAttached()){
+          getView().showLoading(true);
+      }
+
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override
       public void done(List<ParseObject> objects, com.parse.ParseException e) {
-        getView().showLoading(false);
+          if(isViewAttached()) {
+              getView().showLoading(false);
+          }
         if (e == null) {
           items = new ArrayList<>();
           for (int i = 0; i < objects.size(); i++) {
@@ -77,10 +82,15 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
               items.add(createPiece(objects.get(i)));
             }
           }
-          getView().setData(items);
-          getView().showContent();
+            if(isViewAttached()){
+                getView().setData(items);
+                getView().showContent();
+            }
+
         } else {
-          getView().showError(e, false);
+            if(isViewAttached()){
+                getView().showError(e, false);
+            }
         }
       }
     });
@@ -98,9 +108,13 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
       }
     });
     piece.setCat(obj.getInt("Category"));
+    Log.d("WardrobePresenter", "tag1: " + obj.getInt("Tag1"));
+    Log.d("WardrobePresenter", "tag2: "+obj.getInt("Tag2"));
+    Log.d("WardrobePresenter", "tag3: "+obj.getInt("Tag3"));
     piece.setTag1(obj.getInt("Tag1"));
     piece.setTag2(obj.getInt("Tag2"));
     piece.setTag3(obj.getInt("Tag3"));
+    Log.d("WardrobePresenter", "piece: "+piece.getTag1());
     return piece;
   }
 

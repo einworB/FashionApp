@@ -85,7 +85,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
           @Override
           public void done(com.parse.ParseException e) {
             if (e == null) {
-              getView().showLoading(false);
+              getView().showContent();
             } else {
               getView().showError(e, false);
             }

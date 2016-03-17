@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -26,6 +27,8 @@ import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
