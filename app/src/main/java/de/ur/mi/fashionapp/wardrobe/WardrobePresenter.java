@@ -1,6 +1,7 @@
 package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -96,7 +97,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     ParseFile fileObject = (ParseFile) obj.get("Image");
     fileObject.getDataInBackground(new GetDataCallback() {
       @Override public void done(byte[] data, ParseException e) {
-        if (e == null) piece.setImage(data);
+        if (e == null) piece.setImage(BitmapFactory.decodeByteArray(data, 0, data.length));
         if (isViewAttached()) {
           getView().onImageLoaded(piece.getID());
         }
@@ -121,6 +122,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     for (int i = 0; i < 10; i++) {
       if (obj.getString("Piece" + (i + 1)) != null) pieces[i] = obj.getString("Piece" + (i + 1));
     }
+    outfit.setPieceIDs(pieces);
     getPiecePicture(outfit, pieces, 0);
     getPiecePicture(outfit, pieces, 1);
     getPiecePicture(outfit, pieces, 2);
@@ -138,20 +140,19 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
           ParseFile fileObject = (ParseFile) obj.get("Image");
           fileObject.getDataInBackground(new GetDataCallback() {
             @Override public void done(byte[] data, ParseException e) {
-              if (e == null) {
+              if (e == null && data != null) {
                 switch (number) {
                   case 0:
-                    outfit.setImage1(data);
-                    Log.d("00000000000000data", outfit.getImage1() + "");
+                    outfit.setImage1(BitmapFactory.decodeByteArray(data, 0, data.length));
                     break;
                   case 1:
-                    outfit.setImage2(data);
+                    outfit.setImage2(BitmapFactory.decodeByteArray(data, 0, data.length));
                     break;
                   case 2:
-                    outfit.setImage3(data);
+                    outfit.setImage3(BitmapFactory.decodeByteArray(data, 0, data.length));
                     break;
                   case 3:
-                    outfit.setImage4(data);
+                    outfit.setImage4(BitmapFactory.decodeByteArray(data, 0, data.length));
                     break;
                 }
                 if (isViewAttached()) {

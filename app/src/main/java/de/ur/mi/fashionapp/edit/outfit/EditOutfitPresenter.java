@@ -2,12 +2,9 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
@@ -30,12 +27,12 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
 
 
-      //Add all the picture id's
-      String[] pictures = item.getpicture();
-      for(int i = 0; i < pictures.length ; i++){
-        if( pictures[i] != null){
+      //Add all the pieces id's
+      String[] pieces = item.getPieceIDs();
+      for(int i = 0; i < pieces.length ; i++){
+        if( pieces[i] != null){
           String entry = "Piece"+(i+1);
-          wr.put(entry,pictures[i]);
+          wr.put(entry,pieces[i]);
         }
       }
 

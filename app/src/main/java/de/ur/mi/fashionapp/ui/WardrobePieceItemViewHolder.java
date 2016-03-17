@@ -1,8 +1,6 @@
 package de.ur.mi.fashionapp.ui;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,9 +35,9 @@ public class WardrobePieceItemViewHolder extends RecyclerView.ViewHolder {
     });
     label.setText(item.getTitle());
 
-    if(item.getImage()!=null) {
-      Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage(), 0, item.getImage().length);
-      pic.setImageBitmap(bmp);
+    Bitmap image = item.getImage();
+    if(image!=null) {
+      pic.setImageBitmap(image);
     }
   }
 }

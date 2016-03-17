@@ -1,25 +1,24 @@
 package de.ur.mi.fashionapp.detail;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.CatWrapper;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
-public class PieceDetailActivity extends AppCompatActivity {
+public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Object, DetailView, DetailPresenter> implements DetailView {
 
   public static final String KEY_ITEM = "item";
 
@@ -42,9 +41,12 @@ public class PieceDetailActivity extends AppCompatActivity {
     cW = new CatWrapper();
 
     pieceImage = (ImageView)findViewById(R.id.pieceImage);
-    Bitmap image = BitmapFactory.decodeByteArray(item.getImage(), 0, item.getImage().length);
-    Drawable dImage = new BitmapDrawable(getResources(), image);
-    pieceImage.setImageDrawable(dImage);
+    Bitmap image = item.getImage();
+    if (image != null) {
+      Drawable dImage = new BitmapDrawable(getResources(), image);
+      pieceImage.setImageDrawable(dImage);
+    }
+
 
     pieceColor = (ImageView)findViewById(R.id.pieceColor);
       pieceColor.setImageResource(0);
@@ -76,5 +78,21 @@ public class PieceDetailActivity extends AppCompatActivity {
     getSupportActionBar().setTitle(item.getTitle());
 
     // TODO: start activity for result and set result for wardrobe activity to enable reload if item was updated
+  }
+
+  @NonNull @Override public DetailPresenter createPresenter() {
+    return new DetailPresenter(this);
+  }
+
+  @Override public void setData(Object data) {
+
+  }
+
+  @Override public void loadData(boolean pullToRefresh) {
+    presenter.loadPieceImage(item.getID(), item);
+  }
+
+  @Override public void onImageLoaded(String pieceID) {
+
   }
 }

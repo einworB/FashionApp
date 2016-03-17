@@ -1,7 +1,6 @@
 package de.ur.mi.fashionapp.ui;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -38,21 +37,21 @@ public class WardrobeOutfitItemViewHolder extends RecyclerView.ViewHolder {
       }
     });
     //TODO: get outfit / piece image(s)
-    if(item.getImage1()!=null) {
-      Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage1(), 0, item.getImage1().length);
-      main.setImageBitmap(bmp);
+    Bitmap image1 = item.getImage1();
+    Bitmap image2 = item.getImage2();
+    Bitmap image3 = item.getImage3();
+    Bitmap image4 = item.getImage4();
+    if(image1 !=null) {
+      main.setImageBitmap(image1);
     }
-    if(item.getImage2()!=null) {
-      Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage2(), 0, item.getImage2().length);
-      left.setImageBitmap(bmp);
+    if(image2 !=null) {
+      left.setImageBitmap(image2);
     }
-    if(item.getImage3()!=null) {
-      Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage3(), 0, item.getImage3().length);
-      mid.setImageBitmap(bmp);
+    if(image3 !=null) {
+      mid.setImageBitmap(image3);
     }
-    if(item.getImage4()!=null) {
-      Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage4(), 0, item.getImage4().length);
-      right.setImageBitmap(bmp);
+    if(image4 !=null) {
+      right.setImageBitmap(image4);
     }
   }
 }

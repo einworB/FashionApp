@@ -1,6 +1,7 @@
 package de.ur.mi.fashionapp.edit.piece;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -8,6 +9,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Philip on 29/02/2016.
@@ -31,12 +33,14 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       wr.put("Tag2",item.getTag2());
       wr.put("Tag3", item.getTag3());
 
-      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage());
+      Bitmap bitmap = item.getImage();
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream(bitmap.getWidth() * bitmap.getHeight());
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
+      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp", buffer.toByteArray());
       // Upload the image into Parse Cloud
-      getView().showLoading(true);
+      getView().showLoading(pullToRefresh);
       file.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
+        @Override public void done(ParseException e) {
           if (e == null) {
             getView().showContent();
           } else {
@@ -45,7 +49,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
         }
       });
 
-      wr.put("Image",file);
+      wr.put("Image", file);
       getView().showLoading(true);
       wr.saveInBackground(new SaveCallback() {
         @Override public void done(com.parse.ParseException e) {

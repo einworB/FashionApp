@@ -1,7 +1,9 @@
 package de.ur.mi.fashionapp.wardrobe.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.hannesdorfmann.parcelableplease.annotation.ParcelableNoThanks;
 import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
 /**
@@ -11,7 +13,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   String title;
   String ID;
-  byte[] image;
+  @ParcelableNoThanks Bitmap image;
 
   public static final Creator<WardrobeItem> CREATOR = new Creator<WardrobeItem>() {
     @Override public WardrobeItem createFromParcel(Parcel source) {
@@ -49,11 +51,11 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
     WardrobeItemParcelablePlease.writeToParcel(this, dest, flags);
   }
 
-  public byte[] getImage(){
+  public Bitmap getImage(){
     return image;
   }
 
-  public void setImage(byte[] image){
+  public void setImage(Bitmap image){
     this.image = image;
   }
 }

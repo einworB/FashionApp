@@ -31,8 +31,6 @@ import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -152,11 +150,7 @@ public class EditPieceActivity
    if( uploadImage.getTag().equals("set")) {
      bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
    }
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    // Compress image to lower quality scale 1 - 100
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-    byte[] image = stream.toByteArray();
-    editItem.setImage(image);
+    editItem.setImage(bitmap);
     if(et.getText().toString().length()>0) {
       presenter.createPiece(editItem, true);
     }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
