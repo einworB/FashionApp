@@ -50,20 +50,32 @@ public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Obje
 
     pieceColor = (ImageView)findViewById(R.id.pieceColor);
       pieceColor.setImageResource(0);
-    pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getTag3())));
-    Log.d("PieceDetailCat", "Color: " + cW.catWrap(item.getTag3()) + " tag: " + item.getTag3());
+      if(item.getTag3() != -1){
+          pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getTag3())));
+          Log.d("PieceDetailCat", "Color: " + cW.catWrap(item.getTag3()) + " tag: " + item.getTag3());
+      }
 
+      Log.d("PieceDetailCat", "Category: " + cW.catWrap(item.getCat())+" tag: "+item.getCat());
     pieceType = (ImageView)findViewById(R.id.pieceType);
-    pieceType.setImageResource(cW.catWrap(item.getCat()));
-    Log.d("PieceDetailCat", "Category: " + cW.catWrap(item.getCat())+" tag: "+item.getCat());
+      if(item.getCat() != -1){
+          pieceType.setImageResource(cW.catWrap(item.getCat()));
+      }
 
+
+      Log.d("PieceDetailCat", "Season: " + cW.catWrap(item.getTag1()) + " tag: " + item.getTag1());
     pieceSeason = (ImageView)findViewById(R.id.pieceSeason);
-    pieceSeason.setImageResource(cW.seasonWrap(item.getTag1()));
-    Log.d("PieceDetailCat", "Season: " + cW.catWrap(item.getTag1())+" tag: "+item.getTag1());
+      if(item.getTag1()!= -1){
+          pieceSeason.setImageResource(cW.seasonWrap(item.getTag1()));
+      }
 
+
+      Log.d("PieceDetailCat", "Occasion: " + cW.catWrap(item.getTag2()) + " tag: " + item.getTag2());
     pieceOccasion = (ImageView)findViewById(R.id.pieceOccasion);
-    pieceOccasion.setImageResource(cW.occasionWrap(item.getTag2()));
-    Log.d("PieceDetailCat", "Occasion: " + cW.catWrap(item.getTag2())+" tag: "+item.getTag2());
+      if(item.getTag2() != -1){
+          pieceOccasion.setImageResource(cW.occasionWrap(item.getTag2()));
+      }
+
+
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {

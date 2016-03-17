@@ -33,7 +33,7 @@ public class CatWrapper {
         switch(num){
             case CATEGORY_TOP: return R.drawable.ic_icon_top;
             case CATEGORY_BOTTOM: return R.drawable.ic_icon_bottom;
-            case CATEGORY_SHOE: return R.drawable.ic_icon_shoes;
+            case CATEGORY_SHOE: return R.drawable.ic_icon_shoe;
             case CATEGORY_ACCESSOIRE: return R.drawable.ic_icon_accessoires;
         }
         return -1;

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorSecondaryLight">
 
   <android.support.design.widget.AppBarLayout
       android:layout_height="wrap_content"
@@ -16,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"/>
   </android.support.design.widget.AppBarLayout>
 
@@ -26,8 +27,62 @@
       android:id="@+id/contentView"
       android:layout_marginTop="?attr/actionBarSize">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="TESTETSTETSTETSTETSTETS"/>
+      <android.support.percent.PercentRelativeLayout
+          android:id="@+id/pieceChooser"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+          <TextView
+              android:id="@+id/chooseText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/choose_pieces"
+              android:textSize="24sp"
+              android:layout_margin="20dp"
+              android:textColor="@color/colorTextBlack"/>
+          <ImageView
+              android:layout_width="24sp"
+              android:layout_height="24sp"
+              android:src="@drawable/ic_keyboard_arrow_right_24dp"
+              android:layout_alignParentRight="true"
+              android:layout_alignTop="@+id/chooseText"/>
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/colorTextBlack"
+              android:layout_below="@+id/chooseText"
+              android:layout_marginBottom="10dp"/>
+      </android.support.percent.PercentRelativeLayout>
+
+
+      <android.support.percent.PercentRelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+          <ImageView
+              android:id="@+id/mainPiece"
+              app:layout_heightPercent="70%"
+              android:layout_width="match_parent"
+              android:src="@drawable/ic_icon_top"/>
+          <ImageView
+              android:id="@+id/leftPiece"
+              app:layout_widthPercent="33%"
+              app:layout_aspectRatio="100%"
+              android:src="@drawable/ic_icon_bottom"
+              android:layout_alignParentBottom="true"/>
+          <ImageView
+              android:id="@+id/midPiece"
+              app:layout_widthPercent="33%"
+              app:layout_aspectRatio="100%"
+              android:src="@drawable/ic_icon_accessoires"
+              android:layout_alignParentBottom="true"
+              android:layout_toRightOf="@+id/leftPiece"/>
+          <ImageView
+              android:id="@+id/rightPiece"
+              app:layout_widthPercent="33%"
+              app:layout_aspectRatio="100%"
+              android:src="@drawable/ic_icon_onepiece"
+              android:layout_alignParentBottom="true"
+              android:layout_toRightOf="@+id/midPiece"/>
+      </android.support.percent.PercentRelativeLayout>
 
 
   </LinearLayout>

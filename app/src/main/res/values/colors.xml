@@ -7,5 +7,6 @@
     <color name="emergencyRed">#EF5350</color>
     <color name="colorTextLight">#FFFFFF</color>
     <color name="colorTextDark">#c9bebe</color>
+    <color name="colorTextBlack">#3b3b3b</color>
     <color name="colorTransparent">#00ffffff</color>
 </resources>
