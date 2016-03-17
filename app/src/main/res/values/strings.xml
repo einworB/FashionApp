@@ -28,6 +28,7 @@
   <string name="dialog_negative">No</string>
   <string name="change_email_input_hint">abc@example.com</string>
   <string name="change_email_input_prefill">abc@example.com</string>
+  <string name="choose_pieces">"Choose pieces"</string>
   <!-- Login -->
   <string name="title_activity_login">Login</string>
   <!-- Wardrobe -->

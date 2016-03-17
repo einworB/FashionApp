@@ -168,7 +168,7 @@ public class EditPieceActivity
   }
 
   int[] container = new int[]{4,0,0,0};
-  int[] drCon = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoes, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
+  int[] drCon = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
   @Override public void onImageSelected(View root, int id) {
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));
