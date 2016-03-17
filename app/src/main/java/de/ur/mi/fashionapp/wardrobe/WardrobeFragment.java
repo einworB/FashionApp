@@ -37,7 +37,7 @@ public class WardrobeFragment extends
   }
 
   @NonNull @Override protected RecyclerView.LayoutManager createRecyclerViewLayoutManager() {
-    return new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+    return new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
   }
 
   @Override protected WardrobeAdapter createAdapter() {
@@ -84,5 +84,12 @@ public class WardrobeFragment extends
       loadData(true);
     }
 
+  }
+
+  @Override public void onImageLoaded(String itemID) {
+    int itemPosition = adapter.getItemPosition(itemID);
+    if (itemPosition != -1) {
+      adapter.notifyItemChanged(itemPosition);
+    }
   }
 }

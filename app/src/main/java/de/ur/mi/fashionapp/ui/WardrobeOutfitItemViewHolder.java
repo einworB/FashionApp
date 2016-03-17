@@ -1,19 +1,12 @@
 package de.ur.mi.fashionapp.ui;
 
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.Debug;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
@@ -45,7 +38,6 @@ public class WardrobeOutfitItemViewHolder extends RecyclerView.ViewHolder {
       }
     });
     //TODO: get outfit / piece image(s)
-    if(item.getImage1()==null)Log.d("oh","nooooooooooooooooooooooooooooooooooooooooooooooooo");
     if(item.getImage1()!=null) {
       Bitmap bmp = BitmapFactory.decodeByteArray(item.getImage1(), 0, item.getImage1().length);
       main.setImageBitmap(bmp);
