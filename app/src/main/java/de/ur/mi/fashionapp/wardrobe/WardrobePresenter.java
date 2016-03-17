@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Philip on 29/02/2016.
  */
-public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
+public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
 
   private Context context;
   private List<WardrobeItem> items;
@@ -36,26 +36,22 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
 
   }
 
-
-
   public void loadPieces(boolean pullToRefresh) {
-    if (isViewAttached()) {
-      loadWardrobeItems(false, pullToRefresh);
-    }
+    loadWardrobeItems(false, pullToRefresh);
   }
 
   public void loadOutfits(boolean pullToRefresh) {
-    if (isViewAttached()) {
-      loadWardrobeItems(true, pullToRefresh);
-    }
+    loadWardrobeItems(true, pullToRefresh);
   }
 
-  public void loadWardrobeItems(final boolean isOutfit, boolean pullToRefresh){
-    ParseQuery<ParseObject> query;
-    if(isOutfit) {
-      query = ParseQuery.getQuery("Outfit");
+  public void loadWardrobeItems(final boolean isOutfit, boolean pullToRefresh) {
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
     }
-    else{
+    ParseQuery<ParseObject> query;
+    if (isOutfit) {
+      query = ParseQuery.getQuery("Outfit");
+    } else {
       query = ParseQuery.getQuery("Piece");
     }
     query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
@@ -68,11 +64,8 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
       }
 
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {
-          if(isViewAttached()) {
-              getView().showLoading(false);
-          }
+      @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
+
         if (e == null) {
           items = new ArrayList<>();
           for (int i = 0; i < objects.size(); i++) {
@@ -96,15 +89,17 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     });
   }
 
-  private WardrobePieceItem createPiece(ParseObject obj){
+  private WardrobePieceItem createPiece(ParseObject obj) {
     final WardrobePieceItem piece = new WardrobePieceItem();
     piece.setTitle(obj.getString("Name"));
     piece.setID(obj.getObjectId());
     ParseFile fileObject = (ParseFile) obj.get("Image");
     fileObject.getDataInBackground(new GetDataCallback() {
-      @Override
-      public void done(byte[] data, ParseException e) {
+      @Override public void done(byte[] data, ParseException e) {
         if (e == null) piece.setImage(data);
+        if (isViewAttached()) {
+          getView().onImageLoaded(piece.getID());
+        }
       }
     });
     piece.setCat(obj.getInt("Category"));
@@ -122,9 +117,9 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     WardrobeOutfitItem outfit = new WardrobeOutfitItem();
     outfit.setTitle(obj.getString("Name"));
     outfit.setID(obj.getObjectId());
-    String[] pieces = new String[]{"0","0","0","0","0","0","0","0","0","0"};
-    for (int i=0; i<10;i++){
-      if(obj.getString("Piece"+(i+1))!=null)pieces[i]=obj.getString("Piece"+(i+1));
+    String[] pieces = new String[] { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
+    for (int i = 0; i < 10; i++) {
+      if (obj.getString("Piece" + (i + 1)) != null) pieces[i] = obj.getString("Piece" + (i + 1));
     }
     getPiecePicture(outfit, pieces, 0);
     getPiecePicture(outfit, pieces, 1);
@@ -133,19 +128,16 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
     return outfit;
   }
 
-
-  private void getPiecePicture(final WardrobeOutfitItem outfit, String[] pieces, final int number){
-    ParseQuery<ParseObject> query= ParseQuery.getQuery("Piece");
+  private void getPiecePicture(final WardrobeOutfitItem outfit, String[] pieces, final int number) {
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
     query.whereEqualTo("objectId", (pieces[number]));
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, ParseException e) {
+      @Override public void done(List<ParseObject> objects, ParseException e) {
         if (e == null && objects.size() > 0) {
           ParseObject obj = objects.get(0);
           ParseFile fileObject = (ParseFile) obj.get("Image");
           fileObject.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
+            @Override public void done(byte[] data, ParseException e) {
               if (e == null) {
                 switch (number) {
                   case 0:
@@ -153,11 +145,17 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
                     Log.d("00000000000000data", outfit.getImage1() + "");
                     break;
                   case 1:
-                    outfit.setImage2(data); break;
+                    outfit.setImage2(data);
+                    break;
                   case 2:
-                    outfit.setImage3(data); break;
+                    outfit.setImage3(data);
+                    break;
                   case 3:
-                    outfit.setImage4(data); break;
+                    outfit.setImage4(data);
+                    break;
+                }
+                if (isViewAttached()) {
+                  getView().onImageLoaded(outfit.getID());
                 }
               }
             }
@@ -166,6 +164,4 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView>{
       }
     });
   }
-
-
 }

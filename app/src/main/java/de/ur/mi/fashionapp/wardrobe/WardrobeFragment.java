@@ -85,4 +85,11 @@ public class WardrobeFragment extends
     }
 
   }
+
+  @Override public void onImageLoaded(String itemID) {
+    int itemPosition = adapter.getItemPosition(itemID);
+    if (itemPosition != -1) {
+      adapter.notifyItemChanged(itemPosition);
+    }
+  }
 }

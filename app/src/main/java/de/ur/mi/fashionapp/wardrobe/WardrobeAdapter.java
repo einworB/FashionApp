@@ -22,7 +22,6 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   private static final int VIEWTYPE_OUTFIT = 1;
 
   private WardrobeAdapterListener listener;
-
   interface WardrobeAdapterListener{
     void onWardrobeItemClicked(WardrobeItem item);
   }
@@ -70,4 +69,17 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   @Override public void onWardrobeItemClicked(WardrobeItem item) {
     listener.onWardrobeItemClicked(item);
   }
+
+  public int getItemPosition(String itemID) {
+    if (itemID != null) {
+      for (int i = 0; i < items.size(); i++) {
+        WardrobeItem item = items.get(i);
+        if (itemID.equals(item.getID())) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
 }
