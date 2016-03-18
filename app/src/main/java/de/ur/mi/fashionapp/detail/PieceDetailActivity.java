@@ -86,7 +86,6 @@ public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Obje
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(true);
-    // TODO: replace with item title
     getSupportActionBar().setTitle(item.getTitle());
 
     // TODO: start activity for result and set result for wardrobe activity to enable reload if item was updated

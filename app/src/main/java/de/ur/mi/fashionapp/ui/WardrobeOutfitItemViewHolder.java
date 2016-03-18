@@ -22,7 +22,6 @@ public class WardrobeOutfitItemViewHolder extends RecyclerView.ViewHolder {
   public WardrobeOutfitItemViewHolder(View itemView) {
     super(itemView);
     outfitItem = (PercentRelativeLayout) itemView.findViewById(R.id.outfitItem);
-    // TODO: show outfit title in outfit items?? -> no
     main = (ImageView)itemView.findViewById(R.id.mainPiece);
     left = (ImageView)itemView.findViewById(R.id.left);
     mid = (ImageView)itemView.findViewById(R.id.mid);
@@ -36,11 +35,12 @@ public class WardrobeOutfitItemViewHolder extends RecyclerView.ViewHolder {
         listener.onWardrobeItemClicked(item);
       }
     });
-    //TODO: get outfit / piece image(s)
-    Bitmap image1 = item.getImage1();
-    Bitmap image2 = item.getImage2();
-    Bitmap image3 = item.getImage3();
-    Bitmap image4 = item.getImage4();
+    //TODO: replace with for loop etc
+    Bitmap[] images = item.getImages();
+    Bitmap image1 = images[0];
+    Bitmap image2 = images[1];
+    Bitmap image3 = images[2];
+    Bitmap image4 = images[3];
     if(image1 !=null) {
       main.setImageBitmap(image1);
     }

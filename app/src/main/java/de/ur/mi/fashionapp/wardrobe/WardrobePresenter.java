@@ -1,9 +1,8 @@
 package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.util.Log;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -12,6 +11,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import de.ur.mi.fashionapp.util.ImageHelper;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -76,15 +76,14 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
               items.add(createPiece(objects.get(i)));
             }
           }
-            if(isViewAttached()){
-                getView().setData(items);
-                getView().showContent();
-            }
-
+          if (isViewAttached()) {
+            getView().setData(items);
+            getView().showContent();
+          }
         } else {
-            if(isViewAttached()){
-                getView().showError(e, false);
-            }
+          if (isViewAttached()) {
+            getView().showError(e, false);
+          }
         }
       }
     });
@@ -97,7 +96,9 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     ParseFile fileObject = (ParseFile) obj.get("Image");
     fileObject.getDataInBackground(new GetDataCallback() {
       @Override public void done(byte[] data, ParseException e) {
-        if (e == null) piece.setImage(BitmapFactory.decodeByteArray(data, 0, data.length));
+        if (e == null) {
+          piece.setImage(ImageHelper.getScaledBitmap(data));
+        }
         if (isViewAttached()) {
           getView().onImageLoaded(piece.getID());
         }
@@ -110,7 +111,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     piece.setTag1(obj.getInt("Tag1"));
     piece.setTag2(obj.getInt("Tag2"));
     piece.setTag3(obj.getInt("Tag3"));
-    Log.d("WardrobePresenter", "piece: "+piece.getTag1());
+    Log.d("WardrobePresenter", "piece: " + piece.getTag1());
     return piece;
   }
 
@@ -118,51 +119,42 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     WardrobeOutfitItem outfit = new WardrobeOutfitItem();
     outfit.setTitle(obj.getString("Name"));
     outfit.setID(obj.getObjectId());
-    String[] pieces = new String[] { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
+    String[] pieces = outfit.getPieceIDs();
     for (int i = 0; i < 10; i++) {
       if (obj.getString("Piece" + (i + 1)) != null) pieces[i] = obj.getString("Piece" + (i + 1));
     }
-    outfit.setPieceIDs(pieces);
-    getPiecePicture(outfit, pieces, 0);
-    getPiecePicture(outfit, pieces, 1);
-    getPiecePicture(outfit, pieces, 2);
-    getPiecePicture(outfit, pieces, 3);
+    for (int i = 0; i < outfit.getImages().length; i++) {
+      getPiecePicture(outfit, pieces, i);
+    }
     return outfit;
   }
 
-  private void getPiecePicture(final WardrobeOutfitItem outfit, String[] pieces, final int number) {
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
-    query.whereEqualTo("objectId", (pieces[number]));
-    query.findInBackground(new FindCallback<ParseObject>() {
-      @Override public void done(List<ParseObject> objects, ParseException e) {
-        if (e == null && objects.size() > 0) {
-          ParseObject obj = objects.get(0);
-          ParseFile fileObject = (ParseFile) obj.get("Image");
-          fileObject.getDataInBackground(new GetDataCallback() {
-            @Override public void done(byte[] data, ParseException e) {
-              if (e == null && data != null) {
-                switch (number) {
-                  case 0:
-                    outfit.setImage1(BitmapFactory.decodeByteArray(data, 0, data.length));
-                    break;
-                  case 1:
-                    outfit.setImage2(BitmapFactory.decodeByteArray(data, 0, data.length));
-                    break;
-                  case 2:
-                    outfit.setImage3(BitmapFactory.decodeByteArray(data, 0, data.length));
-                    break;
-                  case 3:
-                    outfit.setImage4(BitmapFactory.decodeByteArray(data, 0, data.length));
-                    break;
-                }
-                if (isViewAttached()) {
-                  getView().onImageLoaded(outfit.getID());
+  private void getPiecePicture(final WardrobeOutfitItem outfit, final String[] pieces, final int number) {
+    if (pieces[number] != null && !pieces[number].isEmpty()) {
+      ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
+      query.whereEqualTo("objectId", (pieces[number]));
+      query.findInBackground(new FindCallback<ParseObject>() {
+        @Override public void done(List<ParseObject> objects, ParseException e) {
+          if (e == null && objects.size() > 0) {
+            ParseObject obj = objects.get(0);
+            ParseFile fileObject = (ParseFile) obj.get("Image");
+            fileObject.getDataInBackground(new GetDataCallback() {
+              @Override public void done(byte[] data, ParseException e) {
+                if (e == null && data != null) {
+                  Bitmap[] images = outfit.getImages();
+                  images[number] = ImageHelper.getScaledBitmap(data);
+
+                  if (isViewAttached()) {
+                    getView().onImageLoaded(outfit.getID());
+                    getView().showContent();
+                  }
                 }
               }
-            }
-          });
+            });
+          }
         }
-      }
-    });
+      });
+    }
+
   }
 }

@@ -57,7 +57,10 @@ public class EditPieceActivity
   private View occasionContainer;
   private ImageView uploadImage;
 
+  // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
+  int[] container = new int[]{4,0,0,0};
+  int[] drawableContainer = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
@@ -146,7 +149,7 @@ public class EditPieceActivity
     editItem.setTag2(container[2]);
     editItem.setTag3(container[3]);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
-           drCon[container[0]]);
+           drawableContainer[container[0]]);
    if( uploadImage.getTag().equals("set")) {
      bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
    }
@@ -161,8 +164,6 @@ public class EditPieceActivity
     presenter.updatePiece(editItem.getID(), editItem, true);
   }
 
-  int[] container = new int[]{4,0,0,0};
-  int[] drCon = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
   @Override public void onImageSelected(View root, int id) {
     if (root == seasonContainer) {
       Log.d("EDITPIECE", "Selected season #" + (id + 1));

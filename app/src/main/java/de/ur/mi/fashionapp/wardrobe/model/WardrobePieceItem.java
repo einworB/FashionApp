@@ -1,6 +1,7 @@
 package de.ur.mi.fashionapp.wardrobe.model;
 
 import android.os.Parcel;
+import com.hannesdorfmann.parcelableplease.annotation.ParcelableNoThanks;
 import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
 /**
@@ -8,6 +9,8 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
  */
 @ParcelablePlease public class WardrobePieceItem extends WardrobeItem {
 
+  @ParcelableNoThanks public static final int MAX_IMAGE_HEIGHT = 250;
+  @ParcelableNoThanks public static final int MAX_IMAGE_WIDTH = 250;
   int category;
   int tag1;
   int tag2;

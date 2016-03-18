@@ -1,12 +1,7 @@
 package de.ur.mi.fashionapp.edit.piece;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,8 +20,6 @@ import java.util.List;
 public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
 
   private Context context;
-  public static int MAX_HEIGHT = 500;
-  public static int MAX_WIDTH = 500;
 
   public EditPiecePresenter(Context context, EditPieceView view) {
     this.context = context;
@@ -46,7 +39,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       Bitmap bitmap = item.getImage();
 
       if(bitmap.getHeight()>=500||bitmap.getWidth()>=500) {
-        bitmap = Bitmap.createScaledBitmap(bitmap, MAX_WIDTH, MAX_HEIGHT, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, WardrobePieceItem.MAX_IMAGE_WIDTH, WardrobePieceItem.MAX_IMAGE_HEIGHT, true);
       }
       ByteArrayOutputStream buffer = new ByteArrayOutputStream(bitmap.getWidth() * bitmap.getHeight());
       bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);

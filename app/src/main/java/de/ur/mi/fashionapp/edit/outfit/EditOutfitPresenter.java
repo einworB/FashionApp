@@ -57,7 +57,9 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
   }
 
   public void updateOutfit(String itemID, final WardrobeOutfitItem item, final boolean pullToRefresh) {
-    if (isViewAttached()) getView().showLoading(pullToRefresh);
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
+    }
     ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Outfit");
     query.whereEqualTo("objectId",itemID);
     query.findInBackground(new FindCallback<ParseObject>() {
@@ -89,7 +91,9 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
 
   public void deleteOutfit(String itemID, final boolean pullToRefresh){
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Outfit");
-    if (isViewAttached())getView().showLoading(pullToRefresh);
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
+    }
     query.whereEqualTo("objectId",itemID);
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override

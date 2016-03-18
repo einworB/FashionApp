@@ -10,10 +10,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
  */
 @ParcelablePlease public class WardrobeOutfitItem extends WardrobeItem {
   String[] pieceIDs = new String[]{null, null, null, null, null, null, null, null, null, null};
-  @ParcelableNoThanks Bitmap image1;
-  @ParcelableNoThanks Bitmap image2;
-  @ParcelableNoThanks Bitmap image3;
-  @ParcelableNoThanks Bitmap image4;
+  @ParcelableNoThanks Bitmap[] images = new Bitmap[]{null, null, null, null, null, null, null, null, null, null};
 
   public static final Creator<WardrobeOutfitItem> CREATOR = new Creator<WardrobeOutfitItem>() {
     @Override public WardrobeOutfitItem createFromParcel(Parcel source) {
@@ -35,36 +32,12 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
     this.pieceIDs = pieceIDs;
   }
 
-  public Bitmap getImage1(){
-    return image1;
+  public Bitmap[] getImages() {
+    return images;
   }
 
-  public void setImage1(Bitmap image){
-    this.image1 = image;
-  }
-
-  public Bitmap getImage2(){
-    return image2;
-  }
-
-  public void setImage2(Bitmap image){
-    this.image2 = image;
-  }
-
-  public Bitmap getImage3(){
-    return image3;
-  }
-
-  public void setImage3(Bitmap image){
-    this.image3 = image;
-  }
-
-  public Bitmap getImage4(){
-    return image4;
-  }
-
-  public void setImage4(Bitmap image){
-    this.image4 = image;
+  public void setImages(Bitmap[] images) {
+    this.images = images;
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
