@@ -2,9 +2,15 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
+
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
@@ -36,72 +42,6 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
         }
       }
 
-      /*
-      ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage1());
-      // Upload the image into Parse Cloud
-      getView().showLoading(true);
-      file.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          if (e == null) {
-            getView().showContent();
-            getView().onOutfitEdited();
-          } else {
-            getView().showError(e, false);
-          }
-        }
-      });
-
-      ParseFile file2 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage2());
-      // Upload the image into Parse Cloud
-      getView().showLoading(true);
-      file.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          if (e == null) {
-            getView().showContent();
-            getView().onOutfitEdited();
-          } else {
-            getView().showError(e, false);
-          }
-        }
-      });
-
-      ParseFile file3 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage3());
-      // Upload the image into Parse Cloud
-      getView().showLoading(true);
-      file.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          if (e == null) {
-            getView().showContent();
-            getView().onOutfitEdited();
-          } else {
-            getView().showError(e, false);
-          }
-        }
-      });
-
-      ParseFile file4 = new ParseFile("pictureOfThisPiece" + ".bmp",item.getImage4());
-      // Upload the image into Parse Cloud
-      getView().showLoading(true);
-      file.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          if (e == null) {
-            getView().showContent();
-            getView().onOutfitEdited();
-          } else {
-            getView().showError(e, false);
-          }
-        }
-      });
-      */
-
-      /*Müssten noch hinzugefügt werden
-      wr.put("Image",file);
-      */
-
       getView().showLoading(true);
       wr.saveInBackground(new SaveCallback() {
         @Override public void done(com.parse.ParseException e) {
@@ -116,25 +56,54 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView>{
     }
   }
 
-  public void updateOutfit(String itemID, WardrobeOutfitItem item, boolean pullToRefresh) {
-    // show loading while uploading
-    if (isViewAttached()) {
-      getView().showLoading(pullToRefresh);
-    }
-
-    // TODO: insert upload logic
-
-
-    if (isViewAttached()) {
-      // TODO: show real Error if model loading failed
-      if (true) {
-        getView().onOutfitEdited();
-        getView().showContent();
+  public void updateOutfit(String itemID, final WardrobeOutfitItem item, final boolean pullToRefresh) {
+    if (isViewAttached()) getView().showLoading(pullToRefresh);
+    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Outfit");
+    query.whereEqualTo("objectId",itemID);
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, ParseException e) {
+        if(e==null) {
+          ParseObject parseObject = objects.get(0);
+          parseObject.put("Name",item.getTitle());
+          String[] ids = item.getPieceIDs();
+          for(int i= 0; i< ids.length; i++){
+            parseObject.put("Piece"+i,ids[0]);
+          }
+          parseObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              if(e==null){
+                if(isViewAttached())getView().onOutfitEdited();
+                if(isViewAttached())getView().showContent();
+              }else{
+                if(isViewAttached())getView().showError(e, pullToRefresh);
+              }
+            }
+          });
+        }
       }
-      else {
-        Throwable e = new Exception();
-        getView().showError(e, pullToRefresh);
+    });
+  }
+
+
+  public void deleteOutfit(String itemID, final boolean pullToRefresh){
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Outfit");
+    if (isViewAttached())getView().showLoading(pullToRefresh);
+    query.whereEqualTo("objectId",itemID);
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+        if(e==null) {
+          for (int i = 0; i < objects.size(); i++) {
+            objects.get(i).deleteInBackground();
+          }
+          if (isViewAttached())getView().showContent();
+        }
+        else{
+          if (isViewAttached())getView().showError(e,pullToRefresh);
+        }
       }
-    }
+    });
   }
 }
