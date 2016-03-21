@@ -1,5 +1,6 @@
 package de.ur.mi.fashionapp.wardrobe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -8,11 +9,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
@@ -46,6 +56,10 @@ public class WardrobeActivity extends
   private PagerSlidingTabStrip tabs;
   private WardrobePagerAdapter adapter;
   private ActionBarDrawerToggle drawerToggle;
+  private MenuItem mSearchAction;
+  private boolean isSearchOpened = false;
+  private EditText edtSeach;
+
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
@@ -127,7 +141,7 @@ public class WardrobeActivity extends
     menuRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
     menuRecyclerView.setAdapter(menuAdapter);
     menuRecyclerView.setLayoutManager(
-        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     return new WardrobePagerAdapter(fragmentManager);
   }
 
@@ -179,6 +193,11 @@ public class WardrobeActivity extends
         finish();
       }
     }).build().show();
+
+    if(isSearchOpened) {
+      handleMenuSearch();
+      return;
+    }
   }
 
   public void onNewWardrobeCreated() {
@@ -197,5 +216,83 @@ public class WardrobeActivity extends
     }
 
     super.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    mSearchAction = menu.findItem(R.id.action_search);
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    if(id==R.id.action_search){
+      handleMenuSearch();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  protected void handleMenuSearch(){
+    ActionBar action = getSupportActionBar(); //get the actionbar
+
+    if(isSearchOpened){ //test if the search is open
+
+      action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
+      action.setDisplayShowTitleEnabled(true); //show the title in the action bar
+
+      //hides the keyboard
+      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+      imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
+
+      //add the search icon in the action bar
+      mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_icon_addpic));
+
+      isSearchOpened = false;
+    } else { //open the search entry
+
+      action.setDisplayShowCustomEnabled(true); //enable it to display a
+      // custom view in the action bar.
+      action.setCustomView(R.layout.search_bar);//add the custom view
+      action.setDisplayShowTitleEnabled(false); //hide the title
+
+      edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
+
+      //this is a listener to do a search when the user clicks on search button
+      edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+          if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            doSearch();
+            return true;
+          }
+          return false;
+        }
+      });
+
+
+      edtSeach.requestFocus();
+
+      //open the keyboard focused in the edtSearch
+      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+      imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
+
+
+      //add the close icon
+      mSearchAction.setIcon(getResources().getDrawable(R.drawable.crop__ic_cancel));
+
+      isSearchOpened = true;
+    }
+  }
+
+  private void doSearch() {
+//
   }
 }
