@@ -2,7 +2,6 @@ package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -108,10 +107,10 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     //Log.d("WardrobePresenter", "tag1: " + obj.getInt("Tag1"));
     //Log.d("WardrobePresenter", "tag2: "+obj.getInt("Tag2"));
     //Log.d("WardrobePresenter", "tag3: "+obj.getInt("Tag3"));
-    piece.setTag1(obj.getInt("Tag1"));
-    piece.setTag2(obj.getInt("Tag2"));
-    piece.setTag3(obj.getInt("Tag3"));
-    //Log.d("WardrobePresenter", "piece: " + piece.getTag1());
+    piece.setSeason(obj.getInt("Tag1"));
+    piece.setOccasion(obj.getInt("Tag2"));
+    piece.setColor(obj.getInt("Tag3"));
+    //Log.d("WardrobePresenter", "piece: " + piece.getSeason());
     return piece;
   }
 

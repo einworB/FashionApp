@@ -50,9 +50,9 @@ public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Obje
 
     pieceColor = (ImageView)findViewById(R.id.pieceColor);
       pieceColor.setImageResource(0);
-      if(cW.colorWrap(item.getTag3()) != -1){
-          pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getTag3())));
-          Log.d("PieceDetailCat", "Color: " + cW.catWrap(item.getTag3()) + " tag: " + item.getTag3());
+      if(cW.colorWrap(item.getColor()) != -1){
+          pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getColor())));
+          Log.d("PieceDetailCat", "Color: " + cW.catWrap(item.getColor()) + " tag: " + item.getColor());
       }
 
       Log.d("PieceDetailCat", "Category: " + cW.catWrap(item.getCat())+" tag: "+item.getCat());
@@ -62,17 +62,17 @@ public class PieceDetailActivity extends CBActivityMvpToolbar<RecyclerView, Obje
       }
 
 
-      Log.d("PieceDetailCat", "Season: " + cW.catWrap(item.getTag1()) + " tag: " + item.getTag1());
+      Log.d("PieceDetailCat", "Season: " + cW.catWrap(item.getSeason()) + " tag: " + item.getSeason());
     pieceSeason = (ImageView)findViewById(R.id.pieceSeason);
-      if(cW.seasonWrap(item.getTag1())!= -1){
-          pieceSeason.setImageResource(cW.seasonWrap(item.getTag1()));
+      if(cW.seasonWrap(item.getSeason())!= -1){
+          pieceSeason.setImageResource(cW.seasonWrap(item.getSeason()));
       }
 
 
-      Log.d("PieceDetailCat", "Occasion: " + cW.catWrap(item.getTag2()) + " tag: " + item.getTag2());
+      Log.d("PieceDetailCat", "Occasion: " + cW.catWrap(item.getOccasion()) + " tag: " + item.getOccasion());
     pieceOccasion = (ImageView)findViewById(R.id.pieceOccasion);
-      if(cW.occasionWrap(item.getTag2()) != -1){
-          pieceOccasion.setImageResource(cW.occasionWrap(item.getTag2()));
+      if(cW.occasionWrap(item.getOccasion()) != -1){
+          pieceOccasion.setImageResource(cW.occasionWrap(item.getOccasion()));
       }
 
 

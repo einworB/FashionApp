@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,10 +94,13 @@ public class WardrobeFragment extends
   }
 
   public void search(CharSequence s) {
-    adapter.searchForItemsWith((String)s);
+    adapter.searchForItemsWith(s);
   }
 
   public void filter(int[] tags) {
-    adapter.filterItemsBy(tags);
+    if (type == TYPE_PIECE) {
+      adapter.filterItemsBy(tags);
+    }
+    // not filtering for outfits (yet)
   }
 }

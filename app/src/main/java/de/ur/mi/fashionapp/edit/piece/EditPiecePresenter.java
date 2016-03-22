@@ -32,9 +32,9 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       wr.put("Name",item.getTitle());
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
       wr.put("Category",item.getCat());
-      wr.put("Tag1",item.getTag1());
-      wr.put("Tag2",item.getTag2());
-      wr.put("Tag3", item.getTag3());
+      wr.put("Tag1",item.getSeason());
+      wr.put("Tag2",item.getOccasion());
+      wr.put("Tag3", item.getColor());
 
       Bitmap bitmap = item.getImage();
 
@@ -83,9 +83,9 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
           parseObject.put("Name",item.getTitle());
           if(item.getImage()!=null)parseObject.put("Image",item.getImage());
           parseObject.put("Category", item.getCat());
-          parseObject.put("Tag1",item.getTag1());
-          parseObject.put("Tag2",item.getTag2());
-          parseObject.put("Tag3",item.getTag3());
+          parseObject.put("Tag1",item.getSeason());
+          parseObject.put("Tag2",item.getOccasion());
+          parseObject.put("Tag3",item.getColor());
           parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

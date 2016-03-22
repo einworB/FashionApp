@@ -147,9 +147,9 @@ public class EditPieceActivity
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
     editItem.setCat(container[0]);
-    editItem.setTag1(container[1]);
-    editItem.setTag2(container[2]);
-    editItem.setTag3(container[3]);
+    editItem.setSeason(container[1]);
+    editItem.setOccasion(container[2]);
+    editItem.setColor(container[3]);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
            drawableContainer[container[0]]);
    if( uploadImage.getTag().equals("set")) {
