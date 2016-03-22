@@ -92,4 +92,15 @@ public class WardrobeFragment extends
       adapter.notifyItemChanged(itemPosition);
     }
   }
+
+  public void search(CharSequence s) {
+    adapter.searchForItemsWith(s);
+  }
+
+  public void filter(int[] tags) {
+    if (type == TYPE_PIECE) {
+      adapter.filterItemsBy(tags);
+    }
+    // not filtering for outfits (yet)
+  }
 }

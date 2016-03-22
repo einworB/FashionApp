@@ -16,17 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
@@ -64,7 +62,6 @@ public class WardrobeActivity extends
   private MenuItem mFilterAction;
   private boolean isSearchOpened = false;
   private EditText edtSeach;
-
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
@@ -146,7 +143,7 @@ public class WardrobeActivity extends
     menuRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
     menuRecyclerView.setAdapter(menuAdapter);
     menuRecyclerView.setLayoutManager(
-            new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     return new WardrobePagerAdapter(fragmentManager);
   }
 
@@ -166,12 +163,12 @@ public class WardrobeActivity extends
 
   @Override public void onLinkClicked(String title) {
     Intent intent = LinkService.getLink(this, title);
-    if(intent != null && title.contains("Settings")) {
+    if (intent != null && title.contains("Settings")) {
       ArrayList<WardrobeMenuWardrobeItem> wardrobes = new ArrayList<>();
       List<WardrobeMenuItem> menuItems = menuAdapter.getItems();
       for (WardrobeMenuItem item : menuItems) {
         if (item instanceof WardrobeMenuWardrobeItem) {
-          wardrobes.add((WardrobeMenuWardrobeItem)item);
+          wardrobes.add((WardrobeMenuWardrobeItem) item);
         }
       }
       intent.putParcelableArrayListExtra(SettingsActivity.EXTRAS_WARDROBES, wardrobes);
@@ -184,25 +181,26 @@ public class WardrobeActivity extends
   }
 
   @Override public void onBackPressed() {
-    MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Quit")
-        .content("Do you really want to quit the application?")
-        .positiveText(R.string.dialog_positive)
-        .negativeText(R.string.dialog_negative);
-    builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-      @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        // "exits" the application
-        //Intent intent = new Intent(Intent.ACTION_MAIN);
-        //intent.addCategory(Intent.CATEGORY_HOME);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(intent);
-        finish();
-      }
-    }).build().show();
-
-    if(isSearchOpened) {
+    if (isSearchOpened) {
       handleMenuSearch();
-      return;
     }
+    else {
+      MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Quit")
+          .content("Do you really want to quit the application?")
+          .positiveText(R.string.dialog_positive)
+          .negativeText(R.string.dialog_negative);
+      builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+        @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+          // "exits" the application
+          //Intent intent = new Intent(Intent.ACTION_MAIN);
+          //intent.addCategory(Intent.CATEGORY_HOME);
+          //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          //startActivity(intent);
+          finish();
+        }
+      }).build().show();
+    }
+
   }
 
   public void onNewWardrobeCreated() {
@@ -210,10 +208,11 @@ public class WardrobeActivity extends
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == REQUESTCODE_SETTINGS && resultCode == SettingsActivity.RESULTCODE_WARDROBE_DELETED) {
+    if (requestCode == REQUESTCODE_SETTINGS
+        && resultCode == SettingsActivity.RESULTCODE_WARDROBE_DELETED) {
       // wardrobe was deleted, reload menu
       loadData(true);
-    } else if(requestCode == REQUESTCODE_CREATE) {
+    } else if (requestCode == REQUESTCODE_CREATE) {
       // pieces and outfits may have changed, handled by fragments
       for (Fragment f : fragmentManager.getFragments()) {
         f.onActivityResult(requestCode, resultCode, data);
@@ -223,91 +222,154 @@ public class WardrobeActivity extends
     super.onActivityResult(requestCode, resultCode, data);
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu, menu);
     return true;
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     mSearchAction = menu.findItem(R.id.action_search);
     mFilterAction = menu.findItem(R.id.action_filter);
     return super.onPrepareOptionsMenu(menu);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
-    if(id==R.id.action_search){
+    if (id == R.id.action_search) {
       handleMenuSearch();
       return true;
-    }
-    else if(id== R.id.action_filter){
+    } else if (id == R.id.action_filter) {
       handleMenuFilter();
       return true;
     }
     return super.onOptionsItemSelected(item);
   }
 
-  private void handleMenuFilter() {
-    Toast.makeText(this, (CharSequence)"Filtering not yet implemented", Toast.LENGTH_LONG).show();
-  }
-
-  protected void handleMenuSearch(){
+  protected void handleMenuSearch() {
     ActionBar action = getSupportActionBar(); //get the actionbar
-    if(isSearchOpened){ //test if the search is open
+    if (isSearchOpened) { //test if the search is open
 
-      action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-      action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-
-      mFilterAction.setVisible(true);
+      if (action != null) {
+        action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
+        action.setDisplayShowTitleEnabled(true); //show the title in the action bar
+      }
 
       //hides the keyboard
       InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
 
-      mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search));
-      isSearchOpened = false;
+      for (Fragment f : fragmentManager.getFragments()) {
+        if (f instanceof WardrobeFragment) {
+          ((WardrobeFragment) f).search(null);
+        }
+      }
 
+      mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search));
+      mFilterAction.setVisible(true);
+      isSearchOpened = false;
     } else { //open the search entry
 
-      action.setDisplayShowCustomEnabled(true); //enable it to display a
-      // custom view in the action bar.
-      action.setCustomView(R.layout.search_bar);//add the custom view
-      action.setDisplayShowTitleEnabled(false); //hide the title
+      if (action != null) {
+        action.setDisplayShowCustomEnabled(true); //enable it to display a
+        // custom view in the action bar.
+        action.setCustomView(R.layout.search_bar);//add the custom view
+        action.setDisplayShowTitleEnabled(false); //hide the title
+      }
+
       mFilterAction.setVisible(false);
 
-      edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
+      edtSeach = (EditText) action.getCustomView().findViewById(R.id.edtSearch); //the text editor
       edtSeach.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+                                        @Override
+                                        public void beforeTextChanged(CharSequence s, int start,
+                                            int count, int after) {
+                                        }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
+                                        @Override
+                                        public void onTextChanged(CharSequence s, int start,
+                                            int before, int count) {
+                                          for (Fragment f : fragmentManager.getFragments()) {
+                                            if (f instanceof WardrobeFragment) {
+                                              ((WardrobeFragment) f).search(s);
+                                            }
+                                          }
+                                        }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-          Toast.makeText(getApplicationContext(), (CharSequence)s, Toast.LENGTH_LONG).show();
-        }
-      });
+                                        @Override public void afterTextChanged(Editable s) {
+                                        }
+                                      }
+
+      );
       edtSeach.requestFocus();
 
       //open the keyboard focused in the edtSearch
       InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
-
       //add the close icon
-      mSearchAction.setIcon(getResources().getDrawable(R.drawable.crop__ic_cancel));
+      mSearchAction.setIcon(
+
+          getResources()
+
+              .
+
+                  getDrawable(R.drawable.crop__ic_cancel)
+
+      );
 
       isSearchOpened = true;
     }
   }
 
-  private void doSearch(CharSequence s) {
-    Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+  private void handleMenuFilter() {
+    String[] seasons = { "no filter", "Spring", "Summer", "Fall", "Winter" };
+    String[] categories = { "no filter", "top", "bottom", "shoe", "accessoire" };
+    String[] occasions = { "no filter", "evening", "beach", "couch", "sport" };
+    String[] colors = {
+        "no filter", "red", "blue", "green", "yellow", "black", "white", "pink", "purple", "orange",
+        "turquoise"
+    };
+
+    final ArrayAdapter<String> season_adp =
+        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasons);
+    final ArrayAdapter<String> cat_adp =
+        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+    final ArrayAdapter<String> occ_adp =
+        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, occasions);
+    final ArrayAdapter<String> col_adp =
+        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colors);
+
+    LayoutInflater factory = LayoutInflater.from(this);
+    final View stdView = factory.inflate(R.layout.filter_dialog, null);
+    LinearLayout linearLayout = (LinearLayout) stdView.findViewById(R.id.filter_layout);
+    final Spinner sp_cat = (Spinner) linearLayout.findViewById(R.id.filter_cat);
+    final Spinner sp_season = (Spinner) linearLayout.findViewById(R.id.filter_season);
+    final Spinner sp_occasion = (Spinner) linearLayout.findViewById(R.id.filter_occasion);
+    final Spinner sp_color = (Spinner) linearLayout.findViewById(R.id.filter_color);
+
+    sp_cat.setAdapter(cat_adp);
+    sp_season.setAdapter(season_adp);
+    sp_occasion.setAdapter(occ_adp);
+    sp_color.setAdapter(col_adp);
+
+    MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Filter")
+        .positiveText(R.string.dialog_positive)
+        .negativeText(R.string.dialog_negative)
+        .onPositive(new MaterialDialog.SingleButtonCallback() {
+          @Override
+          public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+            int[] itemPositions = new int[] {
+                sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
+                sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
+            };
+            for (Fragment f : fragmentManager.getFragments()) {
+              if (f instanceof WardrobeFragment) {
+                ((WardrobeFragment) f).filter(itemPositions);
+              }
+            }
+          }
+        });
+    builder.customView(linearLayout, true);
+    builder.build().show();
   }
 }

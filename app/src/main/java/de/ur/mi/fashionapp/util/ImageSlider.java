@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.util;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
@@ -28,6 +29,9 @@ public class ImageSlider {
   private int length;
   private int maxTranslation;
 
+  private List<Integer> itemIndex;
+  private Drawable tempDrawable;
+
   public interface ImageSliderListener {
     void onImageSelected(View root, int id);
   }
@@ -46,30 +50,36 @@ public class ImageSlider {
   }
 
   private void init() {
-    icons = new ArrayList<>(length-1);
-    for (int i = 1; i < length; i++) {
-      icons.add((ImageView) root.findViewWithTag("icon"+i));
-    }
+    icons = new ArrayList<>(length - 1);
+    itemIndex = new ArrayList<>(length);
+    //selector
     selector = (ImageView) root.findViewWithTag("selector");
+    itemIndex.add(0);
+    //icons
+    for (int i = 1; i < length; i++) {
+      icons.add((ImageView) root.findViewWithTag("icon" + i));
+      itemIndex.add(i);
+    }
 
     if (reverse) {
-      slideLeft = ObjectAnimator.ofFloat(root, "translationX", 0, -dpToPixel(context, maxTranslation));
-    }
-    else {
-      slideLeft = ObjectAnimator.ofFloat(root, "translationX", dpToPixel(context, maxTranslation), 0);
+      slideLeft =
+          ObjectAnimator.ofFloat(root, "translationX", 0, -dpToPixel(context, maxTranslation));
+    } else {
+      slideLeft =
+          ObjectAnimator.ofFloat(root, "translationX", dpToPixel(context, maxTranslation), 0);
     }
     slideLeft.setDuration(500);
     slideLeft.setInterpolator(new ImageSliderInterpolator());
 
     if (reverse) {
-      slideRight = ObjectAnimator.ofFloat(root, "translationX", -dpToPixel(context, maxTranslation), 0);
-    }
-    else {
-      slideRight = ObjectAnimator.ofFloat(root, "translationX", 0, dpToPixel(context, maxTranslation));
+      slideRight =
+          ObjectAnimator.ofFloat(root, "translationX", -dpToPixel(context, maxTranslation), 0);
+    } else {
+      slideRight =
+          ObjectAnimator.ofFloat(root, "translationX", 0, dpToPixel(context, maxTranslation));
     }
     slideRight.setDuration(500);
     slideRight.setInterpolator(new ImageSliderInterpolator());
-
   }
 
   private void bindView() {
@@ -80,13 +90,23 @@ public class ImageSlider {
     });
 
     if (listener != null) {
-      for (ImageView icon : icons) {
-        final Drawable drawable = icon.getDrawable();
+      for (final ImageView icon : icons) {
         icon.setOnClickListener(new View.OnClickListener() {
           @Override public void onClick(View v) {
             animateContainer();
-            listener.onImageSelected(root, 0);
-            selector.setImageDrawable(drawable);
+            String tag = icon.getTag().toString();
+            if (tag != null) {
+              //swap indizes and drawables
+              int iconNum = Integer.parseInt(tag.substring(4));
+              int temp = itemIndex.get(iconNum);
+              itemIndex.set(iconNum, itemIndex.get(0));
+              itemIndex.set(0, temp);
+              Drawable tempDrawable = icon.getDrawable();
+              icon.setImageDrawable(selector.getDrawable());
+              selector.setImageDrawable(tempDrawable);
+              listener.onImageSelected(root, temp);
+              Log.d("IMAGESLIDER", "item number " + temp + " selected in " + root.toString());
+            }
           }
         });
       }
@@ -98,15 +118,13 @@ public class ImageSlider {
       controller.onSliderOpen(this);
       if (reverse) {
         slideLeft.start();
-      }
-      else {
+      } else {
         slideRight.start();
       }
     } else {
       if (reverse) {
         slideRight.start();
-      }
-      else {
+      } else {
         slideLeft.start();
       }
     }

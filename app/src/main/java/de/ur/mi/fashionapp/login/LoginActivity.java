@@ -86,8 +86,9 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
   public void openRegisterFragment(){
     FragmentManager manager = getSupportFragmentManager();
     FragmentTransaction transaction = manager.beginTransaction();
-    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out);
+    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out);
     transaction.replace(R.id.contentView, new RegisterFragment());
+    transaction.addToBackStack(null);
     transaction.commit();
   }
   public void onPasswordResetSuccess(){

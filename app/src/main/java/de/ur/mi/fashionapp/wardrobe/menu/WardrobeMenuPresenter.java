@@ -1,8 +1,10 @@
 package de.ur.mi.fashionapp.wardrobe.menu;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
 
   private Context context;
   private  List<WardrobeMenuItem> items;
+  public static final int MAX_LENGTH_WARDROBE_NAME = 20;
 
   public WardrobeMenuPresenter(Context context, WardrobeMenuView view) {
     this.context = context;
@@ -67,13 +70,13 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     final EditText input = new EditText(context);
     input.setHint("Name");
     builder.setView(input);
-
-    // Set up the buttons
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         String wardropeName = "failure";
-        if(input.getText().toString()!= null) wardropeName = input.getText().toString();
+        if (input.getText().toString() != null) {
+          wardropeName = input.getText().toString();
+        }
 
         //This Method is to create a new wardrope;
         String userID = ParseUser.getCurrentUser().getObjectId();

@@ -57,6 +57,8 @@ public class EditPieceActivity
   private View occasionContainer;
   private ImageView uploadImage;
 
+  public final static int MAX_LENGTH_PIECE_NAME = 20;
+
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
   int[] container = new int[]{4,0,0,0};
@@ -89,9 +91,9 @@ public class EditPieceActivity
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
     sliderController.addSlider(seasonContainer, false, 5);
-    sliderController.addSlider(categoryContainer, false, 6);
+    sliderController.addSlider(categoryContainer, false, 5);
     sliderController.addSlider(colorContainer, false, 7);
-    sliderController.addSlider(occasionContainer, true, 5);
+    sliderController.addSlider(occasionContainer, true, 4);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,9 +147,9 @@ public class EditPieceActivity
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
     editItem.setCat(container[0]);
-    editItem.setTag1(container[1]);
-    editItem.setTag2(container[2]);
-    editItem.setTag3(container[3]);
+    editItem.setSeason(container[1]);
+    editItem.setOccasion(container[2]);
+    editItem.setColor(container[3]);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
            drawableContainer[container[0]]);
    if( uploadImage.getTag().equals("set")) {
@@ -157,6 +159,9 @@ public class EditPieceActivity
     if(et.getText().toString().length()>0) {
       presenter.createPiece(editItem, true);
     }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
+    if(et.getText().toString().length()>MAX_LENGTH_PIECE_NAME) {
+      presenter.createPiece(editItem, true);
+    }else Toast.makeText(this, (CharSequence)"Name too long", Toast.LENGTH_LONG).show();
   }
 
   private void updatePiece() {

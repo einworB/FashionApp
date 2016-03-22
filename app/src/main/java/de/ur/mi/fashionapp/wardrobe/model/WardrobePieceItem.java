@@ -12,9 +12,9 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
   @ParcelableNoThanks public static final int MAX_IMAGE_HEIGHT = 250;
   @ParcelableNoThanks public static final int MAX_IMAGE_WIDTH = 250;
   int category;
-  int tag1;
-  int tag2;
-  int tag3;
+  int season;
+  int occasion;
+  int color;
 
   public static final Creator<WardrobePieceItem> CREATOR = new Creator<WardrobePieceItem>() {
     @Override public WardrobePieceItem createFromParcel(Parcel source) {
@@ -35,26 +35,26 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
   public int getCat() {
     return category;
   }
-  public int getTag1() {
-    return tag1;
+  public int getSeason() {
+    return season;
   }
-  public int getTag2() {
-    return tag2;
+  public int getOccasion() {
+    return occasion;
   }
-  public int getTag3() {
-    return tag3;
+  public int getColor() {
+    return color;
   }
   public void setCat(int cat) {
     category = cat;
   }
-  public void setTag2(int tag) {
-    tag2 = tag;
+  public void setOccasion(int tag) {
+    occasion = tag;
   }
-  public void setTag1(int tag) {
-    tag1 = tag;
+  public void setSeason(int tag) {
+    season = tag;
   }
-  public void setTag3(int tag) {
-    tag3 = tag;
+  public void setColor(int tag) {
+    color = tag;
   }
 
 }
