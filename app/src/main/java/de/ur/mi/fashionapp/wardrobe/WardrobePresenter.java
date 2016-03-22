@@ -105,13 +105,13 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
       }
     });
     piece.setCat(obj.getInt("Category"));
-    Log.d("WardrobePresenter", "tag1: " + obj.getInt("Tag1"));
-    Log.d("WardrobePresenter", "tag2: "+obj.getInt("Tag2"));
-    Log.d("WardrobePresenter", "tag3: "+obj.getInt("Tag3"));
+    //Log.d("WardrobePresenter", "tag1: " + obj.getInt("Tag1"));
+    //Log.d("WardrobePresenter", "tag2: "+obj.getInt("Tag2"));
+    //Log.d("WardrobePresenter", "tag3: "+obj.getInt("Tag3"));
     piece.setTag1(obj.getInt("Tag1"));
     piece.setTag2(obj.getInt("Tag2"));
     piece.setTag3(obj.getInt("Tag3"));
-    Log.d("WardrobePresenter", "piece: " + piece.getTag1());
+    //Log.d("WardrobePresenter", "piece: " + piece.getTag1());
     return piece;
   }
 

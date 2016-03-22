@@ -14,6 +14,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -57,6 +61,7 @@ public class WardrobeActivity extends
   private WardrobePagerAdapter adapter;
   private ActionBarDrawerToggle drawerToggle;
   private MenuItem mSearchAction;
+  private MenuItem mFilterAction;
   private boolean isSearchOpened = false;
   private EditText edtSeach;
 
@@ -227,6 +232,7 @@ public class WardrobeActivity extends
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     mSearchAction = menu.findItem(R.id.action_search);
+    mFilterAction = menu.findItem(R.id.action_filter);
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -237,47 +243,56 @@ public class WardrobeActivity extends
       handleMenuSearch();
       return true;
     }
+    else if(id== R.id.action_filter){
+      handleMenuFilter();
+      return true;
+    }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void handleMenuFilter() {
+    Toast.makeText(this, (CharSequence)"Filtering not yet implemented", Toast.LENGTH_LONG).show();
   }
 
   protected void handleMenuSearch(){
     ActionBar action = getSupportActionBar(); //get the actionbar
-
     if(isSearchOpened){ //test if the search is open
 
       action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
       action.setDisplayShowTitleEnabled(true); //show the title in the action bar
 
+      mFilterAction.setVisible(true);
+
       //hides the keyboard
       InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
 
-      //add the search icon in the action bar
-      mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_icon_addpic));
-
+      mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search));
       isSearchOpened = false;
+
     } else { //open the search entry
 
       action.setDisplayShowCustomEnabled(true); //enable it to display a
       // custom view in the action bar.
       action.setCustomView(R.layout.search_bar);//add the custom view
       action.setDisplayShowTitleEnabled(false); //hide the title
+      mFilterAction.setVisible(false);
 
       edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
-
-      //this is a listener to do a search when the user clicks on search button
-      edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      edtSeach.addTextChangedListener(new TextWatcher() {
         @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-          if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            doSearch();
-            return true;
-          }
-          return false;
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+          Toast.makeText(getApplicationContext(), (CharSequence)s, Toast.LENGTH_LONG).show();
         }
       });
-
-
       edtSeach.requestFocus();
 
       //open the keyboard focused in the edtSearch
@@ -292,7 +307,7 @@ public class WardrobeActivity extends
     }
   }
 
-  private void doSearch() {
-//
+  private void doSearch(CharSequence s) {
+    Toast.makeText(this, s, Toast.LENGTH_LONG).show();
   }
 }
