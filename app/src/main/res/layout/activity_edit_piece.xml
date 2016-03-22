@@ -103,8 +103,8 @@
           <LinearLayout android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/edit_piece_category_container"
-              android:layout_marginLeft="-225dp"
-              android:layout_marginStart="-225dp"
+              android:layout_marginLeft="-180dp"
+              android:layout_marginStart="-180dp"
               android:background="@drawable/rect_dark_grey"
               android:paddingTop="3dp"
               android:paddingBottom="3dp"
@@ -127,10 +127,6 @@
                 android:src="@drawable/ic_icon_bottom"
                 android:layout_marginRight="5dp"
                 android:tag="icon4"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_top"
-                android:layout_marginRight="5dp"
-                android:tag="icon5"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
                 android:src="@drawable/ic_icon_top"
                 android:layout_marginRight="5dp"
@@ -205,8 +201,8 @@
           <LinearLayout android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/edit_piece_occasion_container"
-              android:layout_marginRight="-180dp"
-              android:layout_marginEnd="-180dp"
+              android:layout_marginRight="-135dp"
+              android:layout_marginEnd="-135dp"
               android:background="@drawable/rect_dark_grey"
               android:paddingTop="3dp"
               android:paddingBottom="3dp"
@@ -229,11 +225,6 @@
                 android:src="@drawable/ic_icon_sport"
                 android:layout_marginLeft="5dp"
                 android:tag="icon3"/>
-            <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_couch"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="3dp"
-                android:tag="icon4"/>
 
           </LinearLayout>
 

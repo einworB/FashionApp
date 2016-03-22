@@ -91,9 +91,9 @@ public class EditPieceActivity
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
     sliderController.addSlider(seasonContainer, false, 5);
-    sliderController.addSlider(categoryContainer, false, 6);
+    sliderController.addSlider(categoryContainer, false, 5);
     sliderController.addSlider(colorContainer, false, 7);
-    sliderController.addSlider(occasionContainer, true, 5);
+    sliderController.addSlider(occasionContainer, true, 4);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
