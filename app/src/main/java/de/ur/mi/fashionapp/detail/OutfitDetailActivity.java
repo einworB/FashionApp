@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
@@ -151,5 +153,23 @@ public class OutfitDetailActivity
 
   @Override public void onImageLoaded(String pieceID) {
     setImage(pieceID);
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_outfit_detail, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.menu_outfit_detail_share:
+        // TODO: sharing here
+        return true;
+      case R.id.menu_outfit_detail_info:
+        // TODO: open selected piece detail here
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 }
