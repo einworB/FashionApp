@@ -18,6 +18,7 @@ public class EditOutfitActivity
     implements EditOutfitView {
 
   public static final String KEY_ITEM = "item";
+  public static final int MAX_LENGTH_OUTFIT_NAME = 20;
 
   private WardrobeOutfitItem editItem;
 

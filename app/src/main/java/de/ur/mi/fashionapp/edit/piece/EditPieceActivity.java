@@ -57,6 +57,8 @@ public class EditPieceActivity
   private View occasionContainer;
   private ImageView uploadImage;
 
+  public final static int MAX_LENGTH_PIECE_NAME = 20;
+
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
   int[] container = new int[]{4,0,0,0};
@@ -157,6 +159,9 @@ public class EditPieceActivity
     if(et.getText().toString().length()>0) {
       presenter.createPiece(editItem, true);
     }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
+    if(et.getText().toString().length()>MAX_LENGTH_PIECE_NAME) {
+      presenter.createPiece(editItem, true);
+    }else Toast.makeText(this, (CharSequence)"Name too long", Toast.LENGTH_LONG).show();
   }
 
   private void updatePiece() {

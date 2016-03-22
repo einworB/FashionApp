@@ -82,4 +82,27 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
     return -1;
   }
 
+  public void searchForItemsWith (String query){
+    if(query==null){
+      //show all items in wardrobe
+    }else{
+      //show only the items with "query" in the title
+    }
+  }
+
+  public void filterItemsBy (int[] filters){
+    if(filters[0]!=0){
+      //show all items with the category (filters[0]-1)
+    }
+    if(filters[1]!=0){
+      //show all items with the season (filters[1]-1)
+    }
+    if(filters[2]!=0){
+      //show all items with the occasion (filters[2]-1)
+    }
+    if(filters[3]!=0){
+      //show all items with the color (filters[3]-1)
+    }
+  }
+
 }

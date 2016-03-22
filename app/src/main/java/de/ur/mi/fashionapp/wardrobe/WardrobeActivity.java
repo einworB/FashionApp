@@ -283,6 +283,12 @@ public class WardrobeActivity extends
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
 
+            for (Fragment f : fragmentManager.getFragments()) {
+                if (f instanceof WardrobeFragment) {
+                    ((WardrobeFragment) f).search(null);
+                }
+            }
+
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search));
             mFilterAction.setVisible(true);
             isSearchOpened = false;
@@ -300,24 +306,25 @@ public class WardrobeActivity extends
 
             edtSeach = (EditText) action.getCustomView().findViewById(R.id.edtSearch); //the text editor
             edtSeach.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
+                                                @Override
+                                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                                }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
+                                                @Override
+                                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                    for (Fragment f : fragmentManager.getFragments()) {
+                                                        if (f instanceof WardrobeFragment) {
+                                                            ((WardrobeFragment) f).search(s);
+                                                        }
+                                                    }
+                                                }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // Toast.makeText(getApplicationContext(), (CharSequence) s, Toast.LENGTH_LONG).show();
-                    for (Fragment f : fragmentManager.getFragments()) {
-                        if (f instanceof WardrobeFragment) {
-                            ((WardrobeFragment) f).search(s);
-                        }
-                    }
-                }
-            });
+                                                @Override
+                                                public void afterTextChanged(Editable s) {
+                                                }
+                                            }
+
+            );
             edtSeach.requestFocus();
 
             //open the keyboard focused in the edtSearch
@@ -326,7 +333,15 @@ public class WardrobeActivity extends
 
 
             //add the close icon
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.crop__ic_cancel));
+            mSearchAction.setIcon(
+
+                    getResources()
+
+                            .
+
+                                    getDrawable(R.drawable.crop__ic_cancel)
+
+            );
 
             isSearchOpened = true;
         }

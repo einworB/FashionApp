@@ -95,13 +95,11 @@ public class WardrobeFragment extends
     }
   }
 
-  public void search(Editable s) {
-    //TODO: Adapter suchen lassen!!!
-    Log.d("searchForItemsWith",""+s);
+  public void search(CharSequence s) {
+    adapter.searchForItemsWith((String)s);
   }
 
   public void filter(int[] tags) {
-    //TODO: Adapter suchen lassen!!!
-    Log.d("filterForItemsWith",""+tags[0]+tags[1]+tags[2]+tags[3]);
+    adapter.filterItemsBy(tags);
   }
 }
