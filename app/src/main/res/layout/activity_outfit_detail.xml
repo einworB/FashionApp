@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +26,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.percent.PercentRelativeLayout
+    <ImageView
+        android:id="@+id/mainPiece"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:src="@drawable/ic_icon_top"/>
+
+    <!--<android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
@@ -54,7 +62,7 @@
             android:src="@drawable/ic_icon_onepiece"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/midPiece"/>
-    </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -65,9 +73,13 @@
         android:src="@android:drawable/ic_menu_edit"/>
 
 </android.support.design.widget.CoordinatorLayout>
-    <android.support.v7.widget.RecyclerView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/contentView"/>
+
     <include layout="@layout/cb_base_loading_view"/>
     <include layout="@layout/cb_base_error_view"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contentView"
+        android:layout_gravity="left|bottom" />
 </FrameLayout>
