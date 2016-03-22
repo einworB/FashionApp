@@ -34,11 +34,11 @@ public class OutfitDetailActivity
     setSupportActionBar(toolbar);
 
     mainPiece = (ImageView) findViewById(R.id.mainPiece);
-    leftPiece = (ImageView) findViewById(R.id.leftPiece);
-    midPiece = (ImageView) findViewById(R.id.midPiece);
-    rightPiece = (ImageView) findViewById(R.id.rightPiece);
+    //leftPiece = (ImageView) findViewById(R.id.leftPiece);
+    //midPiece = (ImageView) findViewById(R.id.midPiece);
+    //rightPiece = (ImageView) findViewById(R.id.rightPiece);
 
-    leftPiece.setOnClickListener(new View.OnClickListener() {
+    /*leftPiece.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         focusOnPiece(leftPiece);
       }
@@ -53,7 +53,7 @@ public class OutfitDetailActivity
       @Override public void onClick(View view) {
         focusOnPiece(rightPiece);
       }
-    });
+    });*/
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
