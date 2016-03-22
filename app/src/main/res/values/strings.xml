@@ -51,4 +51,5 @@
 
   <!-- Edit -->
   <string name="edit_piece_title">Name your new Piece</string>
+    <string name="title_activity_pick_outfit_pieces">Pick Pieces</string>
 </resources>
