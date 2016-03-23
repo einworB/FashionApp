@@ -2,26 +2,23 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
-
-import java.util.List;
-
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import java.util.List;
 
 /**
  * Created by Philip on 05/03/2016.
  */
 public class EditOutfitActivity
-        extends CBActivityMvpToolbar<LinearLayout, Object, EditOutfitView, EditOutfitPresenter>
+        extends CBActivityMvpToolbar<RecyclerView, Object, EditOutfitView, EditOutfitPresenter>
         implements EditOutfitView, EditOutfitAdapter.EditOutfitAdapterListener {
 
     static int REQUESTCODE_ADD = 401;
@@ -35,22 +32,18 @@ public class EditOutfitActivity
     private List<EditOutfitItem> pieces;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         editItem = getIntent().getParcelableExtra(KEY_ITEM);
         adapter = new EditOutfitAdapter(this, this);
-
-        // TODO: get parcelable item from bundle; if editItem == null new item is created
-    }
-
-    @Override
-    protected void onMvpViewCreated() {
-        super.onMvpViewCreated();
+        contentView.setAdapter(adapter);
+      contentView.setLayoutManager(new LinearLayoutManager(this));
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+              // TODO: move to linkservice; maybe pass data via Bundle
+              startActivityForResult(new Intent(EditOutfitActivity.this, PickOutfitPiecesActivity.class), REQUESTCODE_ADD);
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,6 +53,8 @@ public class EditOutfitActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
         }
+
+        // TODO: get parcelable item from bundle; if editItem == null new item is created
     }
 
     @NonNull
@@ -117,8 +112,12 @@ public class EditOutfitActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUESTCODE_ADD && resultCode == PickOutfitPiecesActivity.RESULTCODE_PIECES_SELECTED) {
+        if (requestCode == REQUESTCODE_ADD && resultCode == RESULT_OK) {
             //TODO: get selected items for outfit
+          if (data != null) {
+            // TODO: get item from intent and user other type than object!
+            Object item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
+          }
         }
 
         super.onActivityResult(requestCode, resultCode, data);

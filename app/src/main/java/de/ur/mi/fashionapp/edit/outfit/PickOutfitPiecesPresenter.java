@@ -15,4 +15,7 @@ public class PickOutfitPiecesPresenter extends MvpBasePresenter<PickOutfitPieces
         this.context = context;
         attachView(view);
     }
+
+    // this one is only needed if the pieces aren't passed from the last activity
+    // dont forget isViewAttached() and getView.showLoading/showError/showContent!
 }
