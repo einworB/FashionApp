@@ -2,7 +2,6 @@ package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
@@ -28,6 +27,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   private static final int FILTER_OCCASION = 2;
   private static final int FILTER_COLOR = 3;
 
+  private List<WardrobeItem> model = new ArrayList<>();
   private List<WardrobeItem> tempItems = new ArrayList<>();
 
   private WardrobeAdapterListener listener;
@@ -96,10 +96,14 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   public void searchForItemsWith(CharSequence query) {
     if (query == null || query.equals("")) {
       // show all items
-      setItems(tempItems);
+      items = new ArrayList<>(model);
     } else {
       if (tempItems == null || tempItems.size() < items.size()) {
         tempItems = new ArrayList<>(items);
+      }
+      if(items.size() < model.size()) {
+        // reset
+        items = new ArrayList<>(model);
       }
       items.clear();
       //show only the items with "query" in the title
@@ -120,6 +124,10 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
   public void filterItemsBy(int[] filters) {
     if (tempItems == null || tempItems.size() < items.size()) {
       tempItems = new ArrayList<>(items);
+    }
+    if(items.size() < model.size()) {
+      // reset
+      items = new ArrayList<>(model);
     }
 
     if (filters[FILTER_CATEGORY] != 0) {
@@ -169,5 +177,10 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
         currentItems.add(item);
       }
     }
+  }
+
+  @Override public void setItems(List<WardrobeItem> items) {
+    this.items = items;
+    this.model = new ArrayList<>(items);
   }
 }
