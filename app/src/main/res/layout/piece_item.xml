@@ -18,8 +18,7 @@
         android:id="@+id/label"
         app:layout_widthPercent="90%"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         android:layout_below="@+id/image"
         android:text="Item"
         android:textColor="@color/colorTextDark"/>

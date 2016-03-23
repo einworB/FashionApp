@@ -159,7 +159,7 @@ public class EditPieceActivity
     if(et.getText().toString().length()>0) {
       presenter.createPiece(editItem, true);
     }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
-    if(et.getText().toString().length()>MAX_LENGTH_PIECE_NAME) {
+    if(et.getText().toString().length()<=MAX_LENGTH_PIECE_NAME) {
       presenter.createPiece(editItem, true);
     }else Toast.makeText(this, (CharSequence)"Name too long", Toast.LENGTH_LONG).show();
   }

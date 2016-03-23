@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+
 import java.util.List;
 
 
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by Jana on 22.03.2016.
  */
 public class PickOutfitPiecesActivity
-        extends CBActivityMvpToolbar<RecyclerView, List<PickOutfitPieceItem>, PickOutfitPiecesView, PickOutfitPiecesPresenter>
+        extends CBActivityMvpToolbar<RecyclerView, List<WardrobeItem>, PickOutfitPiecesView, PickOutfitPiecesPresenter>
         implements PickOutfitPiecesView, PickOutfitPiecesAdapter.PickOutfitPiecesAdapterListener{
 
     public static String INTENT_EXTRA_PICKED_ITEM = "picked_item";
@@ -35,9 +37,12 @@ public class PickOutfitPiecesActivity
     }
 
     @Override
-    public void setData(List<PickOutfitPieceItem> data) {
+    public void setData(List<WardrobeItem> data) {
       // data is set from the presenter here (if(isViewAttached() getView().setData(data)
       // TODO: set the data to the adapter (adapter.setItems(data)
+        if (data != null && !data.isEmpty()) {
+            adapter.setItems(data);
+        }
     }
 
     @Override
@@ -46,11 +51,11 @@ public class PickOutfitPiecesActivity
     }
 
     @Override
-    public void onOutfitPieceItemsSelected(PickOutfitPieceItem item){
+    public void onOutfitPieceItemsSelected(WardrobeItem item){
         // set item here
         Intent intent = new Intent();
-        // only working with parcelable items; make pick item parcelable or use wardrobeitems
-        //intent.putExtra(INTENT_EXTRA_PICKED_ITEM, item);
+        // use wardrobeitems
+        intent.putExtra(INTENT_EXTRA_PICKED_ITEM, item);
         setResult(RESULT_OK, intent);
         finish();
     }

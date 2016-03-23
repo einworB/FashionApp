@@ -38,7 +38,8 @@
           android:hint="@string/edit_piece_title"
           android:layout_marginBottom="20dp"
           android:textColor="@color/cb_text_color_gray_dark"
-          android:textColorHint="@color/colorTextDark"/>
+          android:textColorHint="@color/colorTextDark"
+          android:maxLength="20"/>
 
       <ImageView android:layout_width="150dp" android:layout_height="150dp"
           android:id="@+id/edit_piece_image"

@@ -5,13 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+
 /**
  * Created by Philip on 23/03/2016.
  */
-public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<PickOutfitPieceItem>{
+public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobeItem>{
 
   interface PickOutfitPiecesAdapterListener {
-    void onOutfitPieceItemsSelected(PickOutfitPieceItem item);
+    void onOutfitPieceItemsSelected(WardrobeItem item);
   }
 
   public PickOutfitPiecesAdapter(Context context) {
