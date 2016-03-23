@@ -255,7 +255,8 @@ public class EditPieceActivity
     if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
       if (data == null || data.getData() == null) {
         // captured new image
-        beginCrop(Uri.fromFile(new File(fullSizeImagePath)));
+        if(fullSizeImagePath!=null)beginCrop(Uri.fromFile(new File(fullSizeImagePath)));
+        else Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
       } else {
         // picked existing image
         beginCrop(data.getData());
