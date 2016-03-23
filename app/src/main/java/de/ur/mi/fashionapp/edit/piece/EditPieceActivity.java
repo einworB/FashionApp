@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
@@ -27,6 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import com.soundcloud.android.crop.Crop;
+import com.woalk.apps.lib.colorpicker.ColorPickerDialog;
+import com.woalk.apps.lib.colorpicker.ColorPickerSwatch;
+import de.ur.mi.fashionapp.CatWrapper;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;
@@ -56,6 +60,8 @@ public class EditPieceActivity
   private View colorContainer;
   private View occasionContainer;
   private ImageView uploadImage;
+  private ImageView colorPickerView;
+  private int selectedColor;
 
   public final static int MAX_LENGTH_PIECE_NAME = 20;
 
@@ -82,17 +88,44 @@ public class EditPieceActivity
 
     seasonContainer = findViewById(R.id.edit_piece_season_container);
     categoryContainer = findViewById(R.id.edit_piece_category_container);
-    colorContainer = findViewById(R.id.edit_piece_color_container);
+    //colorContainer = findViewById(R.id.edit_piece_color_container);
     occasionContainer = findViewById(R.id.edit_piece_occasion_container);
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
+    colorPickerView = (ImageView) findViewById(R.id.edit_piece_color_picker);
+    selectedColor = Color.BLACK;
 
     uploadImage.setOnClickListener(new OnImageClickListener());
     uploadImage.setTag("0");
+    colorPickerView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        ColorPickerDialog dialog = ColorPickerDialog.newInstance(
+            R.string.edit_piece_pick_color,
+            new int[] { CatWrapper.COLOR_RED, CatWrapper.COLOR_BLUE, CatWrapper.COLOR_GREEN, CatWrapper.COLOR_YELLOW, CatWrapper.COLOR_BLACK, CatWrapper.COLOR_WHITE, CatWrapper.COLOR_PINK, CatWrapper.COLOR_PURPLE, CatWrapper.COLOR_ORANGE, CatWrapper.COLOR_TURQUOISE },
+        selectedColor,
+            4, // Number of columns
+            ColorPickerDialog.SIZE_SMALL);
+
+        dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener(){
+
+          @Override
+          public void onColorSelected(int color) {
+            selectedColor = color;
+            colorPickerView.setImageBitmap(null);
+            colorPickerView.setBackgroundColor(selectedColor);
+            Log.d("COLORPICKER", "Selected color: " + selectedColor);
+          }
+
+        });
+
+        dialog.show(getFragmentManager(), "some_tag");
+      }
+    });
 
     ImageSliderController sliderController = new ImageSliderController(this, this);
     sliderController.addSlider(seasonContainer, false, 5);
     sliderController.addSlider(categoryContainer, false, 5);
-    sliderController.addSlider(colorContainer, false, 7);
+    //sliderController.addSlider(colorContainer, false, 7);
     sliderController.addSlider(occasionContainer, true, 4);
   }
 
@@ -136,37 +169,47 @@ public class EditPieceActivity
     return R.layout.activity_edit_piece;
   }
 
-  @Override public void onPieceEdited() {
+  @Override public void onPieceEdited()
+  {
     finish();
   }
 
-
-
   private void createPiece() {
+    EditText et = (EditText) findViewById(R.id.edit_piece_name);
+    if (et.getText().toString().length() > 0 && et.getText().toString().length() < MAX_LENGTH_PIECE_NAME) {
+      editItem = new WardrobePieceItem();
+      setItemFields();
+      presenter.createPiece(editItem, true);
+    } else {
+      if (et.getText().toString().length() <= 0) {
+        Toast.makeText(this, "Type in a name", Toast.LENGTH_LONG).show();
+      }
+      if (et.getText().toString().length() >= MAX_LENGTH_PIECE_NAME) {
+        Toast.makeText(this, "Name too long", Toast.LENGTH_LONG).show();
+      }
+    }
+  }
+
+  private void updatePiece() {
+    // TODO: get data from EditTexts and ImageView for the updated WardrobePieceItem(editItemID, editItem, title)
+    setItemFields();
+    presenter.updatePiece(editItem.getID(), editItem, true);
+  }
+
+  private void setItemFields() {
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
     editItem.setCat(container[0]);
     editItem.setSeason(container[1]);
     editItem.setOccasion(container[2]);
-    editItem.setColor(container[3]);
+    editItem.setColor(selectedColor);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
-           drawableContainer[container[0]]);
-   if( uploadImage.getTag().equals("set")) {
-     bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
-   }
+        drawableContainer[container[0]]);
+    if( uploadImage.getTag().equals("set")) {
+      bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
+    }
     editItem.setImage(bitmap);
-    if(et.getText().toString().length()>0) {
-      presenter.createPiece(editItem, true);
-    }else Toast.makeText(this, (CharSequence)"Type in a name", Toast.LENGTH_LONG).show();
-    if(et.getText().toString().length()<=MAX_LENGTH_PIECE_NAME) {
-      presenter.createPiece(editItem, true);
-    }else Toast.makeText(this, (CharSequence)"Name too long", Toast.LENGTH_LONG).show();
-  }
-
-  private void updatePiece() {
-    // TODO: get data from EditTexts and ImageView for the updated WardrobePieceItem(editItemID, editItem, title)
-    presenter.updatePiece(editItem.getID(), editItem, true);
   }
 
   @Override public void onImageSelected(View root, int id) {

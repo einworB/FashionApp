@@ -1,5 +1,7 @@
 package de.ur.mi.fashionapp;
 
+import android.graphics.Color;
+
 /**
  * Created by Mario on 01.03.2016.
  */
@@ -14,16 +16,16 @@ public class CatWrapper {
   public static final int SEASON_SUMMER = 2;
   public static final int SEASON_FALL = 3;
   public static final int SEASON_WINTER = 4;
-  public static final int COLOR_RED = 0;
-  public static final int COLOR_BLUE = 1;
-  public static final int COLOR_GREEN = 2;
-  public static final int COLOR_YELLOW = 3;
-  public static final int COLOR_BLACK = 4;
-  public static final int COLOR_WHITE = 5;
-  public static final int COLOR_PINK = 6;
-  public static final int COLOR_PURPLE = 7;
-  public static final int COLOR_ORANGE = 8;
-  public static final int COLOR_TURQUOISE = 9;
+  public static final int COLOR_RED = Color.RED;
+  public static final int COLOR_BLUE = Color.BLUE;
+  public static final int COLOR_GREEN = Color.GREEN;
+  public static final int COLOR_YELLOW = Color.YELLOW;
+  public static final int COLOR_BLACK = Color.BLACK;
+  public static final int COLOR_WHITE = Color.WHITE;
+  public static final int COLOR_PINK = 0xFFFF69B4;
+  public static final int COLOR_PURPLE = 0xFF800080;
+  public static final int COLOR_ORANGE = 0xFFFFA500;
+  public static final int COLOR_TURQUOISE = 0xFF008080;
   public static final int OCCASION_EVENING = 1;
   public static final int OCCASION_BEACH = 2;
   public static final int OCCASION_COUCH = 0;
@@ -83,8 +85,9 @@ public class CatWrapper {
         return R.color.md_orange_600;
       case COLOR_TURQUOISE:
         return R.color.md_green_200;
+      default:
+        return R.color.md_black;
     }
-    return -1;
   }
 
   public int occasionWrap(int num) {
