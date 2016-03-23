@@ -134,7 +134,7 @@
 
           </LinearLayout>
 
-          <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+          <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="Color"
             android:textColor="@color/cb_text_color_gray_dark"
             android:textSize="16sp"
@@ -182,7 +182,7 @@
                 android:layout_marginRight="5dp"
                 android:tag="selector"/>
 
-          </LinearLayout>
+          </LinearLayout>-->
 
         </LinearLayout>
 
@@ -227,7 +227,19 @@
                 android:tag="icon3"/>
 
           </LinearLayout>
-
+          <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Color"
+              android:textColor="@color/cb_text_color_gray_dark"
+              android:textSize="16sp"
+              android:layout_marginBottom="10dp"
+              android:layout_gravity="end"/>
+          <ImageView
+              android:id="@+id/edit_piece_color_picker"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:src="@drawable/ic_icon_colors"
+              android:layout_gravity="end"
+              android:tag="selector"/>
 
 
         </LinearLayout>
