@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
@@ -103,8 +104,11 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
       items.clear();
       //show only the items with "query" in the title
       for (WardrobeItem item : tempItems) {
-        String title = item.getTitle();
-        // case sensitive search! case insensitive would work with toUpperCase on both strings and then contains check
+        String title= item.getTitle();
+        if(title!=null) {
+          title = title.toLowerCase();
+        }
+        query = (""+query).toLowerCase();
         if (title != null && title.contains(query)) {
           items.add(item);
         }

@@ -62,6 +62,7 @@ public class WardrobeActivity extends
   private MenuItem mFilterAction;
   private boolean isSearchOpened = false;
   private EditText edtSeach;
+  private int[] FilterArray;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
@@ -143,7 +144,7 @@ public class WardrobeActivity extends
     menuRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
     menuRecyclerView.setAdapter(menuAdapter);
     menuRecyclerView.setLayoutManager(
-        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     return new WardrobePagerAdapter(fragmentManager);
   }
 
@@ -322,7 +323,7 @@ public class WardrobeActivity extends
   }
 
   private void handleMenuFilter() {
-    String[] seasons = { "no filter", "Spring", "Summer", "Fall", "Winter" };
+    String[] seasons = { "no filter","all seasons", "spring", "summer", "fall", "winter" };
     String[] categories = { "no filter", "top", "bottom", "shoe", "accessoire" };
     String[] occasions = { "no filter", "evening", "beach", "couch", "sport" };
     String[] colors = {
@@ -352,16 +353,27 @@ public class WardrobeActivity extends
     sp_occasion.setAdapter(occ_adp);
     sp_color.setAdapter(col_adp);
 
+    if(FilterArray!=null){
+      sp_cat.setSelection(FilterArray[0]);
+      sp_season.setSelection(FilterArray[1]);
+      sp_occasion.setSelection(FilterArray[2]);
+      sp_color.setSelection(FilterArray[3]);
+    }
+
     MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Filter")
         .positiveText(R.string.dialog_positive)
         .negativeText(R.string.dialog_negative)
         .onPositive(new MaterialDialog.SingleButtonCallback() {
           @Override
           public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            int[] itemPositions = new int[] {
-                sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
-                sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
+            int[] itemPositions = new int[]{
+                    sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
+                    sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
             };
+            FilterArray = new int[]{sp_cat.getSelectedItemPosition(),
+                    sp_season.getSelectedItemPosition(),
+                    sp_occasion.getSelectedItemPosition(),
+                    sp_color.getSelectedItemPosition()};
             for (Fragment f : fragmentManager.getFragments()) {
               if (f instanceof WardrobeFragment) {
                 ((WardrobeFragment) f).filter(itemPositions);
@@ -372,4 +384,5 @@ public class WardrobeActivity extends
     builder.customView(linearLayout, true);
     builder.build().show();
   }
+
 }

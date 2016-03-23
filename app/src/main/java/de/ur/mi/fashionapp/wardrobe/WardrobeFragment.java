@@ -98,9 +98,9 @@ public class WardrobeFragment extends
   }
 
   public void filter(int[] tags) {
+    //Filter only pieces-> outfit got no category and tags
     if (type == TYPE_PIECE) {
       adapter.filterItemsBy(tags);
     }
-    // not filtering for outfits (yet)
   }
 }
