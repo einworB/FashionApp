@@ -76,10 +76,15 @@
 
     <include layout="@layout/cb_base_loading_view"/>
     <include layout="@layout/cb_base_error_view"/>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:scrollbarAlwaysDrawHorizontalTrack="true">
     <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/contentView"
-        android:layout_gravity="left|bottom" />
+         />
+    </ScrollView>
 </FrameLayout>
