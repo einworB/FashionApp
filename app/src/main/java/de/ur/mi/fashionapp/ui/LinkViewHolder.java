@@ -29,5 +29,6 @@ public class LinkViewHolder extends RecyclerView.ViewHolder {
         listener.onLinkClicked(item.getTitle());
       }
     });
+    text.setTextSize(14);
   }
 }

@@ -5,17 +5,8 @@ package de.ur.mi.fashionapp.wardrobe.menu.model;
  */
 public class WardrobeMenuSectionItem extends WardrobeMenuItem {
 
-  private String title;
 
-  public WardrobeMenuSectionItem(String title) {
-    this.title = title;
+  public WardrobeMenuSectionItem() {
   }
 
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
 }

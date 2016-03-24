@@ -29,5 +29,6 @@ public class WardrobeViewHolder extends RecyclerView.ViewHolder {
         listener.onWardrobeClicked(item.getID(), item.getTitle());
       }
     });
+    text.setTextSize(14);
   }
 }
