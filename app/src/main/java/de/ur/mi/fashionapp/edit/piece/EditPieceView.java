@@ -7,4 +7,5 @@ import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
  */
 public interface EditPieceView extends MvpLceView<Object>{
   void onPieceEdited();
+  void onImageLoaded();
 }

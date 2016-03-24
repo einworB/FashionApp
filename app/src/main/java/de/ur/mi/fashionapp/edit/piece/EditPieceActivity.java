@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +54,7 @@ public class EditPieceActivity
 
   private WardrobePieceItem editItem;
 
+  private EditText editTitle;
   private View seasonContainer;
   private View categoryContainer;
   private View colorContainer;
@@ -70,22 +70,13 @@ public class EditPieceActivity
   int[] container = new int[]{4,0,0,0};
   int[] drawableContainer = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
 
-  @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-    super.onCreate(savedInstanceState, persistentState);
-    // TODO: get parcelable item from bundle; if editItem == null new item is created
-  }
-
-  @Override protected void onMvpViewCreated() {
-    super.onMvpViewCreated();
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    editItem = getIntent().getParcelableExtra(KEY_ITEM);
-    if (editItem != null) {
-      getSupportActionBar().setDisplayShowTitleEnabled(true);
-      getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
-    }
 
+    editTitle = (EditText) findViewById(R.id.edit_piece_name);
     seasonContainer = findViewById(R.id.edit_piece_season_container);
     categoryContainer = findViewById(R.id.edit_piece_category_container);
     //colorContainer = findViewById(R.id.edit_piece_color_container);
@@ -94,22 +85,41 @@ public class EditPieceActivity
     colorPickerView = (ImageView) findViewById(R.id.edit_piece_color_picker);
     selectedColor = Color.BLACK;
 
+    ImageSliderController sliderController = new ImageSliderController(this, this);
+    sliderController.addSlider(seasonContainer, false, 5, ImageSliderController.SLIDER_TYPE_SEASON);
+    sliderController.addSlider(categoryContainer, false, 5, ImageSliderController.SLIDER_TYPE_CATEGORY);
+    //sliderController.addSlider(colorContainer, false, 7);
+    sliderController.addSlider(occasionContainer, true, 4, ImageSliderController.SLIDER_TYPE_OCCASION);
+
+    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+    if (editItem != null) {
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
+      presenter.loadPieceImage(editItem.getID(), editItem);
+      editTitle.setText(editItem.getTitle());
+      sliderController.prefill(editItem);
+      selectedColor = editItem.getColor();
+      colorPickerView.setImageBitmap(null);
+      colorPickerView.setBackgroundColor(selectedColor);
+    }
+
     uploadImage.setOnClickListener(new OnImageClickListener());
     uploadImage.setTag("0");
     colorPickerView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
-        ColorPickerDialog dialog = ColorPickerDialog.newInstance(
-            R.string.edit_piece_pick_color,
-            new int[] { CatWrapper.COLOR_RED, CatWrapper.COLOR_BLUE, CatWrapper.COLOR_GREEN, CatWrapper.COLOR_YELLOW, CatWrapper.COLOR_BLACK, CatWrapper.COLOR_WHITE, CatWrapper.COLOR_PINK, CatWrapper.COLOR_PURPLE, CatWrapper.COLOR_ORANGE, CatWrapper.COLOR_TURQUOISE },
-        selectedColor,
-            4, // Number of columns
+        ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.edit_piece_pick_color,
+            new int[] {
+                CatWrapper.COLOR_RED, CatWrapper.COLOR_BLUE, CatWrapper.COLOR_GREEN,
+                CatWrapper.COLOR_YELLOW, CatWrapper.COLOR_BLACK, CatWrapper.COLOR_WHITE,
+                CatWrapper.COLOR_PINK, CatWrapper.COLOR_PURPLE, CatWrapper.COLOR_ORANGE,
+                CatWrapper.COLOR_TURQUOISE
+            }, selectedColor, 4, // Number of columns
             ColorPickerDialog.SIZE_SMALL);
 
-        dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener(){
+        dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 
-          @Override
-          public void onColorSelected(int color) {
+          @Override public void onColorSelected(int color) {
             selectedColor = color;
             colorPickerView.setImageBitmap(null);
             colorPickerView.setBackgroundColor(selectedColor);
@@ -121,12 +131,6 @@ public class EditPieceActivity
         dialog.show(getFragmentManager(), "some_tag");
       }
     });
-
-    ImageSliderController sliderController = new ImageSliderController(this, this);
-    sliderController.addSlider(seasonContainer, false, 5);
-    sliderController.addSlider(categoryContainer, false, 5);
-    //sliderController.addSlider(colorContainer, false, 7);
-    sliderController.addSlider(occasionContainer, true, 4);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,17 +178,20 @@ public class EditPieceActivity
     finish();
   }
 
+  @Override public void onImageLoaded() {
+    uploadImage.setImageBitmap(editItem.getImage());
+  }
+
   private void createPiece() {
-    EditText et = (EditText) findViewById(R.id.edit_piece_name);
-    if (et.getText().toString().length() > 0 && et.getText().toString().length() < MAX_LENGTH_PIECE_NAME) {
+    if (editTitle.getText().toString().length() > 0 && editTitle.getText().toString().length() < MAX_LENGTH_PIECE_NAME) {
       editItem = new WardrobePieceItem();
       setItemFields();
       presenter.createPiece(editItem, true);
     } else {
-      if (et.getText().toString().length() <= 0) {
+      if (editTitle.getText().toString().length() <= 0) {
         Toast.makeText(this, "Type in a name", Toast.LENGTH_LONG).show();
       }
-      if (et.getText().toString().length() >= MAX_LENGTH_PIECE_NAME) {
+      if (editTitle.getText().toString().length() >= MAX_LENGTH_PIECE_NAME) {
         Toast.makeText(this, "Name too long", Toast.LENGTH_LONG).show();
       }
     }

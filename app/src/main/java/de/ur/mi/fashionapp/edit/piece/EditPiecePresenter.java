@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import de.ur.mi.fashionapp.util.ImageHelper;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -118,6 +120,34 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
         else{
           if (isViewAttached())getView().showError(e,pullToRefresh);
         }
+      }
+    });
+  }
+
+  public void loadPieceImage(String id, final WardrobePieceItem piece) {
+    if (isViewAttached()) {
+      getView().showLoading(true);
+    }
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
+    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+
+    query.whereEqualTo("objectId", id);
+
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override public void done(List<ParseObject> objects, ParseException e) {
+        ParseObject obj = objects.get(0);
+        ParseFile fileObject = (ParseFile) obj.get("Image");
+        fileObject.getDataInBackground(new GetDataCallback() {
+          @Override public void done(byte[] data, ParseException e) {
+            if (e == null) {
+              piece.setImage(ImageHelper.getScaledBitmap(data));
+            }
+            if (isViewAttached()) {
+              getView().onImageLoaded();
+              getView().showContent();
+            }
+          }
+        });
       }
     });
   }
