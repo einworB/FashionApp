@@ -26,14 +26,13 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
         </android.support.design.widget.AppBarLayout>
 
+        <include layout="@layout/cb_base_loading_view"/>
+        <include layout="@layout/cb_base_error_view"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:id="@+id/contentView" />
     </android.support.design.widget.CoordinatorLayout>
-
-    <include layout="@layout/cb_base_loading_view"/>
-    <include layout="@layout/cb_base_error_view"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:id="@+id/contentView" />
 </FrameLayout>

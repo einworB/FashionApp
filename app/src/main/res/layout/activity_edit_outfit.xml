@@ -26,17 +26,7 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_input_add"
-            android:tint="@color/colorTextLight"
-            android:clickable="true"
-            app:borderWidth="0dp"
-            app:elevation="8dp"/>
+
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -70,4 +60,15 @@
             android:id="@+id/contentView" />
         </LinearLayout>
     </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/colorTextLight"
+        android:clickable="true"
+        app:borderWidth="0dp"
+        app:elevation="8dp"/>
 </FrameLayout>
