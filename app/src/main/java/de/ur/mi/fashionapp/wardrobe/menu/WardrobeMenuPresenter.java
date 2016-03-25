@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -47,7 +48,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
         getView().showLoading(false);
         if (e == null) {
           items = new ArrayList<>();
-          for( int i = 0; i<objects.size(); i++) {
+          for (int i = 0; i < objects.size(); i++) {
             WardrobeMenuWardrobeItem item = new WardrobeMenuWardrobeItem();
             item.setID(objects.get(i).getObjectId());
             item.setTitle(objects.get(i).getString("Name"));
@@ -56,9 +57,29 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
           }
           getView().setData(items);
           getView().showContent();
-        }
-        else{
+        } else {
           getView().showError(e, false);
+        }
+      }
+    });
+  }
+
+  public void getFirstWardrobeID(){
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
+    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    if (isViewAttached()) {
+      getView().showLoading(true);
+    }
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {//Find the wardrobes ob the user first
+        if (e == null) {
+          if (isViewAttached()) {
+            getView().showContent();
+            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId());
+          }
+        } else {
+          if (isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -73,14 +94,15 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        String wardropeName = "failure";
+        String wardropeNameEdit = "failure";
         if (input.getText().toString() != null) {
-          wardropeName = input.getText().toString();
+          wardropeNameEdit = input.getText().toString();
         }
+        final String wardropeName = wardropeNameEdit;
 
         //This Method is to create a new wardrope;
         String userID = ParseUser.getCurrentUser().getObjectId();
-        ParseObject wr = new ParseObject("Wardrope");
+        final ParseObject wr = new ParseObject("Wardrope");
         wr.put("Name", wardropeName);
         wr.put("UserID", userID);
         getView().showLoading(true);
@@ -89,6 +111,10 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
           public void done(com.parse.ParseException e) {
             if (e == null) {
               getView().showContent();
+              WardrobeMenuWardrobeItem wardrobe = new WardrobeMenuWardrobeItem();
+              wardrobe.setTitle(wardropeName);
+              wardrobe.setID(wr.getObjectId());
+              getView().onNewWardrobeCreated(wardrobe);
             } else {
               getView().showError(e, false);
             }

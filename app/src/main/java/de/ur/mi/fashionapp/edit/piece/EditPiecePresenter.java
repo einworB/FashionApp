@@ -33,6 +33,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       ParseObject wr = new ParseObject("Piece");
       wr.put("Name",item.getTitle());
       wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
+      wr.put("WardrobeID",item.getWardrobeID());
       wr.put("Category",item.getCat());
       wr.put("Tag1",item.getSeason());
       wr.put("Tag2",item.getOccasion());

@@ -64,6 +64,7 @@ public class EditPieceActivity
   private int selectedColor;
 
   public final static int MAX_LENGTH_PIECE_NAME = 20;
+  private String wardrobeID;
 
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
@@ -72,6 +73,8 @@ public class EditPieceActivity
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    wardrobeID = getIntent().getStringExtra("WardrobeID");
+    if(wardrobeID!= null)Log.d("Piece create aaaaaa", wardrobeID);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -204,9 +207,11 @@ public class EditPieceActivity
   }
 
   private void setItemFields() {
+    if(wardrobeID!= null)Log.d("Piece set aaaaaa", wardrobeID);
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
     editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
+    if(wardrobeID!=null)editItem.setWardrobeID(wardrobeID);
     editItem.setCat(container[0]);
     editItem.setSeason(container[1]);
     editItem.setOccasion(container[2]);
