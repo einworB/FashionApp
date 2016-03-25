@@ -112,20 +112,20 @@
               android:layout_marginBottom="20dp">
 
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_accessoires"
+                android:src="@drawable/ic_icon_bottom"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="3dp"
                 android:tag="icon1"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_onepiece"
+                android:src="@drawable/ic_icon_shoe"
                 android:layout_marginRight="5dp"
                 android:tag="icon2"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_shoe"
+                android:src="@drawable/ic_icon_onepiece"
                 android:layout_marginRight="5dp"
                 android:tag="icon3"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"
-                android:src="@drawable/ic_icon_bottom"
+                android:src="@drawable/ic_icon_accessoires"
                 android:layout_marginRight="5dp"
                 android:tag="icon4"/>
             <ImageView android:layout_width="40dp" android:layout_height="40dp"

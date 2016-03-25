@@ -32,6 +32,8 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
             ParseObject wr = new ParseObject("Outfit");
             wr.put("Name", item.getTitle());
             wr.put("UserID", ParseUser.getCurrentUser().getObjectId());
+            wr.put("WardrobeID",item.getWardrobeID());
+
 
 
             //Add all the pieces id's

@@ -13,6 +13,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   String title;
   String ID;
+  String WardrobeID;
   @ParcelableNoThanks Bitmap image;
 
   public static final Creator<WardrobeItem> CREATOR = new Creator<WardrobeItem>() {
@@ -26,6 +27,14 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
       return new WardrobeItem[size];
     }
   };
+
+  public String getWardrobeID() {
+    return WardrobeID;
+  }
+
+  public void setWardrobeID(String id) {
+    WardrobeID = id;
+  }
 
   public String getTitle() {
     return title;

@@ -2,6 +2,8 @@ package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -11,6 +13,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import de.ur.mi.fashionapp.util.ImageHelper;
+import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -25,49 +28,62 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
   private Context context;
   private List<WardrobeItem> items;
 
+
   public WardrobePresenter(Context context, WardrobeView view) {
     this.context = context;
     attachView(view);
   }
 
-  public void loadWardrobe(String ID) {
-    // TODO: extend item models, maybe load only one big wrapper item which has getPieces() and getOutfits() functions
-    // TODO: replace dummy list with real items loaded from parse
 
+
+ private void  loadFirstWardrobeID(final boolean isOutfit, final boolean pullToRefresh) {
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
+    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    if (isViewAttached()) {getView().showLoading(pullToRefresh);}
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {//Find the wardrobes ob the user first
+        if (e == null) {
+          loadWardrobeItems(isOutfit, objects.get(0).getObjectId());
+        } else {
+          if (isViewAttached()) getView().showError(e, false);
+        }
+      }
+    });
+ }
+
+  public void loadPieces(boolean pullToRefresh, String wardrobeID) {
+    boolean isOutfit = false;
+    if(wardrobeID==null)loadFirstWardrobeID(isOutfit, pullToRefresh);
+    else loadWardrobeItems(isOutfit,wardrobeID);
   }
 
-  public void loadPieces(boolean pullToRefresh) {
-    loadWardrobeItems(false, pullToRefresh);
+  public void loadOutfits(boolean pullToRefresh,String wardrobeID) {
+    boolean isOutfit = true;
+    if(wardrobeID==null)loadFirstWardrobeID(isOutfit, pullToRefresh);
+    else loadWardrobeItems(isOutfit, wardrobeID);
   }
 
-  public void loadOutfits(boolean pullToRefresh) {
-    loadWardrobeItems(true, pullToRefresh);
-  }
-
-  public void loadWardrobeItems(final boolean isOutfit, boolean pullToRefresh) {
-    if (isViewAttached()) {
-      getView().showLoading(pullToRefresh);
-    }
+  public void loadWardrobeItems(final boolean isOutfit, String firstWardrobeID) {//then load its items
     ParseQuery<ParseObject> query;
-    if (isOutfit) {
-      query = ParseQuery.getQuery("Outfit");
-    } else {
-      query = ParseQuery.getQuery("Piece");
+    if(isOutfit){
+      query = new ParseQuery<ParseObject>("Outfit");
+    }
+    else {
+      query = new ParseQuery<ParseObject>("Piece");
     }
     query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
-    /*
-    * TODO: Filter Wardrobe
-    * query.whereEqualTo("WardrobeID", currentName);
-     */
-      if(isViewAttached()){
-          getView().showLoading(true);
-      }
-
+    if(firstWardrobeID!=null) {
+      query.whereEqualTo("WardrobeID", firstWardrobeID);
+    }
+    if(isViewAttached()){
+      getView().showLoading(true);
+    }
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
-
         if (e == null) {
           items = new ArrayList<>();
+
           for (int i = 0; i < objects.size(); i++) {
             if (isOutfit) {
               items.add(createOutfit(objects.get(i)));
@@ -92,6 +108,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     final WardrobePieceItem piece = new WardrobePieceItem();
     piece.setTitle(obj.getString("Name"));
     piece.setID(obj.getObjectId());
+    piece.setWardrobeID(obj.getString("WardrobeID"));
     ParseFile fileObject = (ParseFile) obj.get("Image");
     fileObject.getDataInBackground(new GetDataCallback() {
       @Override public void done(byte[] data, ParseException e) {
@@ -104,13 +121,9 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
       }
     });
     piece.setCat(obj.getInt("Category"));
-    //Log.d("WardrobePresenter", "tag1: " + obj.getInt("Tag1"));
-    //Log.d("WardrobePresenter", "tag2: "+obj.getInt("Tag2"));
-    //Log.d("WardrobePresenter", "tag3: "+obj.getInt("Tag3"));
     piece.setSeason(obj.getInt("Tag1"));
     piece.setOccasion(obj.getInt("Tag2"));
     piece.setColor(obj.getInt("Tag3"));
-    //Log.d("WardrobePresenter", "piece: " + piece.getSeason());
     return piece;
   }
 
@@ -118,6 +131,7 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     WardrobeOutfitItem outfit = new WardrobeOutfitItem();
     outfit.setTitle(obj.getString("Name"));
     outfit.setID(obj.getObjectId());
+    outfit.setWardrobeID(obj.getString("WardrobeID"));
     String[] pieces = outfit.getPieceIDs();
     for (int i = 0; i < 10; i++) {
       if (obj.getString("Piece" + (i + 1)) != null) pieces[i] = obj.getString("Piece" + (i + 1));

@@ -23,12 +23,14 @@ public class OutfitDetailActivity
     implements DetailView {
 
   public static final String KEY_ITEM = "item";
+  private String wardrobeID;
 
   private WardrobeOutfitItem item;
   private ImageView mainPiece, leftPiece, midPiece, rightPiece;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
+    wardrobeID = getIntent().getStringExtra("WardrobeID");
     // TODO: get parcelable item from bundle
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_outfit_detail);
@@ -62,7 +64,7 @@ public class OutfitDetailActivity
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(OutfitDetailActivity.this, WardrobeFragment.TYPE_OUTFIT,
-                item));
+                item,wardrobeID));
       }
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);

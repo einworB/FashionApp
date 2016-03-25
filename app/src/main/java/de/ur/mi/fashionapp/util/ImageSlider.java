@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,21 +30,23 @@ public class ImageSlider {
   private int length;
   private int maxTranslation;
 
+  private String sliderType;
+
   private List<Integer> itemIndex;
-  private Drawable tempDrawable;
 
   public interface ImageSliderListener {
     void onImageSelected(View root, int id);
   }
 
   public ImageSlider(Context context, View root, ImageSliderListener listener, boolean reverse,
-      ImageSliderController controller, int length) {
+      ImageSliderController controller, int length, String sliderType) {
     this.context = context;
     this.root = root;
     this.listener = listener;
     this.reverse = reverse;
     this.controller = controller;
     this.length = length;
+    this.sliderType = sliderType;
     maxTranslation = (length - 1) * 45;
     init();
     bindView();
@@ -149,5 +152,30 @@ public class ImageSlider {
 
   public void closeSlider() {
     animateContainer();
+  }
+
+  public void preset(WardrobePieceItem item) {
+    int id = -1;
+    switch (sliderType) {
+      case ImageSliderController.SLIDER_TYPE_SEASON:
+        id = item.getSeason();
+        break;
+      case ImageSliderController.SLIDER_TYPE_OCCASION:
+        id = item.getOccasion();
+        break;
+      case ImageSliderController.SLIDER_TYPE_CATEGORY:
+        id = item.getCat();
+        break;
+    }
+    if (id > 0) {
+      // id 0 means we do not have to prefill as it is the default selector
+      ImageView icon = (ImageView) root.findViewWithTag("icon" + id);
+      Drawable tempDrawable = icon.getDrawable();
+      icon.setImageDrawable(selector.getDrawable());
+      selector.setImageDrawable(tempDrawable);
+      int temp = itemIndex.get(id);
+      itemIndex.set(id, itemIndex.get(0));
+      itemIndex.set(0, temp);
+    }
   }
 }

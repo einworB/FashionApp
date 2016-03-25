@@ -55,7 +55,7 @@ public class SettingsAdapter extends CBAdapterRecyclerView<WardrobeMenuWardrobeI
       if (item.getID().equals(ID)) {
         removePosition = i;
         items.remove(i);
-        listener.onWardrobeDeleted((WardrobeMenuWardrobeItem)item);
+        listener.onWardrobeDeleted(item);
         // only one item can be removed at a time
         break;
       }

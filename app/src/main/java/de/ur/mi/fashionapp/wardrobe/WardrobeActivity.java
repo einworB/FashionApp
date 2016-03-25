@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,11 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.util.LinkService;
@@ -63,12 +69,15 @@ public class WardrobeActivity extends
   private boolean isSearchOpened = false;
   private EditText edtSeach;
   private int[] FilterArray;
+  private String wardrobeID;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
     super.onCreate(savedInstanceState, persistentState);
   }
 
   @Override protected void onMvpViewCreated() {
+    presenter.getFirstWardrobeID();
+
     fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -76,7 +85,7 @@ public class WardrobeActivity extends
             "android:switcher:" + contentView.getId() + ":" + contentView.getCurrentItem());
         if (f instanceof WardrobeFragment) {
           Intent i =
-              LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType());
+              LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType(), wardrobeID);
           startActivityForResult(i, REQUESTCODE_CREATE);
         }
       }
@@ -178,7 +187,7 @@ public class WardrobeActivity extends
   }
 
   public void onWardrobeItemClicked(int type, WardrobeItem item) {
-    startActivity(LinkService.getDetailIntent(this, type, item));
+    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID));
   }
 
   @Override public void onBackPressed() {
@@ -204,8 +213,16 @@ public class WardrobeActivity extends
 
   }
 
-  public void onNewWardrobeCreated() {
+
+  @Override
+  public void onNewWardrobeCreated(WardrobeMenuWardrobeItem wardrobe) {
     presenter.loadMenu();
+    wardrobeID = wardrobe.getID();
+  }
+
+  @Override
+  public void onFirstWardrobeLoaded(String id) {
+    wardrobeID=id;
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

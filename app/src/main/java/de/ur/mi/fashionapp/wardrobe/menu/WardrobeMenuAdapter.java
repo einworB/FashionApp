@@ -46,7 +46,7 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
     this.listener = listener;
 
     defaultItems = new ArrayList<>();
-    defaultItems.add(new WardrobeMenuSectionItem("---------------------"));
+    defaultItems.add(new WardrobeMenuSectionItem());
     defaultItems.add(new WardrobeMenuNewWardrobeItem("Create new Wardrobe"));
     defaultItems.add(new WardrobeMenuLinkItem("Settings"));
     defaultItems.add(new WardrobeMenuLinkItem("Impressum"));

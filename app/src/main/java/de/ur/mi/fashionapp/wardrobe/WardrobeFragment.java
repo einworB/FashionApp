@@ -55,9 +55,9 @@ public class WardrobeFragment extends
 
   @Override public void loadData(boolean pullToRefresh) {
     if (type == TYPE_OUTFIT) {
-      presenter.loadOutfits(pullToRefresh);
+      presenter.loadOutfits(pullToRefresh,wardrobeID);
     } else if (type == TYPE_PIECE) {
-      presenter.loadPieces(pullToRefresh);
+      presenter.loadPieces(pullToRefresh,wardrobeID);
     }
   }
 

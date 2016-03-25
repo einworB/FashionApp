@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,12 +40,15 @@ public class EditOutfitActivity
     private WardrobeOutfitItem editItem;
     private EditOutfitAdapter adapter;
     private FloatingActionButton fab;
+    private  String wardrobeID;
 
     private List<WardrobeItem> pieces;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        wardrobeID = getIntent().getStringExtra("WardrobeID");
+        Log.d("idaaaaa",wardrobeID);
         context = this;
         editItem = getIntent().getParcelableExtra(KEY_ITEM);
         adapter = new EditOutfitAdapter(this, this);
@@ -66,7 +70,6 @@ public class EditOutfitActivity
             getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
         }
 
-        // TODO: get parcelable item from bundle; if editItem == null new item is created
     }
 
     /*@NonNull @Override protected RecyclerView.LayoutManager createRecyclerViewLayoutManager() {
@@ -104,7 +107,7 @@ public class EditOutfitActivity
         EditText et = (EditText) findViewById(R.id.edit_outfit_name);
         editItem = new WardrobeOutfitItem();
         editItem.setTitle(et.getText().toString());
-        // TODO: get data from EditTexts for the new WardrobeOutfitItem(editItem, title)
+        if(wardrobeID!=null)editItem.setWardrobeID(wardrobeID);
         presenter.createOutfit(editItem, true);
     }
 

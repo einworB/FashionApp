@@ -27,6 +27,7 @@ public class PieceDetailActivity
     implements DetailView {
 
   public static final String KEY_ITEM = "item";
+  private String wardrobeID;
 
   private WardrobePieceItem item;
 
@@ -36,7 +37,7 @@ public class PieceDetailActivity
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
-
+    wardrobeID = getIntent().getStringExtra("WardrobeID");
     // TODO: get parcelable item from bundle
 
     super.onCreate(savedInstanceState);
@@ -85,7 +86,7 @@ public class PieceDetailActivity
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE,
-                item));
+                item,wardrobeID));
       }
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
