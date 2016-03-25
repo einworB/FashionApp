@@ -74,7 +74,9 @@ public class EditPieceActivity
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     wardrobeID = getIntent().getStringExtra("WardrobeID");
-    if(wardrobeID!= null)Log.d("Piece create aaaaaa", wardrobeID);
+    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+    Log.d("getting",editItem.getID().toString());
+
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -153,6 +155,7 @@ public class EditPieceActivity
         if (editItem == null) {
           createPiece();
         } else {
+          Log.d("update",editItem.getID().toString());
           updatePiece();
         }
         break;
@@ -201,15 +204,12 @@ public class EditPieceActivity
   }
 
   private void updatePiece() {
-    // TODO: get data from EditTexts and ImageView for the updated WardrobePieceItem(editItemID, editItem, title)
     setItemFields();
-    presenter.updatePiece(editItem.getID(), editItem, true);
+    presenter.updatePiece(editItem.getID().toString(), editItem, true);
   }
 
   private void setItemFields() {
-    if(wardrobeID!= null)Log.d("Piece set aaaaaa", wardrobeID);
     EditText et = (EditText) findViewById(R.id.edit_piece_name);
-    editItem = new WardrobePieceItem();
     editItem.setTitle(et.getText().toString());
     if(wardrobeID!=null)editItem.setWardrobeID(wardrobeID);
     editItem.setCat(container[0]);

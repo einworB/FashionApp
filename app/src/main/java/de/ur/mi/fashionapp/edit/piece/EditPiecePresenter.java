@@ -2,6 +2,8 @@ package de.ur.mi.fashionapp.edit.piece;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -52,9 +54,9 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       file.saveInBackground(new SaveCallback() {
         @Override public void done(ParseException e) {
           if (e == null) {
-            getView().showContent();
+            if(isViewAttached())getView().showContent();
           } else {
-            getView().showError(e, false);
+            if(isViewAttached()) getView().showError(e, false);
           }
         }
       });
@@ -64,10 +66,10 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
       wr.saveInBackground(new SaveCallback() {
         @Override public void done(com.parse.ParseException e) {
           if (e == null) {
-            getView().showContent();
-            getView().onPieceEdited();
+            if(isViewAttached())getView().showContent();
+            if(isViewAttached())getView().onPieceEdited();
           } else {
-            getView().showError(e, false);
+            if(isViewAttached())getView().showError(e, false);
           }
         }
       });
@@ -75,6 +77,7 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
   }
 
   public void updatePiece(String itemID, final WardrobePieceItem item, final boolean pullToRefresh) {
+    Log.d("itemID",itemID+" = itemID");
     if (isViewAttached()) getView().showLoading(pullToRefresh);
     ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Piece");
     query.whereEqualTo("objectId",itemID);
@@ -84,7 +87,29 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
         if(e==null) {
           ParseObject parseObject = objects.get(0);
           parseObject.put("Name",item.getTitle());
-          if(item.getImage()!=null)parseObject.put("Image",item.getImage());
+
+          Bitmap bitmap = item.getImage();
+
+          if(bitmap.getHeight()>=500||bitmap.getWidth()>=500) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, WardrobePieceItem.MAX_IMAGE_WIDTH, WardrobePieceItem.MAX_IMAGE_HEIGHT, true);
+          }
+          ByteArrayOutputStream buffer = new ByteArrayOutputStream(bitmap.getWidth() * bitmap.getHeight());
+          bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
+          ParseFile file = new ParseFile("pictureOfThisPiece" + ".bmp", buffer.toByteArray());
+
+          if(isViewAttached())getView().showLoading(pullToRefresh);
+          file.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              if (e == null) {
+                getView().showContent();
+              } else {
+                getView().showError(e, false);
+              }
+            }
+          });
+
+          parseObject.put("Image", file);
           parseObject.put("Category", item.getCat());
           parseObject.put("Tag1",item.getSeason());
           parseObject.put("Tag2",item.getOccasion());
