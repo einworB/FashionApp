@@ -19,6 +19,7 @@ import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class EditOutfitActivity
             //TODO: get selected items for outfit
             if (data != null) {
                 // TODO: get item from intent and user other type than object!
-                Object item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
+                WardrobePieceItem item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
             }
         }
 
