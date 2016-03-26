@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.edit.piece;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
@@ -56,7 +57,9 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
           if (e == null) {
             if(isViewAttached())getView().showContent();
           } else {
-            if(isViewAttached()) getView().showError(e, false);
+            if(e.getCode()==ParseException.CONNECTION_FAILED){
+              Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+            else if(isViewAttached()) getView().showError(e, false);
           }
         }
       });
@@ -102,9 +105,11 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
             @Override
             public void done(ParseException e) {
               if (e == null) {
-                getView().showContent();
+                if(isViewAttached())getView().showContent();
               } else {
-                getView().showError(e, false);
+                if(e.getCode()==ParseException.CONNECTION_FAILED){
+                  Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+                else if(isViewAttached()) getView().showError(e, false);
               }
             }
           });
@@ -144,7 +149,9 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
           if (isViewAttached())getView().showContent();
         }
         else{
-          if (isViewAttached())getView().showError(e,pullToRefresh);
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -168,10 +175,16 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
             if (e == null) {
               piece.setImage(ImageHelper.getScaledBitmap(data));
             }
-            if (isViewAttached()) {
-              getView().onImageLoaded();
-              getView().showContent();
+            else {
+              if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+              } else if (isViewAttached()) getView().showError(e, false);
             }
+              if (isViewAttached()) {
+                getView().onImageLoaded();
+                getView().showContent();
+              }
+
           }
         });
       }

@@ -97,7 +97,7 @@ public class PieceDetailActivity
   }
 
   @NonNull @Override public DetailPresenter createPresenter() {
-    return new DetailPresenter(this);
+    return new DetailPresenter(this, getApplicationContext());
   }
 
   @Override public void setData(Object data) {

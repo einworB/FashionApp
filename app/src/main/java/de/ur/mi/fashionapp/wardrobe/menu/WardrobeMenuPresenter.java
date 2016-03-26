@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -55,10 +56,14 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
             items.add(item);
 
           }
-          getView().setData(items);
-          getView().showContent();
+          if(isViewAttached()) {
+            getView().setData(items);
+            getView().showContent();
+          }
         } else {
-          getView().showError(e, false);
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -79,7 +84,9 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
             getView().onFirstWardrobeLoaded(objects.get(0).getObjectId());
           }
         } else {
-          if (isViewAttached()) getView().showError(e, false);
+          if(e.getCode()== ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -116,7 +123,9 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
               wardrobe.setID(wr.getObjectId());
               getView().onNewWardrobeCreated(wardrobe);
             } else {
-              getView().showError(e, false);
+              if(e.getCode()==ParseException.CONNECTION_FAILED){
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+              else if(isViewAttached()) getView().showError(e, false);
             }
           }
         });

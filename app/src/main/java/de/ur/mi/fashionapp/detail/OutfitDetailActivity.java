@@ -74,7 +74,7 @@ public class OutfitDetailActivity
   }
 
   @NonNull @Override public DetailPresenter createPresenter() {
-    return new DetailPresenter(this);
+    return new DetailPresenter(this, getApplicationContext());
   }
 
   private void setImages() {

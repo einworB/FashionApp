@@ -36,7 +36,9 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                 getView().showContent();
               }
             } else {
-              getView().showError(e,false);
+              if(e.getCode()==ParseException.CONNECTION_FAILED){
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+              else if(isViewAttached()) getView().showError(e, false);
             }
           }
         });
@@ -86,7 +88,9 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             getView().showContent();
           }
         } else {
-          getView().showError(e,false);
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -105,7 +109,9 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
       @Override
       public void done(com.parse.ParseException e) {
         if (e != null) {
-          getView().showError(e, false);
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -124,10 +130,12 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
           @Override
           public void done(com.parse.ParseException e) {
             if (e == null) {
-              getView().onPasswordResetSuccess();
-              getView().showContent();
+              if(isViewAttached()){getView().onPasswordResetSuccess();
+              getView().showContent();}
             } else {
-              getView().showError(e, false);
+              if(e.getCode()==ParseException.CONNECTION_FAILED){
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+              else if(isViewAttached()) getView().showError(e, false);
             }
           }
         });

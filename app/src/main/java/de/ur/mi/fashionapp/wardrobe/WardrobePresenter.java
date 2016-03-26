@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.wardrobe;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
@@ -80,7 +81,8 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
       getView().showLoading(true);
     }
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
+      @Override
+      public void done(List<ParseObject> objects, com.parse.ParseException e) {
         if (e == null) {
           items = new ArrayList<>();
 
@@ -97,7 +99,9 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
           }
         } else {
           if (isViewAttached()) {
-            getView().showError(e, false);
+            if (e.getCode() == ParseException.CONNECTION_FAILED) {
+              Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+            } else if (isViewAttached()) getView().showError(e, false);
           }
         }
       }
@@ -114,9 +118,14 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
       @Override public void done(byte[] data, ParseException e) {
         if (e == null) {
           piece.setImage(ImageHelper.getScaledBitmap(data));
+          if (isViewAttached()) {
+            getView().onImageLoaded(piece.getID());
+          }
         }
-        if (isViewAttached()) {
-          getView().onImageLoaded(piece.getID());
+        else{
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -161,6 +170,11 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
                     getView().onImageLoaded(outfit.getID());
                     getView().showContent();
                   }
+                }
+                else {
+                  if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                    Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                  } else if (isViewAttached()) getView().showError(e, false);
                 }
               }
             });
