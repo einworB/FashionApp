@@ -29,44 +29,117 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
     this.context = context;
   }
 
+  public void loadPiece(String pieceID) {
+    if (isViewAttached()) {
+      getView().showLoading(false);
+    }
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
+    query.whereEqualTo("objectId", pieceID);
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override public void done(List<ParseObject> objects, ParseException e) {
+        if (e == null) {
+          if (objects.size() > 0) {
+            WardrobePieceItem piece = createPiece(objects.get(0));
+            if (isViewAttached()) {
+              getView().showContent();
+              getView().setData(piece);
+            }
+          }
+        }
+        else {
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) {
+            getView().showError(e, false);
+          }
+        }
+      }
+    });
+    }
+
+  private WardrobePieceItem createPiece(ParseObject obj) {
+    final WardrobePieceItem piece = new WardrobePieceItem();
+    piece.setTitle(obj.getString("Name"));
+    piece.setID(obj.getObjectId());
+    piece.setWardrobeID(obj.getString("WardrobeID"));
+    ParseFile fileObject = (ParseFile) obj.get("Image");
+    fileObject.getDataInBackground(new GetDataCallback() {
+      @Override public void done(byte[] data, ParseException e) {
+        if (e == null) {
+          piece.setImage(ImageHelper.getScaledBitmap(data));
+          if (isViewAttached()) {
+            getView().onImageLoaded(piece.getID());
+          }
+        }
+        else{
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
+        }
+      }
+    });
+    piece.setCat(obj.getInt("Category"));
+    piece.setSeason(obj.getInt("Tag1"));
+    piece.setOccasion(obj.getInt("Tag2"));
+    piece.setColor(obj.getInt("Tag3"));
+    return piece;
+  }
+
   void loadOutfitImages(final String[] pieceIDs, final WardrobeOutfitItem outfit) {
     if (isViewAttached()) {
       getView().showLoading(true);
     }
     for (int i = 0; i < pieceIDs.length; i++) {
-      ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
-      query.whereEqualTo("objectId", pieceIDs[i]);
       if (pieceIDs[i] == null || pieceIDs[i].isEmpty()) {
         continue;
       }
-      final int piecePosition = i;
+      ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
+      query.whereEqualTo("objectId", pieceIDs[i]);
       query.findInBackground(new FindCallback<ParseObject>() {
         @Override public void done(List<ParseObject> objects, ParseException e) {
           if (e == null && objects.size() > 0) {
             ParseObject obj = objects.get(0);
             ParseFile fileObject = (ParseFile) obj.get("Image");
-            fileObject.getDataInBackground(new GetDataCallback() {
-              @Override public void done(byte[] data, ParseException e) {
-                if (e == null && data != null) {
-                  Bitmap[] images = outfit.getImages();
-                  images[piecePosition] = ImageHelper.getScaledBitmap(data);
-
-                  if (isViewAttached()) {
-                    getView().onImageLoaded(pieceIDs[piecePosition]);
-                    getView().showContent();
-                  }
-                }
-                else{
-                  if(e.getCode()==ParseException.CONNECTION_FAILED){
-                    Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-                  else if(isViewAttached()) getView().showError(e, false);
-                }
-              }
-            });
+            getPieceImage(pieceIDs, outfit, fileObject, obj.getObjectId());
+          } else if (e != null) {
+            if (e.getCode() == ParseException.CONNECTION_FAILED) {
+              Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+            } else if (isViewAttached()) {
+              getView().showError(e, false);
+            }
           }
         }
       });
     }
+  }
+
+  private void getPieceImage(final String[] pieceIDs, final WardrobeOutfitItem outfit,
+      ParseFile file, final String pieceID) {
+    file.getDataInBackground(new GetDataCallback() {
+      @Override public void done(byte[] data, ParseException e) {
+        if (e == null) {
+          if (data != null) {
+            Bitmap[] images = outfit.getImages();
+            for (int j = 0; j < pieceIDs.length; j++) {
+              if (pieceIDs[j].equals(pieceID)) {
+                images[j] = ImageHelper.getScaledBitmap(data);
+                break;
+              }
+            }
+            if (isViewAttached()) {
+              getView().onImageLoaded(pieceID);
+              getView().showContent();
+            }
+          }
+        } else {
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) {
+            getView().showError(e, false);
+          }
+        }
+      }
+    });
   }
 
   public void loadPieceImage(String id, final WardrobePieceItem piece) {
@@ -90,11 +163,10 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
                 getView().onImageLoaded(piece.getID());
                 getView().showContent();
               }
-            }
-            else{
-              if(e.getCode()==ParseException.CONNECTION_FAILED){
-                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-              else if(isViewAttached()) getView().showError(e, false);
+            } else {
+              if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+              } else if (isViewAttached()) getView().showError(e, false);
             }
           }
         });

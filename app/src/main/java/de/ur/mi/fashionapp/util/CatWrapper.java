@@ -1,6 +1,7 @@
-package de.ur.mi.fashionapp;
+package de.ur.mi.fashionapp.util;
 
 import android.graphics.Color;
+import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Mario on 01.03.2016.

@@ -9,14 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
-import de.ur.mi.fashionapp.CatWrapper;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.util.CatWrapper;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.util.share.ShareHelper;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
@@ -27,73 +26,79 @@ public class PieceDetailActivity
     implements DetailView {
 
   public static final String KEY_ITEM = "item";
-  private String wardrobeID;
+  public static final String KEY_WARDROBE_ID = "wardrobe_id";
+  public static final String KEY_ITEM_ID = "item_id";
 
   private WardrobePieceItem item;
+  private String wardrobeID;
+  private String itemID;
 
   private ImageView pieceImage, pieceType, pieceColor, pieceSeason, pieceOccasion;
 
-  private CatWrapper cW;
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
-    wardrobeID = getIntent().getStringExtra("WardrobeID");
+    wardrobeID = getIntent().getStringExtra(KEY_WARDROBE_ID);
+    itemID = getIntent().getStringExtra(KEY_ITEM_ID);
     // TODO: get parcelable item from bundle
 
     super.onCreate(savedInstanceState);
+
     setContentView(R.layout.activity_piece_detail);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-
-    cW = new CatWrapper();
-
     pieceImage = (ImageView) findViewById(R.id.pieceImage);
-    Bitmap image = item.getImage();
-    if (image != null) {
-      Drawable dImage = new BitmapDrawable(getResources(), image);
-      pieceImage.setImageDrawable(dImage);
-    }
-
     pieceColor = (ImageView) findViewById(R.id.pieceColor);
-    pieceColor.setImageResource(0);
-    if (cW.colorWrap(item.getColor()) != -1) {
-      pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getColor())));
-      Log.d("PieceDetailCat", "Color: " + cW.catWrap(item.getColor()) + " tag: " + item.getColor());
-    }
-
-    Log.d("PieceDetailCat", "Category: " + cW.catWrap(item.getCat()) + " tag: " + item.getCat());
     pieceType = (ImageView) findViewById(R.id.pieceType);
-    if (cW.catWrap(item.getCat()) != -1) {
-      pieceType.setImageResource(cW.catWrap(item.getCat()));
-    }
-
-    Log.d("PieceDetailCat",
-        "Season: " + cW.catWrap(item.getSeason()) + " tag: " + item.getSeason());
     pieceSeason = (ImageView) findViewById(R.id.pieceSeason);
-    if (cW.seasonWrap(item.getSeason()) != -1) {
-      pieceSeason.setImageResource(cW.seasonWrap(item.getSeason()));
-    }
-
-    Log.d("PieceDetailCat",
-        "Occasion: " + cW.catWrap(item.getOccasion()) + " tag: " + item.getOccasion());
     pieceOccasion = (ImageView) findViewById(R.id.pieceOccasion);
-    if (cW.occasionWrap(item.getOccasion()) != -1) {
-      pieceOccasion.setImageResource(cW.occasionWrap(item.getOccasion()));
+
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+    if (item != null) {
+      setupDetails();
+    }
+    else {
+      getSupportActionBar().setTitle("Loading...");
     }
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         startActivity(
-            LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE,
-                item,wardrobeID));
+            LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE, item,
+                wardrobeID));
       }
     });
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setDisplayShowTitleEnabled(true);
+  }
+
+  private void setupDetails() {
     getSupportActionBar().setTitle(item.getTitle());
 
-    // TODO: start activity for result and set result for wardrobe activity to enable reload if item was updated
+    CatWrapper cW = new CatWrapper();
+
+    Bitmap image = item.getImage();
+    if (image != null) {
+      Drawable dImage = new BitmapDrawable(getResources(), image);
+      pieceImage.setImageDrawable(dImage);
+    }
+
+    pieceColor.setImageResource(0);
+    if (cW.colorWrap(item.getColor()) != -1) {
+      pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getColor())));
+    }
+
+    if (cW.catWrap(item.getCat()) != -1) {
+      pieceType.setImageResource(cW.catWrap(item.getCat()));
+    }
+
+    if (cW.seasonWrap(item.getSeason()) != -1) {
+      pieceSeason.setImageResource(cW.seasonWrap(item.getSeason()));
+    }
+
+    if (cW.occasionWrap(item.getOccasion()) != -1) {
+      pieceOccasion.setImageResource(cW.occasionWrap(item.getOccasion()));
+    }
   }
 
   @NonNull @Override public DetailPresenter createPresenter() {
@@ -101,11 +106,18 @@ public class PieceDetailActivity
   }
 
   @Override public void setData(Object data) {
-
+    if (data != null && data instanceof WardrobePieceItem) {
+      item = (WardrobePieceItem) data;
+      setupDetails();
+    }
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    presenter.loadPieceImage(item.getID(), item);
+    if (item != null) {
+      presenter.loadPieceImage(item.getID(), item);
+    } else {
+      presenter.loadPiece(itemID);
+    }
   }
 
   @Override public void onImageLoaded(String pieceID) {
