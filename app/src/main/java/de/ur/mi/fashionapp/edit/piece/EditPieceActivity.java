@@ -29,7 +29,7 @@ import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import com.soundcloud.android.crop.Crop;
 import com.woalk.apps.lib.colorpicker.ColorPickerDialog;
 import com.woalk.apps.lib.colorpicker.ColorPickerSwatch;
-import de.ur.mi.fashionapp.CatWrapper;
+import de.ur.mi.fashionapp.util.CatWrapper;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.ImageSlider;
 import de.ur.mi.fashionapp.util.ImageSliderController;

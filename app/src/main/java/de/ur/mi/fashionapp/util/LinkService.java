@@ -2,11 +2,6 @@ package de.ur.mi.fashionapp.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
-
-import java.util.List;
-
 import de.ur.mi.fashionapp.detail.OutfitDetailActivity;
 import de.ur.mi.fashionapp.detail.PieceDetailActivity;
 import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
@@ -19,7 +14,6 @@ import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
  * Created by Philip on 01/03/2016.
@@ -80,18 +74,19 @@ public class LinkService {
         }
     }
 
-    public static Intent getDetailIntent(Context context, int type, WardrobeItem item, String wardrobeID) {
+    public static Intent getDetailIntent(Context context, int type, WardrobeItem item, String wardrobeID, String itemID) {
         Intent i;
         switch (type) {
             case WardrobeFragment.TYPE_OUTFIT:
                 i = new Intent(context, OutfitDetailActivity.class);
-                i.putExtra(OutfitDetailActivity.KEY_ITEM, (WardrobeOutfitItem) item);
-                i.putExtra("WardrobeID", wardrobeID);
+                i.putExtra(OutfitDetailActivity.KEY_ITEM, item);
+                i.putExtra(OutfitDetailActivity.KEY_WARDROBE_ID, wardrobeID);
                 return i;
             case WardrobeFragment.TYPE_PIECE:
                 i = new Intent(context, PieceDetailActivity.class);
-                i.putExtra(PieceDetailActivity.KEY_ITEM, (WardrobePieceItem) item);
-                i.putExtra("WardrobeID", wardrobeID);
+                i.putExtra(PieceDetailActivity.KEY_ITEM, item);
+                i.putExtra(PieceDetailActivity.KEY_WARDROBE_ID, wardrobeID);
+                i.putExtra(PieceDetailActivity.KEY_ITEM_ID, itemID);
                 return i;
             default:
                 return null;

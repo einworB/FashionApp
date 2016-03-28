@@ -1,11 +1,10 @@
 package de.ur.mi.fashionapp.detail;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,57 +13,54 @@ import android.view.View;
 import android.widget.ImageView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.ui.ImageViewholder;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OutfitDetailActivity
     extends CBActivityMvpToolbar<RecyclerView, Object, DetailView, DetailPresenter>
-    implements DetailView {
+    implements DetailView, ImageViewholder.ImageViewholderClickListener {
 
   public static final String KEY_ITEM = "item";
+  public static final String KEY_WARDROBE_ID = "wardrobe_id";
   private String wardrobeID;
 
   private WardrobeOutfitItem item;
-  private ImageView mainPiece, leftPiece, midPiece, rightPiece;
+  private ImageView mainPiece;
+  private OutfitDetailAdapter adapter;
+  private int currentPosition;
+  private int pieceCount;
+  private List<Integer> loadedImagePositions = new ArrayList<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
-    wardrobeID = getIntent().getStringExtra("WardrobeID");
-    // TODO: get parcelable item from bundle
+    wardrobeID = getIntent().getStringExtra(KEY_WARDROBE_ID);
+    if (item != null) {
+      for (String id : item.getPieceIDs()) {
+        if (id != null && !id.isEmpty()) {
+          pieceCount++;
+        }
+      }
+    }
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_outfit_detail);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
     mainPiece = (ImageView) findViewById(R.id.mainPiece);
-    //leftPiece = (ImageView) findViewById(R.id.leftPiece);
-    //midPiece = (ImageView) findViewById(R.id.midPiece);
-    //rightPiece = (ImageView) findViewById(R.id.rightPiece);
-
-    /*leftPiece.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        focusOnPiece(leftPiece);
-      }
-    });
-    midPiece.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        focusOnPiece(midPiece);
-      }
-    });
-
-    rightPiece.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        focusOnPiece(rightPiece);
-      }
-    });*/
+    adapter = new OutfitDetailAdapter(this, this);
+    contentView.setAdapter(adapter);
+    contentView.setLayoutManager(
+        new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(OutfitDetailActivity.this, WardrobeFragment.TYPE_OUTFIT,
-                item,wardrobeID));
+                item, wardrobeID));
       }
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,31 +69,12 @@ public class OutfitDetailActivity
     getSupportActionBar().setTitle("Outfit Detail");
   }
 
-  @NonNull @Override public DetailPresenter createPresenter() {
-    return new DetailPresenter(this, getApplicationContext());
+  @Override protected Integer getLayoutRes() {
+    return R.layout.activity_outfit_detail;
   }
 
-  private void setImages() {
-    //Bitmap image1 = item.getImage1();
-    //Bitmap image2 = item.getImage2();
-    //Bitmap image3 = item.getImage3();
-    //Bitmap image4 = item.getImage4();
-    //if (image1 != null) {
-    //  Drawable main = new BitmapDrawable(getResources(), image1);
-    //  mainPiece.setImageDrawable(main);
-    //}
-    //if (image2 != null) {
-    //  Drawable left = new BitmapDrawable(getResources(), image2);
-    //  leftPiece.setImageDrawable(left);
-    //}
-    //if (image3 != null) {
-    //  Drawable mid = new BitmapDrawable(getResources(), image3);
-    //  midPiece.setImageDrawable(mid);
-    //}
-    //if (image4 != null) {
-    //  Drawable right = new BitmapDrawable(getResources(), image4);
-    //  rightPiece.setImageDrawable(right);
-    //}
+  @NonNull @Override public DetailPresenter createPresenter() {
+    return new DetailPresenter(this, getApplicationContext());
   }
 
   private void setImage(String pieceID) {
@@ -106,43 +83,31 @@ public class OutfitDetailActivity
       String[] ids = item.getPieceIDs();
       for (int i = 0; i < ids.length; i++) {
         String id = ids[i];
-        if (pieceID.equals(id)) {
-          imageNumber = i + 1;
+        if (pieceID.equals(id) && !loadedImagePositions.contains(i)) {
+          imageNumber = i;
+          loadedImagePositions.add(i);
           break;
         }
       }
     }
-    if (imageNumber > 0 && imageNumber <= 4) {
-      Bitmap bitmap = item.getImages()[imageNumber - 1];
-      if (bitmap != null) {
-        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-        ImageView view = null;
-        switch (imageNumber) {
-          case 1:
-            view = mainPiece;
-            break;
-          case 2:
-            view = leftPiece;
-            break;
-          case 3:
-            view = midPiece;
-            break;
-          case 4:
-            view = rightPiece;
-            break;
-        }
-        if (view != null) {
-          view.setImageDrawable(drawable);
-          view.requestLayout();
+    if (imageNumber != -1) {
+      // piececount is used to ensure only so many views are created as pieces exist in the oufit
+      List<Bitmap> bitmapList = new ArrayList<>(pieceCount);
+      Bitmap[] bitmaps = item.getImages();
+      for (int i = 0; i < pieceCount; i++) {
+        bitmapList.add(bitmaps[i]);
+      }
+      adapter.setItems(bitmapList);
+      adapter.notifyItemChanged(imageNumber);
+      if (imageNumber == 0) {
+        Bitmap bitmap = item.getImages()[imageNumber];
+        if (bitmap != null) {
+          mainPiece.setImageBitmap(bitmap);
+          mainPiece.requestLayout();
+          currentPosition = 0;
         }
       }
     }
-  }
-
-  private void focusOnPiece(ImageView curPiece) {
-    Drawable temp = mainPiece.getDrawable();
-    mainPiece.setImageDrawable(curPiece.getDrawable());
-    curPiece.setImageDrawable(temp);
   }
 
   @Override public void setData(Object data) {
@@ -168,10 +133,20 @@ public class OutfitDetailActivity
         // TODO: sharing here
         return true;
       case R.id.menu_outfit_detail_info:
-        // TODO: open selected piece detail here
+        String pieceID = this.item.getPieceIDs()[currentPosition];
+        startActivity(
+            LinkService.getDetailIntent(this, WardrobeFragment.TYPE_PIECE, null, wardrobeID,
+                pieceID));
         return true;
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  @Override public void onImageClicked(int position) {
+    Bitmap bitmap = item.getImages()[position];
+    mainPiece.setImageBitmap(bitmap);
+    mainPiece.requestLayout();
+    currentPosition = position;
   }
 }

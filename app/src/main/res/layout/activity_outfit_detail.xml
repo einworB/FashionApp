@@ -4,19 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<android.support.design.widget.CoordinatorLayout
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorSecondaryLight"
-    tools:context=".detail.OutfitDetailActivity">
+    android:background="@color/colorSecondaryLight">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="0dp"
+        android:fitsSystemWindows="true"
+        android:layout_weight="1"
+        tools:context=".detail.OutfitDetailActivity">
+
+      <android.support.design.widget.AppBarLayout
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,67 +29,49 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
-    </android.support.design.widget.AppBarLayout>
+      </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/mainPiece"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:src="@drawable/ic_icon_top"/>
+      <LinearLayout android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="?attr/actionBarSize"
+          android:orientation="vertical">
 
-    <!--<android.support.percent.PercentRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
         <ImageView
             android:id="@+id/mainPiece"
-            app:layout_heightPercent="70%"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:layout_margin="25dp"
+
             android:src="@drawable/ic_icon_top"/>
-        <ImageView
-            android:id="@+id/leftPiece"
-            app:layout_widthPercent="33%"
-            app:layout_aspectRatio="100%"
-            android:src="@drawable/ic_icon_bottom"
-            android:layout_alignParentBottom="true"/>
-        <ImageView
-            android:id="@+id/midPiece"
-            app:layout_widthPercent="33%"
-            app:layout_aspectRatio="100%"
-            android:src="@drawable/ic_icon_accessoires"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/leftPiece"/>
-        <ImageView
-            android:id="@+id/rightPiece"
-            app:layout_widthPercent="33%"
-            app:layout_aspectRatio="100%"
-            android:src="@drawable/ic_icon_onepiece"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/midPiece"/>
-    </android.support.percent.PercentRelativeLayout>-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_edit"/>
+      </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <include layout="@layout/cb_base_loading_view"/>
-    <include layout="@layout/cb_base_error_view"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:scrollbarAlwaysDrawHorizontalTrack="true">
+    <View android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/md_grey_500"/>
+
     <android.support.v7.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/contentView"
-         />
-    </ScrollView>
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        />
+
+  </LinearLayout>
+
+  <include layout="@layout/cb_base_loading_view"/>
+  <include layout="@layout/cb_base_error_view"/>
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:layout_margin="@dimen/fab_margin"
+      android:src="@android:drawable/ic_menu_edit"/>
+
 </FrameLayout>

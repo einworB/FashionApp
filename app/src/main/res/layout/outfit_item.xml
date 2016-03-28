@@ -2,6 +2,7 @@
 <android.support.percent.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/outfitItem"
@@ -19,7 +20,7 @@
         app:layout_widthPercent="33%"
         app:layout_aspectRatio="100%"
         android:layout_below="@+id/mainPiece"
-        android:src="@drawable/ic_icon_bottom" />
+        tools:src="@drawable/ic_icon_bottom" />
 
     <ImageView
         android:id="@+id/mid"
@@ -27,7 +28,7 @@
         app:layout_aspectRatio="100%"
         android:layout_below="@+id/mainPiece"
         android:layout_toRightOf="@+id/left"
-        android:src="@drawable/ic_icon_bottom"/>
+        tools:src="@drawable/ic_icon_bottom"/>
 
     <ImageView
         android:id="@+id/right"
@@ -36,7 +37,7 @@
         android:layout_gravity="top|left"
         android:layout_below="@+id/mainPiece"
         android:layout_toRightOf="@+id/mid"
-        android:src="@drawable/ic_icon_bottom"/>
+        tools:src="@drawable/ic_icon_bottom"/>
 
 
 
