@@ -218,11 +218,13 @@ public class WardrobeActivity extends
   public void onNewWardrobeCreated(WardrobeMenuWardrobeItem wardrobe) {
     presenter.loadMenu();
     wardrobeID = wardrobe.getID();
+    toolbar.setTitle(wardrobe.getTitle());
   }
 
   @Override
-  public void onFirstWardrobeLoaded(String id) {
+  public void onFirstWardrobeLoaded(String id, String name) {
     wardrobeID=id;
+    toolbar.setTitle(name);
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

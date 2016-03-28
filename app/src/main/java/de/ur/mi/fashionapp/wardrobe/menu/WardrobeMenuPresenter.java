@@ -81,7 +81,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
         if (e == null) {
           if (isViewAttached()) {
             getView().showContent();
-            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId());
+            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId(),objects.get(0).getString("Name"));
           }
         } else {
           if(e.getCode()== ParseException.CONNECTION_FAILED){

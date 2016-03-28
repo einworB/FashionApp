@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface WardrobeMenuView extends MvpLceView<List<WardrobeMenuItem>>{
     void onNewWardrobeCreated(WardrobeMenuWardrobeItem wardrobe);
-    void onFirstWardrobeLoaded(String id);
+    void onFirstWardrobeLoaded(String id, String name);
 }
