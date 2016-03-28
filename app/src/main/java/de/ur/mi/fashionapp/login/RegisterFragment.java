@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -42,8 +43,13 @@ public class RegisterFragment extends Fragment {
       @Override public void onClick(View v) {
         if (String.valueOf(confirmPasswordEdit.getText())
             .equals(String.valueOf(passwordEdit.getText()))) {
-          ((LoginActivity) getActivity()).performRegister(String.valueOf(usernameEdit.getText()),
-              String.valueOf(passwordEdit.getText()), String.valueOf(emailEdit.getText()));
+          if(usernameEdit.getText().toString().length()>30)
+            Toast.makeText(getContext(), "Username too long", Toast.LENGTH_LONG).show();
+          else if(passwordEdit.getText().toString().length()>30)Toast.makeText(getContext(), "Password too long", Toast.LENGTH_LONG).show();
+          else if(confirmPasswordEdit.getText().toString().length()>30)Toast.makeText(getContext(), "Password confirm too long", Toast.LENGTH_LONG).show();
+          else if(emailEdit.getText().toString().length()>30)Toast.makeText(getContext(), "Email too long", Toast.LENGTH_LONG).show();
+          else {((LoginActivity) getActivity()).performRegister(String.valueOf(usernameEdit.getText()),
+              String.valueOf(passwordEdit.getText()), String.valueOf(emailEdit.getText()));}
         }
       }
     });

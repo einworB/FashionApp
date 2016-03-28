@@ -135,7 +135,9 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             } else {
               if(e.getCode()==ParseException.CONNECTION_FAILED){
                 Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-              else if(isViewAttached()) getView().showError(e, false);
+              else{
+                if(isViewAttached()) getView().showError(e, false);
+              }
             }
           }
         });

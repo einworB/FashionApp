@@ -56,14 +56,14 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
             items.add(item);
 
           }
-          if(isViewAttached()) {
+          if (isViewAttached()) {
             getView().setData(items);
             getView().showContent();
           }
         } else {
-          if(e.getCode()==ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -105,30 +105,9 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
         if (input.getText().toString() != null) {
           wardropeNameEdit = input.getText().toString();
         }
-        final String wardropeName = wardropeNameEdit;
+        if(wardropeNameEdit.length()>50)Toast.makeText(context, "Failure! Name can't be longer than 50 letters", Toast.LENGTH_LONG).show();
+        else addNewWardrobe(wardropeNameEdit);
 
-        //This Method is to create a new wardrope;
-        String userID = ParseUser.getCurrentUser().getObjectId();
-        final ParseObject wr = new ParseObject("Wardrope");
-        wr.put("Name", wardropeName);
-        wr.put("UserID", userID);
-        getView().showLoading(true);
-        wr.saveInBackground(new SaveCallback() {
-          @Override
-          public void done(com.parse.ParseException e) {
-            if (e == null) {
-              getView().showContent();
-              WardrobeMenuWardrobeItem wardrobe = new WardrobeMenuWardrobeItem();
-              wardrobe.setTitle(wardropeName);
-              wardrobe.setID(wr.getObjectId());
-              getView().onNewWardrobeCreated(wardrobe);
-            } else {
-              if(e.getCode()==ParseException.CONNECTION_FAILED){
-                Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-              else if(isViewAttached()) getView().showError(e, false);
-            }
-          }
-        });
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -138,7 +117,30 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
       }
     });
     builder.show();
+  }
 
-
+  private void addNewWardrobe(final String wardropeName){
+    //This Method is to create a new wardrope;
+    String userID = ParseUser.getCurrentUser().getObjectId();
+    final ParseObject wr = new ParseObject("Wardrope");
+    wr.put("Name", wardropeName);
+    wr.put("UserID", userID);
+    getView().showLoading(true);
+    wr.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(com.parse.ParseException e) {
+        if (e == null) {
+          getView().showContent();
+          WardrobeMenuWardrobeItem wardrobe = new WardrobeMenuWardrobeItem();
+          wardrobe.setTitle(wardropeName);
+          wardrobe.setID(wr.getObjectId());
+          getView().onNewWardrobeCreated(wardrobe);
+        } else {
+          if(e.getCode()==ParseException.CONNECTION_FAILED){
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
+          else if(isViewAttached()) getView().showError(e, false);
+        }
+      }
+    });
   }
 }

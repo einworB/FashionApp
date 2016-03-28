@@ -34,20 +34,6 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
     //contentView.setAdapter(adapter);
   }
 
-  public void addWardrobe(String wardropeName){
-    //This Method is to create a new wardrope;
-    String userID =ParseUser.getCurrentUser().getObjectId();
-    ParseObject wr = new ParseObject("Wardrope");
-    wr.put("Name",wardropeName);
-    wr.put("UserID", userID);
-    wr.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(com.parse.ParseException e) {
-
-      }
-    });
-  }
-
   @Override protected Fragment createFragmentToDisplay() {
     return new LoginFragment();
   }
