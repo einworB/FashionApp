@@ -99,9 +99,11 @@ public class EditOutfitActivity
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        if(editItem != null){
+        Log.d("EOA", "loadData");
+        presenter.loadItems(true);
+        /*if(editItem != null && editItem.getID() != null){
             presenter.loadOutfitImages(editItem.getID(), editItem);
-        }
+        }*/
     }
 
     @Override
@@ -117,15 +119,20 @@ public class EditOutfitActivity
     @Override
     public void onImageLoaded(String id) {
         Log.d("EOA", "onImageLoaded");
+
         if(pieces != null) {
             for (int i = 0; i < pieces.size(); i++) {
-                Bitmap image = pieces.get(i).getImage();
+                int itemPosition = adapter.getItemPosition(pieces.get(i).getID());
+                if (itemPosition != -1) {
+                    adapter.notifyItemChanged(itemPosition);
+                }
+                /*Bitmap image = pieces.get(i).getImage();
                 if (image != null) {
                     ImageView pieceImage = (ImageView)findViewById(R.id.image);
                     Drawable dImage = new BitmapDrawable(getResources(), image);
                     pieceImage.setImageDrawable(dImage);
                     pieceImage.requestLayout();
-                }
+                }*/
             }
         }
     }
@@ -189,11 +196,10 @@ public class EditOutfitActivity
                 // TODO: get item from intent and user other type than object!
                 pieces = data.getParcelableArrayListExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
                 Log.d("EOA", "pieces: "+pieces);
-                Log.d("EOA", "piece[0]image: "+pieces.get(0).getImage());
+                Log.d("EOA", "piece[0]image: " + pieces.get(0).getImage());
                 adapter.setItems(pieces);
                 adapter.notifyDataSetChanged();
                 //WardrobePieceItem item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
-
             }
         }
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.EditOutfitViewHolder;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
@@ -41,7 +42,7 @@ public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
-        Log.d("EOA", "onBindViewHolder");
+        Log.d("EOA", "onBindViewHolder item: "+getItem(position));
         ((EditOutfitViewHolder) viewHolder).bind(getItem(position), this);
     }
 
@@ -54,5 +55,17 @@ public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>
     public void setItems(List<WardrobePieceItem> items) {
         this.items = items;
         this.model = new ArrayList<>(items);
+    }
+
+    public int getItemPosition(String itemID) {
+        if (itemID != null) {
+            for (int i = 0; i < items.size(); i++) {
+                WardrobeItem item = items.get(i);
+                if (itemID.equals(item.getID())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 }

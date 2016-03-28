@@ -33,6 +33,67 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
         attachView(view);
     }
 
+    public void loadItems(boolean pullToRefresh) {
+        if (isViewAttached()) {
+            getView().showLoading(pullToRefresh);
+        }
+        ParseQuery<ParseObject> query;
+
+        query = ParseQuery.getQuery("Piece");
+
+        query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+
+        if (isViewAttached()) {
+            getView().showLoading(true);
+        }
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+
+                if (e == null) {
+                    ArrayList<WardrobePieceItem> items = new ArrayList<>();
+                    for (int i = 0; i < objects.size(); i++) {
+
+                        items.add(createPiece(objects.get(i)));
+
+                    }
+                    if (isViewAttached()) {
+                        getView().setData(items);
+                        getView().showContent();
+                    }
+                } else {
+                    if (isViewAttached()) {
+                        getView().showError(e, false);
+                    }
+                }
+            }
+        });
+    }
+
+    private WardrobePieceItem createPiece(ParseObject obj) {
+        final WardrobePieceItem piece = new WardrobePieceItem();
+        piece.setTitle(obj.getString("Name"));
+        piece.setID(obj.getObjectId());
+        ParseFile fileObject = (ParseFile) obj.get("Image");
+        fileObject.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    piece.setImage(ImageHelper.getScaledBitmap(data));
+                }
+                if (isViewAttached()) {
+                    getView().onImageLoaded(piece.getID());
+                }
+            }
+        });
+        piece.setCat(obj.getInt("Category"));
+        piece.setSeason(obj.getInt("Tag1"));
+        piece.setOccasion(obj.getInt("Tag2"));
+        piece.setColor(obj.getInt("Tag3"));
+        return piece;
+    }
+
     public void loadOutfitImages(String id, final WardrobeOutfitItem outfit) {
         if (isViewAttached()) {
             getView().showLoading(true);
