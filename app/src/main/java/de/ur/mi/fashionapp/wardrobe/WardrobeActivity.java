@@ -273,8 +273,15 @@ public class WardrobeActivity extends
       }
 
       //hides the keyboard
+      View view = this.getCurrentFocus();
+      if (view != null) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+      }
+      /*
       InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
+      */
 
       for (Fragment f : fragmentManager.getFragments()) {
         if (f instanceof WardrobeFragment) {
