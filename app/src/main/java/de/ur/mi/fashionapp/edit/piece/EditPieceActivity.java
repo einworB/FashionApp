@@ -75,7 +75,6 @@ public class EditPieceActivity
     super.onCreate(savedInstanceState);
     wardrobeID = getIntent().getStringExtra("WardrobeID");
     editItem = getIntent().getParcelableExtra(KEY_ITEM);
-    Log.d("getting",editItem.getID().toString());
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -87,6 +86,7 @@ public class EditPieceActivity
     //colorContainer = findViewById(R.id.edit_piece_color_container);
     occasionContainer = findViewById(R.id.edit_piece_occasion_container);
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
+    uploadImage.setTag("set");
     colorPickerView = (ImageView) findViewById(R.id.edit_piece_color_picker);
     selectedColor = Color.BLACK;
 
@@ -155,7 +155,6 @@ public class EditPieceActivity
         if (editItem == null) {
           createPiece();
         } else {
-          Log.d("update",editItem.getID().toString());
           updatePiece();
         }
         break;
@@ -218,7 +217,7 @@ public class EditPieceActivity
     editItem.setColor(selectedColor);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
         drawableContainer[container[0]]);
-    if( uploadImage.getTag().equals("set")) {
+    if( uploadImage!=null) {
       bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
     }
     editItem.setImage(bitmap);
