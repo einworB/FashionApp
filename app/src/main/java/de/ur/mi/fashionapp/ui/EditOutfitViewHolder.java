@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.ui;
 import android.graphics.Bitmap;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class EditOutfitViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final WardrobePieceItem item, final EditOutfitViewHolderListener listener) {
+        Log.d("EOA VH", "itemImage: "+item.getImage());
         pieceItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +44,7 @@ public class EditOutfitViewHolder extends RecyclerView.ViewHolder {
         label.setVisibility(View.GONE);
         Bitmap image = item.getImage();
         if (image != null) {
+            Log.d("EOA VH", "image!");
             pic.setImageBitmap(image);
         }
     }

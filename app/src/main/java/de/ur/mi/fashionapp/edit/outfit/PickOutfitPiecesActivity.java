@@ -1,6 +1,7 @@
 package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 import java.util.ArrayList;
@@ -29,11 +31,9 @@ public class PickOutfitPiecesActivity
         implements PickOutfitPiecesView, PickOutfitPiecesAdapter.PickOutfitPiecesAdapterListener{
 
     public static String INTENT_EXTRA_PICKED_ITEM = "picked_item";
-    public static final String EXTRAS_PIECES = "pieces";
 
     private PickOutfitPiecesAdapter adapter;
     private ArrayList<WardrobePieceItem> outfitItemsAdded;
-    private ArrayList<WardrobePieceItem> pieces;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +68,9 @@ public class PickOutfitPiecesActivity
         // set item here
         Intent intent = new Intent();
         // use wardrobeitems
-        /*intent.putExtra(INTENT_EXTRA_PICKED_ITEM, item);
-        setResult(RESULT_OK, intent);
-        finish();*/
         if(item != null){
+
+            Log.d("POPA", "itemImage: " + item.getImage());
             outfitItemsAdded.add(item);
         }
     }

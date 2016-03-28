@@ -2,7 +2,10 @@ package de.ur.mi.fashionapp.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
+
+import java.util.List;
 
 import de.ur.mi.fashionapp.detail.OutfitDetailActivity;
 import de.ur.mi.fashionapp.detail.PieceDetailActivity;
@@ -95,8 +98,9 @@ public class LinkService {
         }
     }
 
-    public static Intent getOutfitPieceIntent(Context context, String wardrobeID) {
+    public static Intent getOutfitPieceIntent(Context context, WardrobeOutfitItem item, String wardrobeID) {
         Intent i = new Intent(context, PickOutfitPiecesActivity.class);
+        i.putExtra(EditOutfitActivity.KEY_ITEM, item);
         i.putExtra("WardrobeID", wardrobeID);
         return i;
     }
