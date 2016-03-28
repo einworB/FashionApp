@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,14 +33,15 @@ public class PieceDetailActivity
   private WardrobePieceItem item;
   private String wardrobeID;
   private String itemID;
-
   private ImageView pieceImage, pieceType, pieceColor, pieceSeason, pieceOccasion;
+
+  private CatWrapper cW;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
+    Log.d("PDA", "item: " + item);
     wardrobeID = getIntent().getStringExtra(KEY_WARDROBE_ID);
     itemID = getIntent().getStringExtra(KEY_ITEM_ID);
-    // TODO: get parcelable item from bundle
 
     super.onCreate(savedInstanceState);
 
@@ -57,8 +59,7 @@ public class PieceDetailActivity
 
     if (item != null) {
       setupDetails();
-    }
-    else {
+    } else {
       getSupportActionBar().setTitle("Loading...");
     }
 
@@ -127,11 +128,6 @@ public class PieceDetailActivity
       pieceImage.setImageDrawable(dImage);
       pieceImage.requestLayout();
     }
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_piece_detail, menu);
-    return super.onCreateOptionsMenu(menu);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

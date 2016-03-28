@@ -9,4 +9,5 @@ import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
  */
 public interface EditOutfitView extends MvpLceView<Object>{
   void onOutfitEdited();
+  void onImageLoaded(String id);
 }

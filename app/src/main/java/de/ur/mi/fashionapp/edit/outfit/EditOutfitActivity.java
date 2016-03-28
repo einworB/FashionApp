@@ -3,6 +3,8 @@ package de.ur.mi.fashionapp.edit.outfit;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 
@@ -38,8 +41,6 @@ public class EditOutfitActivity
 
     public static final String KEY_ITEM = "item";
 
-    private Context context;
-
     private WardrobeOutfitItem editItem;
     private EditOutfitAdapter adapter;
     private FloatingActionButton fab;
@@ -47,33 +48,42 @@ public class EditOutfitActivity
 
     private List<WardrobePieceItem> pieces;
 
+    private EditText editTitle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         wardrobeID = getIntent().getStringExtra("WardrobeID");
-        Log.d("idaaaaa",wardrobeID);
-        context = this;
         editItem = getIntent().getParcelableExtra(KEY_ITEM);
         adapter = new EditOutfitAdapter(this, this);
         contentView.setAdapter(adapter);
         contentView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        editTitle = (EditText) findViewById(R.id.edit_outfit_name);
+
+        if (editItem != null) {
+            presenter.loadOutfitImages(editItem.getID(), editItem);
+            editTitle.setText(editItem.getTitle());
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
+        } else {
+            editItem = new WardrobeOutfitItem();
+        }
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: maybe pass data via Bundle
                 Intent i =
-                        LinkService.getOutfitPieceIntent(EditOutfitActivity.this, wardrobeID);
+                        LinkService.getOutfitPieceIntent(EditOutfitActivity.this, editItem, wardrobeID);
                 startActivityForResult(i, REQUESTCODE_ADD);
             }
         });
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (editItem != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
-        }
     }
 
     @NonNull
@@ -89,8 +99,9 @@ public class EditOutfitActivity
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        // not needed
-        // TODO: maybe needed for a "prepareNewOutfit" function which returns a itemID?
+        if(editItem != null){
+            presenter.loadOutfitImages(editItem.getID(), editItem);
+        }
     }
 
     @Override
@@ -103,14 +114,31 @@ public class EditOutfitActivity
         finish();
     }
 
+    @Override
+    public void onImageLoaded(String id) {
+        Log.d("EOA", "onImageLoaded");
+        if(pieces != null) {
+            for (int i = 0; i < pieces.size(); i++) {
+                Bitmap image = pieces.get(i).getImage();
+                if (image != null) {
+                    ImageView pieceImage = (ImageView)findViewById(R.id.image);
+                    Drawable dImage = new BitmapDrawable(getResources(), image);
+                    pieceImage.setImageDrawable(dImage);
+                    pieceImage.requestLayout();
+                }
+            }
+        }
+    }
+
     private void createOutfit() {
         EditText et = (EditText) findViewById(R.id.edit_outfit_name);
-        editItem = new WardrobeOutfitItem();
         editItem.setTitle(et.getText().toString());
         Bitmap[] bitmaps = new Bitmap[10];
         if(!pieces.isEmpty()){
+            Log.d("EOA", "pieces not empty");
             for(int i=0; i<pieces.size(); i++){
                 Bitmap img = ((WardrobePieceItem)pieces.get(i)).getImage();
+                Log.d("EOA", "img: "+img.toString());
                 bitmaps[i] = img;
             }
             editItem.setImages(bitmaps);
@@ -161,9 +189,11 @@ public class EditOutfitActivity
                 // TODO: get item from intent and user other type than object!
                 pieces = data.getParcelableArrayListExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
                 Log.d("EOA", "pieces: "+pieces);
+                Log.d("EOA", "piece[0]image: "+pieces.get(0).getImage());
                 adapter.setItems(pieces);
                 adapter.notifyDataSetChanged();
                 //WardrobePieceItem item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
+
             }
         }
 

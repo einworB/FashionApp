@@ -13,6 +13,7 @@ import de.ur.mi.fashionapp.login.LoginActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 
 /**
  * Created by Philip on 01/03/2016.
@@ -92,8 +93,9 @@ public class LinkService {
         }
     }
 
-    public static Intent getOutfitPieceIntent(Context context, String wardrobeID) {
+    public static Intent getOutfitPieceIntent(Context context, WardrobeOutfitItem item, String wardrobeID) {
         Intent i = new Intent(context, PickOutfitPiecesActivity.class);
+        i.putExtra(EditOutfitActivity.KEY_ITEM, item);
         i.putExtra("WardrobeID", wardrobeID);
         return i;
     }

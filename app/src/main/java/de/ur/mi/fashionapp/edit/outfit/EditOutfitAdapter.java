@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.EditOutfitViewHolder;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
@@ -39,6 +41,7 @@ public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
+        Log.d("EOA", "onBindViewHolder");
         ((EditOutfitViewHolder) viewHolder).bind(getItem(position), this);
     }
 
