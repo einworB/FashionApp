@@ -54,4 +54,5 @@
   <string name="edit_piece_pick_color">Select a Color</string>
     <string name="title_activity_pick_outfit_pieces">Pick Pieces</string>
     <string name="outfit_name_hint">Name your new Outfit</string>
+    <string name="title_activity_imprint">Imprint</string>
 </resources>

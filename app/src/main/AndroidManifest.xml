@@ -2,90 +2,92 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.ur.mi.fashionapp">
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-  <uses-permission android:name="android.permission.CAMERA"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-  <meta-data
-      android:name="com.parse.APPLICATION_ID"
-      android:value="TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf"/>
-  <meta-data
-      android:name="com.parse.CLIENT_KEY"
-      android:value="GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS"/>
+    <meta-data
+        android:name="com.parse.APPLICATION_ID"
+        android:value="TWxq1vLfTKthoZe7ZT2QaWd3EVjMFB4GN2QEjfkf" />
+    <meta-data
+        android:name="com.parse.CLIENT_KEY"
+        android:value="GqctpYG2rJTGmf9vQxdRfG582D8dg01i1PnbBadS" />
 
-  <application
-      android:allowBackup="true"
-      android:name=".util.ParseApplication"
-      android:icon="@mipmap/ic_launcher"
-      android:label="@string/app_name"
-      android:supportsRtl="true"
-      android:theme="@style/AppTheme">
-    <activity
-        android:name=".login.LoginActivity"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:noHistory="true">
-      <intent-filter
-          android:label="@string/app_name">
-        <action android:name="android.intent.action.MAIN"/>
-
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
-    <activity
-        android:name=".wardrobe.WardrobeActivity"
-        android:label="@string/title_activity_wardrobe">
-    </activity>
-    <activity
-        android:name=".settings.SettingsActivity"
-        android:label="@string/title_activity_settings">
-    </activity>
-    <activity
-        android:name=".edit.piece.EditPieceActivity"
-        android:label="@string/title_activity_create_piece">
-    </activity>
-    <activity
-        android:name=".edit.outfit.EditOutfitActivity"
-        android:label="@string/title_activity_create_outfit">
-    </activity>
-      <activity
-          android:name=".edit.outfit.PickOutfitPiecesActivity"
-          android:label="@string/title_activity_pick_outfit_pieces">
-      </activity>
-    <activity
-        android:name=".detail.PieceDetailActivity"
-        android:label="@string/title_activity_piece_detail"
-        android:parentActivityName=".wardrobe.WardrobeActivity"
+    <application
+        android:name=".util.ParseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity"/>
-    </activity>
-    <activity
-        android:name=".detail.OutfitDetailActivity"
-        android:label="@string/title_activity_outfit_detail"
-        android:parentActivityName=".wardrobe.WardrobeActivity"
-        android:theme="@style/AppTheme">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity"/>
-    </activity>
-    <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-      <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-           App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-      <meta-data
-          android:name="com.google.android.gms.version"
-          android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.MAIN" />
 
-    <provider
-        android:authorities="de.ur.mi.fashionapp.FileProvider"
-        android:exported="false"
-        android:grantUriPermissions="true"
-        android:name="android.support.v4.content.FileProvider">
-      <meta-data
-          android:name="android.support.FILE_PROVIDER_PATHS"
-          android:resource="@xml/sharingfilepaths"/>
-    </provider>
-  </application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wardrobe.WardrobeActivity"
+            android:label="@string/title_activity_wardrobe" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".edit.piece.EditPieceActivity"
+            android:label="@string/title_activity_create_piece" />
+        <activity
+            android:name=".edit.outfit.EditOutfitActivity"
+            android:label="@string/title_activity_create_outfit" />
+        <activity
+            android:name=".edit.outfit.PickOutfitPiecesActivity"
+            android:label="@string/title_activity_pick_outfit_pieces" />
+        <activity
+            android:name=".detail.PieceDetailActivity"
+            android:label="@string/title_activity_piece_detail"
+            android:parentActivityName=".wardrobe.WardrobeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity" />
+        </activity>
+        <activity
+            android:name=".detail.OutfitDetailActivity"
+            android:label="@string/title_activity_outfit_detail"
+            android:parentActivityName=".wardrobe.WardrobeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.ur.mi.fashionapp.wardrobe.WardrobeActivity" />
+        </activity>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <!--
+           ATTENTION: This was auto-generated to add Google Play services to your project for
+           App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="de.ur.mi.fashionapp.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/sharingfilepaths" />
+        </provider>
+
+        <activity
+            android:name=".extras.Imprint"
+            android:label="@string/title_activity_imprint"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".extras.help"></activity>
+    </application>
 
 </manifest>
