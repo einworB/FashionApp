@@ -31,6 +31,10 @@ public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>
 
     }
 
+    public List<WardrobePieceItem> getPieces(String[] pieceIDs) {
+        return null;
+    }
+
     interface EditOutfitAdapterListener {
         void onEditOutfitItemClicked(EditOutfitItem item);
     }
@@ -42,7 +46,6 @@ public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
-        Log.d("EOA", "onBindViewHolder item: "+getItem(position));
         ((EditOutfitViewHolder) viewHolder).bind(getItem(position), this);
     }
 

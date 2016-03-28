@@ -34,7 +34,7 @@ import java.util.List;
  * Created by Philip on 05/03/2016.
  */
 public class EditOutfitActivity
-        extends CBActivityMvpToolbar<RecyclerView, Object, EditOutfitView, EditOutfitPresenter>
+        extends CBActivityMvpToolbar<RecyclerView, List<WardrobePieceItem>, EditOutfitView, EditOutfitPresenter>
         implements EditOutfitView, EditOutfitAdapter.EditOutfitAdapterListener {
 
     static int REQUESTCODE_ADD = 401;
@@ -47,6 +47,7 @@ public class EditOutfitActivity
     private  String wardrobeID;
 
     private List<WardrobePieceItem> pieces;
+    private String[] pieceIDs = new String[10];
 
     private EditText editTitle;
 
@@ -65,7 +66,9 @@ public class EditOutfitActivity
         editTitle = (EditText) findViewById(R.id.edit_outfit_name);
 
         if (editItem != null) {
-            presenter.loadOutfitImages(editItem.getID(), editItem);
+            pieces = adapter.getPieces(editItem.getPieceIDs());
+            pieceIDs = editItem.getPieceIDs();
+            presenter.loadOutfitImages(pieceIDs, editItem);
             editTitle.setText(editItem.getTitle());
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,17 +96,16 @@ public class EditOutfitActivity
     }
 
     @Override
-    public void setData(Object data) {
+    public void setData(List<WardrobePieceItem> data) {
         // not needed
     }
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        Log.d("EOA", "loadData");
         presenter.loadItems(true);
-        /*if(editItem != null && editItem.getID() != null){
-            presenter.loadOutfitImages(editItem.getID(), editItem);
-        }*/
+        if(editItem != null && editItem.getID() != null){
+            presenter.loadOutfitImages(pieceIDs, editItem);
+        }
     }
 
     @Override
@@ -118,21 +120,12 @@ public class EditOutfitActivity
 
     @Override
     public void onImageLoaded(String id) {
-        Log.d("EOA", "onImageLoaded");
-
-        if(pieces != null) {
-            for (int i = 0; i < pieces.size(); i++) {
-                int itemPosition = adapter.getItemPosition(pieces.get(i).getID());
+        if(pieceIDs != null) {
+            for (int i = 0; i < 10; i++) {
+                int itemPosition = adapter.getItemPosition(pieceIDs[i]);
                 if (itemPosition != -1) {
                     adapter.notifyItemChanged(itemPosition);
                 }
-                /*Bitmap image = pieces.get(i).getImage();
-                if (image != null) {
-                    ImageView pieceImage = (ImageView)findViewById(R.id.image);
-                    Drawable dImage = new BitmapDrawable(getResources(), image);
-                    pieceImage.setImageDrawable(dImage);
-                    pieceImage.requestLayout();
-                }*/
             }
         }
     }
@@ -142,10 +135,8 @@ public class EditOutfitActivity
         editItem.setTitle(et.getText().toString());
         Bitmap[] bitmaps = new Bitmap[10];
         if(!pieces.isEmpty()){
-            Log.d("EOA", "pieces not empty");
             for(int i=0; i<pieces.size(); i++){
                 Bitmap img = ((WardrobePieceItem)pieces.get(i)).getImage();
-                Log.d("EOA", "img: "+img.toString());
                 bitmaps[i] = img;
             }
             editItem.setImages(bitmaps);
@@ -195,11 +186,12 @@ public class EditOutfitActivity
             if (data != null) {
                 // TODO: get item from intent and user other type than object!
                 pieces = data.getParcelableArrayListExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
-                Log.d("EOA", "pieces: "+pieces);
-                Log.d("EOA", "piece[0]image: " + pieces.get(0).getImage());
+                for(int i=0; i<pieces.size(); i++){
+                    pieceIDs[i] = pieces.get(i).getID();
+                }
+                editItem.setPieceIDs(pieceIDs);
                 adapter.setItems(pieces);
                 adapter.notifyDataSetChanged();
-                //WardrobePieceItem item = data.getParcelableExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
             }
         }
 

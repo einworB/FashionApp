@@ -31,9 +31,11 @@ public class PickOutfitPiecesActivity
         implements PickOutfitPiecesView, PickOutfitPiecesAdapter.PickOutfitPiecesAdapterListener{
 
     public static String INTENT_EXTRA_PICKED_ITEM = "picked_item";
-
     private PickOutfitPiecesAdapter adapter;
     private ArrayList<WardrobePieceItem> outfitItemsAdded;
+    private String[] pieceIDs;
+
+    private int num = 0;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class PickOutfitPiecesActivity
         contentView.setAdapter(adapter);
         contentView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         outfitItemsAdded = new ArrayList<>();
+        pieceIDs = new String[10];
     }
 
     @NonNull
@@ -72,6 +75,8 @@ public class PickOutfitPiecesActivity
 
             Log.d("POPA", "itemImage: " + item.getImage());
             outfitItemsAdded.add(item);
+            pieceIDs[num] = item.getID();
+            num++;
         }
     }
 

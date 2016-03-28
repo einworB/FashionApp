@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -81,6 +82,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
             public void done(byte[] data, ParseException e) {
                 if (e == null) {
                     piece.setImage(ImageHelper.getScaledBitmap(data));
+                    Log.d("EOA P", "setImage: "+ImageHelper.getScaledBitmap(data));
                 }
                 if (isViewAttached()) {
                     getView().onImageLoaded(piece.getID());
@@ -94,7 +96,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
         return piece;
     }
 
-    public void loadOutfitImages(String id, final WardrobeOutfitItem outfit) {
+    /*public void loadOutfitImages(String id, final WardrobeOutfitItem outfit) {
         if (isViewAttached()) {
             getView().showLoading(true);
         }
@@ -120,7 +122,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
                 }
             }
         });
-    }
+    }*/
 
     private void getPiecePicture(final WardrobeOutfitItem outfit, final String[] pieces, final int number) {
         if (pieces[number] != null && !pieces[number].isEmpty()) {
@@ -155,6 +157,63 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
             });
         }
 
+    }
+
+    void loadOutfitImages(final String[] pieceIDs, final WardrobeOutfitItem outfit) {
+        if (isViewAttached()) {
+            getView().showLoading(true);
+        }
+        for (int i = 0; i < pieceIDs.length; i++) {
+            if (pieceIDs[i] == null || pieceIDs[i].isEmpty()) {
+                continue;
+            }
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
+            query.whereEqualTo("objectId", pieceIDs[i]);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null && objects.size() > 0) {
+                        ParseObject obj = objects.get(0);
+                        ParseFile fileObject = (ParseFile) obj.get("Image");
+                        getPieceImage(pieceIDs, outfit, fileObject, obj.getObjectId());
+                    } else if (e != null) {
+                        if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                        } else if (isViewAttached()) {
+                            getView().showError(e, false);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void getPieceImage(final String[] pieceIDs, final WardrobeOutfitItem outfit,
+                               ParseFile file, final String pieceID) {
+        file.getDataInBackground(new GetDataCallback() {
+            @Override public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    if (data != null) {
+                        Bitmap[] images = outfit.getImages();
+                        for (int j = 0; j < pieceIDs.length; j++) {
+                            if (pieceIDs[j].equals(pieceID)) {
+                                images[j] = ImageHelper.getScaledBitmap(data);
+                                break;
+                            }
+                        }
+                        if (isViewAttached()) {
+                            getView().onImageLoaded(pieceID);
+                            getView().showContent();
+                        }
+                    }
+                } else {
+                    if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                    } else if (isViewAttached()) {
+                        getView().showError(e, false);
+                    }
+                }
+            }
+        });
     }
 
     public void createOutfit(WardrobeOutfitItem item, boolean pullToRefresh) {

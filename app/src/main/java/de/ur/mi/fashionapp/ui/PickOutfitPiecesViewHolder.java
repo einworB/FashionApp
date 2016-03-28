@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.ui;
 import android.graphics.Bitmap;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
         label.setVisibility(View.GONE);
         Bitmap image = item.getImage();
         if(image!=null) {
+            Log.d("POPA", "image!");
             pic.setImageBitmap(image);
         }
     }
