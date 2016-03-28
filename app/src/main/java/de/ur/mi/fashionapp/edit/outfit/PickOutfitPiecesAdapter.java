@@ -4,17 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
-
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.PickOutfitPiecesViewHolder;
-import de.ur.mi.fashionapp.ui.WardrobePieceItemViewHolder;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import java.util.List;
 
 /**
  * Created by Philip on 23/03/2016.
@@ -22,7 +17,6 @@ import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePieceItem> implements PickOutfitPiecesViewHolder.PickOutfitPiecesViewHolderListener {
 
     PickOutfitPiecesAdapterListener listener;
-    private List<WardrobePieceItem> model = new ArrayList<>();
 
     //TODO: items to activity! viewholderlistener! (see wardrobe adapter +  piece viewholder)
     interface PickOutfitPiecesAdapterListener {
@@ -57,6 +51,17 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
 
     @Override public void setItems(List<WardrobePieceItem> items) {
         this.items = items;
-        this.model = new ArrayList<>(items);
+    }
+
+    public int getItemPosition(String itemID) {
+        if (itemID != null) {
+            for (int i = 0; i < items.size(); i++) {
+                WardrobeItem item = items.get(i);
+                if (itemID.equals(item.getID())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 }

@@ -1,24 +1,16 @@
 package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +78,7 @@ public class PickOutfitPiecesActivity
 
     @Override
     public void onImageLoaded(String itemID) {
-
+        adapter.notifyItemChanged(adapter.getItemPosition(itemID));
     }
 
 
