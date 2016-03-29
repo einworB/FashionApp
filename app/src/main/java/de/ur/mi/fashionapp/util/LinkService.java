@@ -56,37 +56,41 @@ public class LinkService {
         }
     }
 
-    public static Intent getUpdateIntent(Context context, int type, WardrobeItem item, String wardrobeID) {
+    public static Intent getUpdateIntent(Context context, int type, WardrobeItem item, String wardrobeID, boolean isDetail) {
         Intent i;
         switch (type) {
             case WardrobeFragment.TYPE_OUTFIT:
                 i = new Intent(context, EditOutfitActivity.class);
                 i.putExtra(EditOutfitActivity.KEY_ITEM, item);
                 i.putExtra("WardrobeID", wardrobeID);
+                i.putExtra("isDetail",isDetail);
                 return i;
             case WardrobeFragment.TYPE_PIECE:
                 i = new Intent(context, EditPieceActivity.class);
                 i.putExtra(EditPieceActivity.KEY_ITEM, item);
                 i.putExtra("WardrobeID", wardrobeID);
+                i.putExtra("isDetail",isDetail);
                 return i;
             default:
                 return null;
         }
     }
 
-    public static Intent getDetailIntent(Context context, int type, WardrobeItem item, String wardrobeID, String itemID) {
+    public static Intent getDetailIntent(Context context, int type, WardrobeItem item, String wardrobeID, String itemID, boolean isDetail) {
         Intent i;
         switch (type) {
             case WardrobeFragment.TYPE_OUTFIT:
                 i = new Intent(context, OutfitDetailActivity.class);
                 i.putExtra(OutfitDetailActivity.KEY_ITEM, item);
                 i.putExtra(OutfitDetailActivity.KEY_WARDROBE_ID, wardrobeID);
+                i.putExtra("isDetail",isDetail);
                 return i;
             case WardrobeFragment.TYPE_PIECE:
                 i = new Intent(context, PieceDetailActivity.class);
                 i.putExtra(PieceDetailActivity.KEY_ITEM, item);
                 i.putExtra(PieceDetailActivity.KEY_WARDROBE_ID, wardrobeID);
                 i.putExtra(PieceDetailActivity.KEY_ITEM_ID, itemID);
+                i.putExtra("isDetail",isDetail);
                 return i;
             default:
                 return null;

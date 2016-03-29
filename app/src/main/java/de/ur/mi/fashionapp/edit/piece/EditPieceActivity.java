@@ -75,6 +75,7 @@ public class EditPieceActivity
     super.onCreate(savedInstanceState);
     wardrobeID = getIntent().getStringExtra("WardrobeID");
     editItem = getIntent().getParcelableExtra(KEY_ITEM);
+//    if(getIntent().getExtras().getBoolean("isDetail"))uploadImage.setTag("already set");
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -86,7 +87,6 @@ public class EditPieceActivity
     //colorContainer = findViewById(R.id.edit_piece_color_container);
     occasionContainer = findViewById(R.id.edit_piece_occasion_container);
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
-    uploadImage.setTag("set");
     colorPickerView = (ImageView) findViewById(R.id.edit_piece_color_picker);
     selectedColor = Color.BLACK;
 
@@ -96,8 +96,9 @@ public class EditPieceActivity
     //sliderController.addSlider(colorContainer, false, 7);
     sliderController.addSlider(occasionContainer, true, 4, ImageSliderController.SLIDER_TYPE_OCCASION);
 
-    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+
     if (editItem != null) {
+      uploadImage.setTag("already set");
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
       presenter.loadPieceImage(editItem.getID(), editItem);
@@ -107,8 +108,11 @@ public class EditPieceActivity
       colorPickerView.setImageBitmap(null);
       colorPickerView.setBackgroundColor(selectedColor);
     }
+    else{
+      uploadImage.setTag("0");
+    }
 
-    uploadImage.setTag("0");
+
     uploadImage.setOnClickListener(new OnImageClickListener());
 
     colorPickerView.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +210,7 @@ public class EditPieceActivity
   private void updatePiece() {
     setItemFields();
     presenter.updatePiece(editItem.getID().toString(), editItem, true);
+
   }
 
   private void setItemFields() {

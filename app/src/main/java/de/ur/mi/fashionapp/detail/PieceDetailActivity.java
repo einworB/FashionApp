@@ -37,6 +37,7 @@ public class PieceDetailActivity
   private ImageView pieceImage, pieceType, pieceColor, pieceSeason, pieceOccasion;
   private View tagContainer, shareContainer;
   private TextView sharingText;
+  private boolean isDetail;
 
   private CatWrapper cW;
 
@@ -74,7 +75,7 @@ public class PieceDetailActivity
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE, item,
-                wardrobeID));
+                wardrobeID,getIntent().getExtras().getBoolean("isDetail")));
       }
     });
   }

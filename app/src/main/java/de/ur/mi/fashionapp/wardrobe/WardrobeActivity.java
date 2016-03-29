@@ -183,7 +183,7 @@ public class WardrobeActivity extends
   }
 
   public void onWardrobeItemClicked(int type, WardrobeItem item) {
-    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID, null));
+    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID, null, true));
   }
 
   @Override public void onBackPressed() {

@@ -60,7 +60,7 @@ public class OutfitDetailActivity
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(OutfitDetailActivity.this, WardrobeFragment.TYPE_OUTFIT,
-                item, wardrobeID));
+                item, wardrobeID, getIntent().getExtras().getBoolean("isDetail")));
       }
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -136,7 +136,7 @@ public class OutfitDetailActivity
         String pieceID = this.item.getPieceIDs()[currentPosition];
         startActivity(
             LinkService.getDetailIntent(this, WardrobeFragment.TYPE_PIECE, null, wardrobeID,
-                pieceID));
+                    pieceID, getIntent().getExtras().getBoolean("isDetail")));
         return true;
       default:
         return super.onOptionsItemSelected(item);
