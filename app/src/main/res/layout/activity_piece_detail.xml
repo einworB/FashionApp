@@ -26,6 +26,7 @@
 
     </android.support.design.widget.AppBarLayout>
     <android.support.percent.PercentRelativeLayout
+        android:id="@+id/shareContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -44,6 +45,7 @@
             android:layout_marginBottom="20dp"/>
 
         <android.support.percent.PercentRelativeLayout
+            android:id="@+id/tagContainer"
             app:layout_widthPercent="80%"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -77,6 +79,19 @@
                 android:src="@drawable/ic_icon_couch"
                 android:layout_toRightOf="@+id/pieceSeason"/>
         </android.support.percent.PercentRelativeLayout>
+        <TextView
+            android:id="@+id/sharingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pieceImage"
+            android:textColor="@color/md_black"
+            android:textSize="18sp"
+            android:padding="4dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:background="@color/colorPrimary"
+            android:text="Look at the new piece of clothing I just added to my wardrobe. Try it out now in the FashionApp www.fashionapp.ninja"
+            />
 
     </android.support.percent.PercentRelativeLayout>
 

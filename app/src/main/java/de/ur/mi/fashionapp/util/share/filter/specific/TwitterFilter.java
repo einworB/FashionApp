@@ -18,4 +18,10 @@ public class TwitterFilter implements AppSpecificFilter {
       intent.putExtra(Intent.EXTRA_STREAM, iconUri);
     }
   }
+
+  @Override public void fillIntent(Intent intent, Uri iconUri) {
+    if (iconUri != null) {
+      intent.putExtra(Intent.EXTRA_STREAM, iconUri);
+    }
+  }
 }

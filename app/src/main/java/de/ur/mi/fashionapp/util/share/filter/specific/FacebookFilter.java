@@ -6,10 +6,10 @@ import android.net.Uri;
 /**
  * Created by Philip on 22/03/2016.
  */
-public class WhatsappFilter implements AppSpecificFilter {
+public class FacebookFilter implements AppSpecificFilter {
 
   @Override public String getPackageName() {
-    return "com.whatsapp";
+    return "com.facebook.katana";
   }
 
   @Override public void fillIntent(Intent intent, String subject, String webUrl, Uri iconUri) {

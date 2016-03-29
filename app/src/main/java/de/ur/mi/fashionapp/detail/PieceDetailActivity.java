@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.CatWrapper;
@@ -34,6 +35,8 @@ public class PieceDetailActivity
   private String wardrobeID;
   private String itemID;
   private ImageView pieceImage, pieceType, pieceColor, pieceSeason, pieceOccasion;
+  private View tagContainer, shareContainer;
+  private TextView sharingText;
 
   private CatWrapper cW;
 
@@ -52,6 +55,9 @@ public class PieceDetailActivity
     pieceType = (ImageView) findViewById(R.id.pieceType);
     pieceSeason = (ImageView) findViewById(R.id.pieceSeason);
     pieceOccasion = (ImageView) findViewById(R.id.pieceOccasion);
+    tagContainer = findViewById(R.id.tagContainer);
+    shareContainer = findViewById(R.id.shareContainer);
+    sharingText = (TextView) findViewById(R.id.sharingText);
 
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -130,17 +136,35 @@ public class PieceDetailActivity
     }
   }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_piece_detail, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.menu_piece_detail_share:
         // TODO: sharing here
-        Intent intent =
-            ShareHelper.startSharing("Look at my new piece of clothing!", "www.uni-regensburg.de",
-                "I chose to organize my clothes with the FashionApp", pieceImage.getDrawable(),
-                this);
-        if (intent != null) {
-          startActivityForResult(intent, 1);
-        }
+        tagContainer.setVisibility(View.GONE);
+        sharingText.setVisibility(View.VISIBLE);
+        shareContainer.invalidate();
+        shareContainer.post(new Runnable() {
+          @Override public void run() {
+            shareContainer.setDrawingCacheEnabled(true);
+            shareContainer.buildDrawingCache(true);
+            Bitmap bitmap = Bitmap.createBitmap(shareContainer.getDrawingCache(true));
+            Intent intent = ShareHelper.startSharing(bitmap, PieceDetailActivity.this);
+            if (intent != null) {
+              startActivityForResult(intent, 1);
+            } else {
+              // TODO: show error toast; no social media apps installed(twitter, facebook, whatsapp)
+            }
+            tagContainer.setVisibility(View.VISIBLE);
+            sharingText.setVisibility(View.GONE);
+            shareContainer.setDrawingCacheEnabled(false);
+          }
+        });
+
         return true;
       default:
         return super.onOptionsItemSelected(item);
