@@ -86,7 +86,6 @@ public class EditOutfitActivity extends
   @Override public void loadData(boolean pullToRefresh) {
     if (editItem != null && editItem.getID() != null) {
       presenter.loadItems(editItem.getID(), true);
-      presenter.loadOutfitImages(pieceIDs, editItem);
     }
   }
 
@@ -146,13 +145,12 @@ public class EditOutfitActivity extends
           // TODO: show error
         } else {
           setResult(RESULT_OK);
-          if (editItem == null) {
+          if (editItem == null || editItem.getID() == null) {
             createOutfit();
           } else {
             updateOutfit();
           }
         }
-
         break;
     }
     return super.onOptionsItemSelected(item);
@@ -174,6 +172,7 @@ public class EditOutfitActivity extends
           pieceIDs[i] = pieces.get(i).getID();
         }
         editItem.setPieceIDs(pieceIDs);
+        presenter.loadOutfitImages(pieceIDs, editItem);
         adapter.setItems(pieces);
         adapter.notifyDataSetChanged();
       }
