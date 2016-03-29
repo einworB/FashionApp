@@ -73,8 +73,11 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
         }
         else{
           if(e.getCode()==ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          }
+          else if(isViewAttached()){
+            getView().showError(e, false);
+          }
         }
       }
     });

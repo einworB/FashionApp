@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.ImageViewholder;
@@ -149,7 +150,7 @@ public class OutfitDetailActivity
             if (intent != null) {
               startActivityForResult(intent, 1);
             } else {
-              // TODO: show error toast; no social media apps installed(twitter, facebook, whatsapp)
+              Toast.makeText(OutfitDetailActivity.this, "No social media apps installed", Toast.LENGTH_LONG).show();
             }
             sharingText.setVisibility(View.GONE);
             shareContainer.setDrawingCacheEnabled(false);
