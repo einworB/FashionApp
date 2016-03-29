@@ -8,15 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.LinearLayout;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.CBActivityMvpFragment;
 import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
-public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, LoginView, LoginPresenter>
-    implements LoginView{
+public class LoginActivity
+    extends CBActivityMvpFragment<LinearLayout, String, LoginView, LoginPresenter>
+    implements LoginView {
 
   LoginAdapter adapter;
   private static Context context;
@@ -69,16 +67,22 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
     presenter.register(username, email, password);
   }
 
-  public void openRegisterFragment(){
+  public void openRegisterFragment() {
     FragmentManager manager = getSupportFragmentManager();
     FragmentTransaction transaction = manager.beginTransaction();
-    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out);
+    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
+        R.anim.slide_left_in, R.anim.slide_right_out);
     transaction.replace(R.id.contentView, new RegisterFragment());
     transaction.addToBackStack(null);
     transaction.commit();
   }
-  public void onPasswordResetSuccess(){
 
+  public void onPasswordResetSuccess() {
+
+  }
+
+  @Override protected void onErrorViewClicked() {
+    showContent();
   }
 
   void resetPassword(String userName) {
@@ -86,10 +90,11 @@ public class LoginActivity extends CBActivityMvpFragment<LinearLayout, String, L
   }
 
   //getter for the current context
-  public static Context getContext(){
+  public static Context getContext() {
     return context;
   }
-    public static void setContext(Context con) {
-        context = con;
-    }
+
+  public static void setContext(Context con) {
+    context = con;
+  }
 }
