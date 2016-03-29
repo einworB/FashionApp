@@ -1,5 +1,6 @@
 package de.ur.mi.fashionapp.detail;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.ImageViewholder;
 import de.ur.mi.fashionapp.util.LinkService;
+import de.ur.mi.fashionapp.util.share.ShareHelper;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import java.util.ArrayList;
@@ -34,6 +37,8 @@ public class OutfitDetailActivity
   private int currentPosition;
   private int pieceCount;
   private List<Integer> loadedImagePositions = new ArrayList<>();
+  private View shareContainer;
+  private TextView sharingText;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     item = getIntent().getParcelableExtra(KEY_ITEM);
@@ -50,6 +55,8 @@ public class OutfitDetailActivity
     setSupportActionBar(toolbar);
 
     mainPiece = (ImageView) findViewById(R.id.mainPiece);
+    shareContainer = findViewById(R.id.shareContainer);
+    sharingText = (TextView) findViewById(R.id.sharingText);
     adapter = new OutfitDetailAdapter(this, this);
     contentView.setAdapter(adapter);
     contentView.setLayoutManager(
@@ -131,6 +138,23 @@ public class OutfitDetailActivity
     switch (item.getItemId()) {
       case R.id.menu_outfit_detail_share:
         // TODO: sharing here
+        sharingText.setVisibility(View.VISIBLE);
+        shareContainer.invalidate();
+        shareContainer.post(new Runnable() {
+          @Override public void run() {
+            shareContainer.setDrawingCacheEnabled(true);
+            shareContainer.buildDrawingCache(true);
+            Bitmap bitmap = Bitmap.createBitmap(shareContainer.getDrawingCache(true));
+            Intent intent = ShareHelper.startSharing(bitmap, OutfitDetailActivity.this);
+            if (intent != null) {
+              startActivityForResult(intent, 1);
+            } else {
+              // TODO: show error toast; no social media apps installed(twitter, facebook, whatsapp)
+            }
+            sharingText.setVisibility(View.GONE);
+            shareContainer.setDrawingCacheEnabled(false);
+          }
+        });
         return true;
       case R.id.menu_outfit_detail_info:
         String pieceID = this.item.getPieceIDs()[currentPosition];

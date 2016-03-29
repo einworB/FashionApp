@@ -12,10 +12,6 @@ public class WhatsappFilter implements AppSpecificFilter {
     return "com.whatsapp";
   }
 
-  @Override public void fillIntent(Intent intent, String subject, String webUrl, Uri iconUri) {
-    intent.putExtra(Intent.EXTRA_TEXT, subject + " " + webUrl);
-  }
-
   @Override public void fillIntent(Intent intent, Uri iconUri) {
     if (iconUri != null) {
       intent.putExtra(Intent.EXTRA_STREAM, iconUri);

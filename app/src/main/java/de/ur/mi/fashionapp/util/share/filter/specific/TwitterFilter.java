@@ -12,13 +12,6 @@ public class TwitterFilter implements AppSpecificFilter {
     return "com.twitter.android";
   }
 
-  @Override public void fillIntent(Intent intent, String subject, String webUrl, Uri iconUri) {
-    intent.putExtra(Intent.EXTRA_TEXT, subject + " " + webUrl);
-    if (iconUri != null) {
-      intent.putExtra(Intent.EXTRA_STREAM, iconUri);
-    }
-  }
-
   @Override public void fillIntent(Intent intent, Uri iconUri) {
     if (iconUri != null) {
       intent.putExtra(Intent.EXTRA_STREAM, iconUri);
