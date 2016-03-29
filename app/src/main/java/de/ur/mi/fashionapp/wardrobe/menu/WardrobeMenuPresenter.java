@@ -83,7 +83,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
         if (e == null) {
           if (isViewAttached()) {
             getView().showContent();
-            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId(),objects.get(0).getString("Name"));
+            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId(), objects.get(0).getString("Name"));
           }
         } else {
           if(e.getCode()== ParseException.CONNECTION_FAILED){
@@ -138,11 +138,30 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
           wardrobe.setID(wr.getObjectId());
           getView().onNewWardrobeCreated(wardrobe);
         } else {
-          if(e.getCode()==ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) getView().showError(e, false);
         }
       }
     });
   }
+
+  public void setCurrentWardrobeID(String ID){
+    ParseUser user = ParseUser.getCurrentUser();
+    user.put("currentWardrobeID", ID);
+    if(isViewAttached())getView().showLoading(true);
+    user.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if(e==null){
+          if(isViewAttached())getView().showContent();
+        }else {
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) getView().showError(e, false);
+        }
+      }
+    });
+  }
+
 }

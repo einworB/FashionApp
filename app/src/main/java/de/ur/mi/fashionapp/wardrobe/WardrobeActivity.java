@@ -157,6 +157,7 @@ public class WardrobeActivity extends
         ((WardrobeFragment) f).setWardrobe(ID);
       }
     }
+    presenter.setCurrentWardrobeID(ID);
     wardrobeID = ID;
     toolbar.setTitle(title);
     drawerLayout.closeDrawers();
