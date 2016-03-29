@@ -157,11 +157,13 @@ public class WardrobeActivity extends
         ((WardrobeFragment) f).setWardrobe(ID);
       }
     }
+    wardrobeID = ID;
     toolbar.setTitle(title);
     drawerLayout.closeDrawers();
   }
 
   @Override public void onNewWardrobeClicked() {
+
     presenter.addNewWardrobe();
   }
 

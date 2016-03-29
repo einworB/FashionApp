@@ -70,8 +70,10 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
   }
 
   public void getFirstWardrobeID(){
+    ParseUser user = ParseUser.getCurrentUser();
+    String id = user.get("currentWardrobeID").toString();
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
-    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+    query.whereEqualTo("objectId", id);
     if (isViewAttached()) {
       getView().showLoading(true);
     }

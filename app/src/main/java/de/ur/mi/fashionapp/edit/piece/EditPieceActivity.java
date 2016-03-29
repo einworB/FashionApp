@@ -68,8 +68,8 @@ public class EditPieceActivity
 
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
-  int[] container = new int[]{4,0,0,0};
-  int[] drawableContainer = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
+  int[] container = new int[]{0,0,0,0};
+  int[] drawableContainer = new int[]{R.drawable.ic_icon_top,R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom};
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -108,8 +108,9 @@ public class EditPieceActivity
       colorPickerView.setBackgroundColor(selectedColor);
     }
 
-    uploadImage.setOnClickListener(new OnImageClickListener());
     uploadImage.setTag("0");
+    uploadImage.setOnClickListener(new OnImageClickListener());
+
     colorPickerView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
@@ -217,7 +218,8 @@ public class EditPieceActivity
     editItem.setColor(selectedColor);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
         drawableContainer[container[0]]);
-    if( uploadImage!=null) {
+    Log.d("check",uploadImage.getTag()+"");
+    if( uploadImage!=null && uploadImage.getTag().toString()!="0") {
       bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
     }
     editItem.setImage(bitmap);
