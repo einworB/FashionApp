@@ -11,6 +11,7 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
   @ParcelableNoThanks public static final int MAX_IMAGE_HEIGHT = 250;
   @ParcelableNoThanks public static final int MAX_IMAGE_WIDTH = 250;
+  @ParcelableNoThanks public boolean isSelected = false;
   int category;
   int season;
   int occasion;
@@ -56,5 +57,10 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
   public void setColor(int tag) {
     color = tag;
   }
-
+  public boolean isSelected(){
+    return isSelected;
+  }
+  public void setSelection(boolean isSelected) {
+    this.isSelected = isSelected;
+  }
 }

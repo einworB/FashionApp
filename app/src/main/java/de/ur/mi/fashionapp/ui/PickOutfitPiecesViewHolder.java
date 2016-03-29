@@ -32,13 +32,15 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
     }
 
     //TODO: bind, listener
-    public void bind(final WardrobePieceItem item, final PickOutfitPiecesViewHolderListener listener) {
+    public void bind(final WardrobePieceItem item, final PickOutfitPiecesViewHolderListener listener, final boolean isSelected) {
         pieceItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selected.getVisibility() == View.GONE){
+                if(selected.getVisibility() == View.GONE || isSelected){
                     selected.setVisibility(View.VISIBLE);
-                } else selected.setVisibility(View.GONE);
+                } else {
+                    selected.setVisibility(View.GONE);
+                }
                 listener.onPickOutfitPiecesItemClicked(item);
             }
         });

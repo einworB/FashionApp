@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -23,19 +25,37 @@ public class PickOutfitPiecesActivity
         implements PickOutfitPiecesView, PickOutfitPiecesAdapter.PickOutfitPiecesAdapterListener{
 
     public static String INTENT_EXTRA_PICKED_ITEM = "picked_item";
+    public static String KEY_ITEM = "item";
     private PickOutfitPiecesAdapter adapter;
-    private ArrayList<WardrobePieceItem> outfitItemsAdded;
-    private String[] pieceIDs;
 
+    private WardrobeOutfitItem editItem;
+    private String[] pieceIDs;
+    private String wardrobeID;
+    private ArrayList<WardrobePieceItem> outfitItemsAdded;
+    private ArrayList<String> tempPieceIDs;
     private int num = 0;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        wardrobeID = getIntent().getStringExtra("WardrobeID");
+        loadData(true);
+        editItem = getIntent().getParcelableExtra(KEY_ITEM);
         adapter = new PickOutfitPiecesAdapter(this, this);
         contentView.setAdapter(adapter);
         contentView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         outfitItemsAdded = new ArrayList<>();
-        pieceIDs = new String[10];
+        if(editItem != null){
+            tempPieceIDs = new ArrayList<>(Arrays.asList(editItem.getPieceIDs()));
+            for(int i=0; i<editItem.getPieceIDs().length; i++){
+                if(editItem.getPieceIDs()[i]!= null){
+                    WardrobePieceItem item = new WardrobePieceItem();
+                    item.setID(editItem.getPieceIDs()[i]);
+                    item.setImage(editItem.getImages()[i]);
+                    item.isSelected = true;
+                    outfitItemsAdded.add(item);
+                }
+            }
+        } else tempPieceIDs = new ArrayList<>();
     }
 
     @NonNull
@@ -55,7 +75,10 @@ public class PickOutfitPiecesActivity
     @Override
     public void loadData(boolean pullToRefresh) {
       // load all pieces from the presenter here (unless they are passed from the last activity)
-        presenter.loadWardrobeItems(true);
+        Log.d("POPA", "wardrobeID in loadData: " + wardrobeID);
+        if(wardrobeID != null){
+            presenter.loadWardrobeItems(wardrobeID, true);
+        }
     }
 
     @Override
@@ -63,12 +86,17 @@ public class PickOutfitPiecesActivity
         // set item here
         Intent intent = new Intent();
         // use wardrobeitems
-        if(item != null){
-
-            Log.d("POPA", "itemImage: " + item.getImage());
-            outfitItemsAdded.add(item);
-            pieceIDs[num] = item.getID();
-            num++;
+        if(item != null && num < 10){
+            if(!tempPieceIDs.contains(item.getID())){
+                Log.d("POPA", "itemImage: " + item.getImage());
+                outfitItemsAdded.add(item);
+                tempPieceIDs.add(item.getID());
+                num++;
+            } else {
+                outfitItemsAdded.remove(item);
+                tempPieceIDs.remove(item.getID());
+                num--;
+            }
         }
     }
 
@@ -78,6 +106,9 @@ public class PickOutfitPiecesActivity
 
     @Override
     public void onImageLoaded(String itemID) {
+        if(tempPieceIDs.contains(itemID)){
+            adapter.setItemSelected(itemID);
+        }
         adapter.notifyItemChanged(adapter.getItemPosition(itemID));
     }
 

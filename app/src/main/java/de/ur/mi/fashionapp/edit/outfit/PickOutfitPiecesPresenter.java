@@ -1,6 +1,7 @@
 package de.ur.mi.fashionapp.edit.outfit;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
@@ -29,7 +30,8 @@ public class PickOutfitPiecesPresenter extends MvpBasePresenter<PickOutfitPieces
         attachView(view);
     }
 
-    public void loadWardrobeItems(boolean pullToRefresh) {
+    public void loadWardrobeItems(String wardrobeID, boolean pullToRefresh) {
+        Log.d("POPA", "got wardrobeID: "+wardrobeID);
         if (isViewAttached()) {
             getView().showLoading(pullToRefresh);
         }
@@ -38,6 +40,11 @@ public class PickOutfitPiecesPresenter extends MvpBasePresenter<PickOutfitPieces
         query = ParseQuery.getQuery("Piece");
 
         query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
+
+        if(wardrobeID!=null) {
+
+            query.whereEqualTo("WardrobeID", wardrobeID);
+        }
 
         if (isViewAttached()) {
             getView().showLoading(true);
@@ -71,6 +78,7 @@ public class PickOutfitPiecesPresenter extends MvpBasePresenter<PickOutfitPieces
         final WardrobePieceItem piece = new WardrobePieceItem();
         piece.setTitle(obj.getString("Name"));
         piece.setID(obj.getObjectId());
+        piece.setWardrobeID(obj.getString("WardrobeID"));
         ParseFile fileObject = (ParseFile) obj.get("Image");
         fileObject.getDataInBackground(new GetDataCallback() {
             @Override
