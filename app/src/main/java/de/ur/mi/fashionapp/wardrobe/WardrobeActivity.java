@@ -157,11 +157,14 @@ public class WardrobeActivity extends
         ((WardrobeFragment) f).setWardrobe(ID);
       }
     }
+    presenter.setCurrentWardrobeID(ID);
+    wardrobeID = ID;
     toolbar.setTitle(title);
     drawerLayout.closeDrawers();
   }
 
   @Override public void onNewWardrobeClicked() {
+
     presenter.addNewWardrobe();
   }
 
@@ -181,7 +184,7 @@ public class WardrobeActivity extends
   }
 
   public void onWardrobeItemClicked(int type, WardrobeItem item) {
-    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID, null));
+    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID, null, true));
   }
 
   @Override public void onBackPressed() {

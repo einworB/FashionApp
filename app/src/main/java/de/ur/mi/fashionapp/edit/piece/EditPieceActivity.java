@@ -68,13 +68,14 @@ public class EditPieceActivity
 
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
-  int[] container = new int[]{4,0,0,0};
-  int[] drawableContainer = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
+  int[] container = new int[]{0,0,0,0};
+  int[] drawableContainer = new int[]{R.drawable.ic_icon_top,R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom};
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     wardrobeID = getIntent().getStringExtra("WardrobeID");
     editItem = getIntent().getParcelableExtra(KEY_ITEM);
+//    if(getIntent().getExtras().getBoolean("isDetail"))uploadImage.setTag("already set");
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -86,7 +87,6 @@ public class EditPieceActivity
     //colorContainer = findViewById(R.id.edit_piece_color_container);
     occasionContainer = findViewById(R.id.edit_piece_occasion_container);
     uploadImage = (ImageView) findViewById(R.id.edit_piece_image);
-    uploadImage.setTag("set");
     colorPickerView = (ImageView) findViewById(R.id.edit_piece_color_picker);
     selectedColor = Color.BLACK;
 
@@ -96,8 +96,9 @@ public class EditPieceActivity
     //sliderController.addSlider(colorContainer, false, 7);
     sliderController.addSlider(occasionContainer, true, 4, ImageSliderController.SLIDER_TYPE_OCCASION);
 
-    editItem = getIntent().getParcelableExtra(KEY_ITEM);
+
     if (editItem != null) {
+      uploadImage.setTag("already set");
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
       presenter.loadPieceImage(editItem.getID(), editItem);
@@ -107,9 +108,13 @@ public class EditPieceActivity
       colorPickerView.setImageBitmap(null);
       colorPickerView.setBackgroundColor(selectedColor);
     }
+    else{
+      uploadImage.setTag("0");
+    }
+
 
     uploadImage.setOnClickListener(new OnImageClickListener());
-    uploadImage.setTag("0");
+
     colorPickerView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
@@ -205,6 +210,7 @@ public class EditPieceActivity
   private void updatePiece() {
     setItemFields();
     presenter.updatePiece(editItem.getID().toString(), editItem, true);
+
   }
 
   private void setItemFields() {
@@ -217,7 +223,8 @@ public class EditPieceActivity
     editItem.setColor(selectedColor);
     Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
         drawableContainer[container[0]]);
-    if( uploadImage!=null) {
+    Log.d("check",uploadImage.getTag()+"");
+    if( uploadImage!=null && uploadImage.getTag().toString()!="0") {
       bitmap = ((BitmapDrawable) uploadImage.getDrawable()).getBitmap();
     }
     editItem.setImage(bitmap);

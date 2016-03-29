@@ -35,33 +35,21 @@ public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
     attachView(view);
   }
 
-
-
- private void  loadFirstWardrobeID(final boolean isOutfit, final boolean pullToRefresh) {
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
-    query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
-    if (isViewAttached()) {getView().showLoading(pullToRefresh);}
-    query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {//Find the wardrobes ob the user first
-        if (e == null) {
-          loadWardrobeItems(isOutfit, objects.get(0).getObjectId());
-        } else {
-          if (isViewAttached()) getView().showError(e, false);
-        }
-      }
-    });
- }
+public String loadCurrentWardrobeID(){
+  ParseUser user = ParseUser.getCurrentUser();
+  String id = user.get("currentWardrobeID").toString();
+  return id;
+}
 
   public void loadPieces(boolean pullToRefresh, String wardrobeID) {
     boolean isOutfit = false;
-    if(wardrobeID==null)loadFirstWardrobeID(isOutfit, pullToRefresh);
+    if(wardrobeID==null)loadWardrobeItems(isOutfit, loadCurrentWardrobeID());
     else loadWardrobeItems(isOutfit,wardrobeID);
   }
 
   public void loadOutfits(boolean pullToRefresh,String wardrobeID) {
     boolean isOutfit = true;
-    if(wardrobeID==null)loadFirstWardrobeID(isOutfit, pullToRefresh);
+    if(wardrobeID==null)loadWardrobeItems(isOutfit, loadCurrentWardrobeID());
     else loadWardrobeItems(isOutfit, wardrobeID);
   }
 
