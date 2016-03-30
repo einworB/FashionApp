@@ -109,7 +109,8 @@ public class OutfitDetailActivity
         bitmapList.add(bitmaps[i]);
       }
       adapter.setItems(bitmapList);
-      adapter.notifyItemChanged(imageNumber);
+      //adapter.notifyItemChanged(imageNumber);
+      adapter.notifyDataSetChanged();
       if (imageNumber == 0) {
         Bitmap bitmap = item.getImages()[imageNumber];
         if (bitmap != null) {
