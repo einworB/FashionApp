@@ -68,6 +68,11 @@ public class PickOutfitPiecesActivity
         if (data != null && !data.isEmpty()) {
             adapter.setItems(data);
             adapter.notifyDataSetChanged();
+            if(num == 10){
+                for (WardrobePieceItem pieceItem: adapter.getItems()){
+                    pieceItem.setMaxReached(true);
+                }
+            }
         }
     }
 
@@ -81,11 +86,19 @@ public class PickOutfitPiecesActivity
     @Override
     public void onOutfitPieceItemsSelected(WardrobePieceItem item){
         Intent intent = new Intent();
-        if(item != null && num < 10){
+        if(item != null){
             if(!tempPieceIDs.contains(item.getID())){
-                outfitItemsAdded.add(item);
-                tempPieceIDs.add(item.getID());
-                num++;
+                if(num < 10){
+                    outfitItemsAdded.add(item);
+                    tempPieceIDs.add(item.getID());
+                    num++;
+                    if(num == 10){
+                        for (WardrobePieceItem pieceItem: adapter.getItems()){
+                            pieceItem.setMaxReached(true);
+                        }
+                    }
+                    Log.d("POPA", "added item num"+num);
+                }
             } else {
                 for(int i=0; i < outfitItemsAdded.size(); i++){
                     if(outfitItemsAdded.get(i).getID().equals(item.getID())){
@@ -94,6 +107,11 @@ public class PickOutfitPiecesActivity
                 }
                 tempPieceIDs.remove(item.getID());
                 num--;
+                if(num < 10 && item.isMaxReached()){
+                    for (WardrobePieceItem pieceItem: adapter.getItems()){
+                        pieceItem.setMaxReached(false);
+                    }
+                }
             }
         }
     }

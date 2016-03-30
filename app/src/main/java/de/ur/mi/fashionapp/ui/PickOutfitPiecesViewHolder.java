@@ -36,8 +36,11 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
         pieceItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("POPA", "isMaxReached "+item.isMaxReached());
                 if(selected.getVisibility() == View.GONE){
-                    selected.setVisibility(View.VISIBLE);
+                    if(!item.isMaxReached()){
+                        selected.setVisibility(View.VISIBLE);
+                    } else return;
                 } else {
                     selected.setVisibility(View.GONE);
                 }
