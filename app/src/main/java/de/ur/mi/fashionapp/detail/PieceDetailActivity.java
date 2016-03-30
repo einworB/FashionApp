@@ -93,8 +93,8 @@ public class PieceDetailActivity
     }
 
     pieceColor.setImageResource(0);
-    if (cW.colorWrap(item.getColor()) != -1) {
-      pieceColor.setBackgroundColor(getResources().getColor(cW.colorWrap(item.getColor())));
+    if (item.getColor() != -1) {
+      pieceColor.setBackgroundColor(item.getColor());
     }
 
     if (cW.catWrap(item.getCat()) != -1) {

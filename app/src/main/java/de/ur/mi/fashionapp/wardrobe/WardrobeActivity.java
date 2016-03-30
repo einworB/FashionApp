@@ -62,7 +62,7 @@ public class WardrobeActivity extends
   private MenuItem mFilterAction;
   private boolean isSearchOpened = false;
   private EditText edtSeach;
-  private int[] FilterArray;
+  private int[] filterArray;
   private String wardrobeID;
 
   @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -376,11 +376,11 @@ public class WardrobeActivity extends
     sp_occasion.setAdapter(occ_adp);
     sp_color.setAdapter(col_adp);
 
-    if(FilterArray!=null){
-      sp_cat.setSelection(FilterArray[0]);
-      sp_season.setSelection(FilterArray[1]);
-      sp_occasion.setSelection(FilterArray[2]);
-      sp_color.setSelection(FilterArray[3]);
+    if(filterArray !=null){
+      sp_cat.setSelection(filterArray[0]);
+      sp_season.setSelection(filterArray[1]);
+      sp_occasion.setSelection(filterArray[2]);
+      sp_color.setSelection(filterArray[3]);
     }
 
     MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Filter")
@@ -393,7 +393,7 @@ public class WardrobeActivity extends
                     sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
                     sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
             };
-            FilterArray = new int[]{sp_cat.getSelectedItemPosition(),
+            filterArray = new int[]{sp_cat.getSelectedItemPosition(),
                     sp_season.getSelectedItemPosition(),
                     sp_occasion.getSelectedItemPosition(),
                     sp_color.getSelectedItemPosition()};

@@ -64,30 +64,30 @@ public class CatWrapper {
     return -1;
   }
 
-  public int colorWrap(int num) {
-    switch (num) {
-      case COLOR_RED:
-        return R.color.md_red_600;
-      case COLOR_BLUE:
-        return R.color.md_blue_600;
-      case COLOR_GREEN:
-        return R.color.md_green_600;
-      case COLOR_YELLOW:
-        return R.color.md_yellow_600;
-      case COLOR_BLACK:
-        return R.color.md_black;
-      case COLOR_WHITE:
-        return R.color.md_white;
-      case COLOR_PINK:
-        return R.color.md_pink_600;
-      case COLOR_PURPLE:
-        return R.color.md_purple_600;
-      case COLOR_ORANGE:
-        return R.color.md_orange_600;
-      case COLOR_TURQUOISE:
-        return R.color.md_green_200;
+  public int colorWrap(int color) {
+    switch (color) {
+      case 0:
+        return COLOR_RED;
+      case 1:
+        return COLOR_BLUE;
+      case 2:
+        return COLOR_GREEN;
+      case 3:
+        return COLOR_YELLOW;
+      case 4:
+        return COLOR_BLACK;
+      case 5:
+        return COLOR_WHITE;
+      case 6:
+        return COLOR_PINK;
+      case 7:
+        return COLOR_PURPLE;
+      case 8:
+        return COLOR_ORANGE;
+      case 9:
+        return COLOR_TURQUOISE;
       default:
-        return R.color.md_black;
+        return COLOR_BLACK;
     }
   }
 

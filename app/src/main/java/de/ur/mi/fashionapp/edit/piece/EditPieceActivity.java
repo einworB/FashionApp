@@ -69,7 +69,7 @@ public class EditPieceActivity
   // fullsizeimagepath = null when picking an image for the second time!?!?
   private String fullSizeImagePath;
   int[] container = new int[]{0,0,0,0};
-  int[] drawableContainer = new int[]{R.drawable.ic_icon_top,R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom};
+  int[] drawableContainer = new int[]{R.drawable.ic_icon_accessoires,R.drawable.ic_icon_onepiece,R.drawable.ic_icon_shoe, R.drawable.ic_icon_bottom, R.drawable.ic_icon_top};
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

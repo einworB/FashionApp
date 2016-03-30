@@ -8,6 +8,7 @@ import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.WardrobeItemViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobeOutfitItemViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobePieceItemViewHolder;
+import de.ur.mi.fashionapp.util.CatWrapper;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -151,6 +152,9 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
 
   private void filter(int type, int filter, List<WardrobeItem> currentItems) {
     filter--;
+    if (type == FILTER_COLOR) {
+      filter = new CatWrapper().colorWrap(filter);
+    }
     List<WardrobeItem> currentTempItems = new ArrayList<>(currentItems);
     currentItems.clear();
     for (WardrobeItem item : currentTempItems) {
