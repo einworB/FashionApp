@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,13 +84,15 @@ public class EditOutfitActivity extends
 
     private void setPieceItems(WardrobeOutfitItem editItem) {
         for(int i=0; i<editItem.getPieceIDs().length; i++){
+            Log.d("EOA IDS", "ids "+i+": "+editItem.getPieceIDs()[i]);
             if(editItem.getPieceIDs()[i]!= null){
                 WardrobePieceItem item = new WardrobePieceItem();
                 item.setID(editItem.getPieceIDs()[i]);
-                item.setImage(editItem.getImages()[i]);
+                //item.setImage(editItem.getImages()[i]);
                 pieces.add(item);
             }
         }
+        Log.d("EOA", "pieces: "+pieces);
         adapter.setItems(pieces);
         adapter.notifyDataSetChanged();
     }
@@ -152,7 +155,18 @@ public class EditOutfitActivity extends
     }
 
     private void updateOutfit() {
-        // TODO: get data from EditTexts for the updated WardrobeOutfitItem(editItemID, editItem, title)
+        EditText et = (EditText) findViewById(R.id.edit_outfit_name);
+        editItem.setTitle(et.getText().toString());
+        Bitmap[] bitmaps = new Bitmap[10];
+        if (!pieces.isEmpty()) {
+            for (int i = 0; i < pieces.size(); i++) {
+                if(pieces.get(i).getImage() != null){
+                    Bitmap img = ((WardrobePieceItem) pieces.get(i)).getImage();
+                    bitmaps[i] = img;
+                }
+            }
+            editItem.setImages(bitmaps);
+        }
         presenter.updateOutfit(editItem.getID(), editItem, true);
     }
 
