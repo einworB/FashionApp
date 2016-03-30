@@ -97,7 +97,7 @@ public class PickOutfitPiecesActivity
                             pieceItem.setMaxReached(true);
                         }
                     }
-                    Log.d("POPA", "added item num"+num);
+                    Log.d("POPA", "added item num" + num);
                 }
             } else {
                 for(int i=0; i < outfitItemsAdded.size(); i++){
@@ -148,7 +148,7 @@ public class PickOutfitPiecesActivity
     }
 
     private void saveChanges(){
-        //TODO: called on savebutton click
+        //called on savebutton click
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(INTENT_EXTRA_PICKED_ITEM, outfitItemsAdded);
         setResult(RESULT_OK, intent);

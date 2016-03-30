@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
 import de.ur.mi.fashionapp.ui.ImageViewholder;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.util.share.ShareHelper;
@@ -30,6 +31,7 @@ public class OutfitDetailActivity
 
   public static final String KEY_ITEM = "item";
   public static final String KEY_WARDROBE_ID = "wardrobe_id";
+  public static final int REQUESTCODE_UPDATE = 101;
   private String wardrobeID;
 
   private WardrobeOutfitItem item;
@@ -45,6 +47,7 @@ public class OutfitDetailActivity
     item = getIntent().getParcelableExtra(KEY_ITEM);
     wardrobeID = getIntent().getStringExtra(KEY_WARDROBE_ID);
     if (item != null) {
+      pieceCount = 0;
       for (String id : item.getPieceIDs()) {
         if (id != null && !id.isEmpty()) {
           pieceCount++;
@@ -66,15 +69,15 @@ public class OutfitDetailActivity
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        startActivity(
+        startActivityForResult(
             LinkService.getUpdateIntent(OutfitDetailActivity.this, WardrobeFragment.TYPE_OUTFIT,
-                item, wardrobeID, getIntent().getExtras().getBoolean("isDetail")));
+                item, wardrobeID, getIntent().getExtras().getBoolean("isDetail")),
+            REQUESTCODE_UPDATE);
       }
     });
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(true);
-    // TODO: replace with item title
-    getSupportActionBar().setTitle("Outfit Detail");
+    getSupportActionBar().setTitle(item.getTitle());
   }
 
   @Override protected Integer getLayoutRes() {
@@ -123,7 +126,7 @@ public class OutfitDetailActivity
   }
 
   @Override public void loadData(boolean pullToRefresh) {
-    presenter.loadOutfitImages(item.getPieceIDs(), item);
+    presenter.loadOutfitImages(item.getPieceIDs(), item, pullToRefresh);
   }
 
   @Override public void onImageLoaded(String pieceID) {
@@ -150,7 +153,8 @@ public class OutfitDetailActivity
             if (intent != null) {
               startActivityForResult(intent, 1);
             } else {
-              Toast.makeText(OutfitDetailActivity.this, "No social media apps installed", Toast.LENGTH_LONG).show();
+              Toast.makeText(OutfitDetailActivity.this, "No social media apps installed",
+                  Toast.LENGTH_LONG).show();
             }
             sharingText.setVisibility(View.GONE);
             shareContainer.setDrawingCacheEnabled(false);
@@ -161,7 +165,7 @@ public class OutfitDetailActivity
         String pieceID = this.item.getPieceIDs()[currentPosition];
         startActivity(
             LinkService.getDetailIntent(this, WardrobeFragment.TYPE_PIECE, null, wardrobeID,
-                    pieceID, getIntent().getExtras().getBoolean("isDetail")));
+                pieceID, getIntent().getExtras().getBoolean("isDetail")));
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -173,5 +177,23 @@ public class OutfitDetailActivity
     mainPiece.setImageBitmap(bitmap);
     mainPiece.requestLayout();
     currentPosition = position;
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if(REQUESTCODE_UPDATE == requestCode && resultCode == RESULT_OK && data != null) {
+      WardrobeOutfitItem updatedItem = data.getParcelableExtra(EditOutfitActivity.KEY_ITEM);
+      if (updatedItem != null) {
+        item = updatedItem;
+        pieceCount = 0;
+        loadedImagePositions.clear();
+        for (String id : item.getPieceIDs()) {
+          if (id != null && !id.isEmpty()) {
+            pieceCount++;
+          }
+        }
+        getSupportActionBar().setTitle(item.getTitle());
+        loadData(true);
+      }
+    }
   }
 }

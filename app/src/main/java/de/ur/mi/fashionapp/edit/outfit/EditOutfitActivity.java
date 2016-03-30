@@ -59,13 +59,13 @@ public class EditOutfitActivity extends
 
         editTitle = (EditText) findViewById(R.id.edit_outfit_name);
         pieces = new ArrayList<>();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (editItem != null) {
             pieceIDs = editItem.getPieceIDs();
             presenter.loadOutfitImages(pieceIDs, editItem);
             setPieceItems(editItem);
             editTitle.setText(editItem.getTitle());
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
         } else {
             editItem = new WardrobeOutfitItem();
@@ -151,6 +151,7 @@ public class EditOutfitActivity extends
             editItem.setImages(bitmaps);
         }
         if (wardrobeID != null) editItem.setWardrobeID(wardrobeID);
+        setResult(RESULT_OK);
         presenter.createOutfit(editItem, true);
     }
 
@@ -167,6 +168,9 @@ public class EditOutfitActivity extends
             }
             editItem.setImages(bitmaps);
         }
+        Intent intent = new Intent();
+        intent.putExtra(KEY_ITEM, editItem);
+        setResult(RESULT_OK, intent);
         presenter.updateOutfit(editItem.getID(), editItem, true);
     }
 
@@ -180,6 +184,7 @@ public class EditOutfitActivity extends
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
             }
@@ -187,7 +192,6 @@ public class EditOutfitActivity extends
                 if (pieces == null || pieces.size() == 0) {
                     // TODO: show error
                 } else {
-                    setResult(RESULT_OK);
                     if (editItem == null || editItem.getID() == null) {
                         createOutfit();
                     } else {
@@ -213,6 +217,7 @@ public class EditOutfitActivity extends
                 // TODO: get item from intent and user other type than object!
                 pieces =
                         data.getParcelableArrayListExtra(PickOutfitPiecesActivity.INTENT_EXTRA_PICKED_ITEM);
+                pieceIDs = new String[10];
                 for (int i = 0; i < pieces.size(); i++) {
                     pieceIDs[i] = pieces.get(i).getID();
                 }
