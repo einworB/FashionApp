@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
@@ -80,7 +79,6 @@ public class PickOutfitPiecesActivity
 
     @Override
     public void onOutfitPieceItemsSelected(WardrobePieceItem item){
-        Intent intent = new Intent();
         if(item != null && num < 10){
             if(!tempPieceIDs.contains(item.getID())){
                 outfitItemsAdded.add(item);
@@ -130,7 +128,7 @@ public class PickOutfitPiecesActivity
     }
 
     private void saveChanges(){
-        //TODO: called on savebutton click
+        //called on savebutton click
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(INTENT_EXTRA_PICKED_ITEM, outfitItemsAdded);
         setResult(RESULT_OK, intent);

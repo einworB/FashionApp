@@ -156,7 +156,6 @@ public class EditPieceActivity
         break;
       }
       case R.id.menu_piece_edit_save:
-        setResult(RESULT_OK);
         if (editItem == null) {
           createPiece();
         } else {
@@ -196,6 +195,7 @@ public class EditPieceActivity
     if (editTitle.getText().toString().length() > 0 && editTitle.getText().toString().length() < MAX_LENGTH_PIECE_NAME) {
       editItem = new WardrobePieceItem();
       setItemFields();
+      setResult(RESULT_OK);
       presenter.createPiece(editItem, true);
     } else {
       if (editTitle.getText().toString().length() <= 0) {
@@ -209,6 +209,9 @@ public class EditPieceActivity
 
   private void updatePiece() {
     setItemFields();
+    Intent intent = new Intent();
+    intent.putExtra(KEY_ITEM, editItem);
+    setResult(RESULT_OK, intent);
     presenter.updatePiece(editItem.getID().toString(), editItem, true);
 
   }

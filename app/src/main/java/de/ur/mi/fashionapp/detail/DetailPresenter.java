@@ -29,9 +29,9 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
     this.context = context;
   }
 
-  public void loadPiece(String pieceID) {
+  public void loadPiece(String pieceID, boolean pullToRefresh) {
     if (isViewAttached()) {
-      getView().showLoading(false);
+      getView().showLoading(pullToRefresh);
     }
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
     query.whereEqualTo("objectId", pieceID);
@@ -88,9 +88,10 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
     return piece;
   }
 
-  void loadOutfitImages(final String[] pieceIDs, final WardrobeOutfitItem outfit) {
+  void loadOutfitImages(final String[] pieceIDs, final WardrobeOutfitItem outfit,
+      boolean pullToRefresh) {
     if (isViewAttached()) {
-      getView().showLoading(true);
+      getView().showLoading(pullToRefresh);
     }
     for (int i = 0; i < pieceIDs.length; i++) {
       if (pieceIDs[i] == null || pieceIDs[i].isEmpty()) {
@@ -145,9 +146,9 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
     });
   }
 
-  public void loadPieceImage(String id, final WardrobePieceItem piece) {
+  public void loadPieceImage(String id, final WardrobePieceItem piece, boolean pullToRefresh) {
     if (isViewAttached()) {
-      getView().showLoading(true);
+      getView().showLoading(pullToRefresh);
     }
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
     query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());

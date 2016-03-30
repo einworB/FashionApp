@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.edit.piece.EditPieceActivity;
 import de.ur.mi.fashionapp.util.CatWrapper;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.util.share.ShareHelper;
@@ -31,6 +32,7 @@ public class PieceDetailActivity
   public static final String KEY_ITEM = "item";
   public static final String KEY_WARDROBE_ID = "wardrobe_id";
   public static final String KEY_ITEM_ID = "item_id";
+  public static final int REQUESTCODE_UPDATE = 102;
 
   private WardrobePieceItem item;
   private String wardrobeID;
@@ -74,9 +76,9 @@ public class PieceDetailActivity
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        startActivity(
+        startActivityForResult(
             LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE, item,
-                wardrobeID, getIntent().getExtras().getBoolean("isDetail")));
+                wardrobeID, getIntent().getExtras().getBoolean("isDetail")), REQUESTCODE_UPDATE);
       }
     });
   }
@@ -123,9 +125,9 @@ public class PieceDetailActivity
 
   @Override public void loadData(boolean pullToRefresh) {
     if (item != null) {
-      presenter.loadPieceImage(item.getID(), item);
+      presenter.loadPieceImage(item.getID(), item, pullToRefresh);
     } else {
-      presenter.loadPiece(itemID);
+      presenter.loadPiece(itemID, pullToRefresh);
     }
   }
 
@@ -171,6 +173,17 @@ public class PieceDetailActivity
         return true;
       default:
         return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if(REQUESTCODE_UPDATE == requestCode && resultCode == RESULT_OK && data != null) {
+      WardrobePieceItem updatedItem = data.getParcelableExtra(EditPieceActivity.KEY_ITEM);
+      if (updatedItem != null) {
+        item = updatedItem;
+        setupDetails();
+        loadData(true);
+      }
     }
   }
 }
