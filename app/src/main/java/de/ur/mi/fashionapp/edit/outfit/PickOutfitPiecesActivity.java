@@ -29,7 +29,6 @@ public class PickOutfitPiecesActivity
     private PickOutfitPiecesAdapter adapter;
 
     private WardrobeOutfitItem editItem;
-    private String[] pieceIDs;
     private String wardrobeID;
     private ArrayList<WardrobePieceItem> outfitItemsAdded;
     private ArrayList<String> tempPieceIDs;
@@ -51,8 +50,8 @@ public class PickOutfitPiecesActivity
                     WardrobePieceItem item = new WardrobePieceItem();
                     item.setID(editItem.getPieceIDs()[i]);
                     item.setImage(editItem.getImages()[i]);
-                    item.isSelected = true;
                     outfitItemsAdded.add(item);
+                    num++;
                 }
             }
         } else tempPieceIDs = new ArrayList<>();
@@ -74,8 +73,6 @@ public class PickOutfitPiecesActivity
 
     @Override
     public void loadData(boolean pullToRefresh) {
-      // load all pieces from the presenter here (unless they are passed from the last activity)
-        Log.d("POPA", "wardrobeID in loadData: " + wardrobeID);
         if(wardrobeID != null){
             presenter.loadWardrobeItems(wardrobeID, true);
         }
@@ -83,17 +80,18 @@ public class PickOutfitPiecesActivity
 
     @Override
     public void onOutfitPieceItemsSelected(WardrobePieceItem item){
-        // set item here
         Intent intent = new Intent();
-        // use wardrobeitems
         if(item != null && num < 10){
             if(!tempPieceIDs.contains(item.getID())){
-                Log.d("POPA", "itemImage: " + item.getImage());
                 outfitItemsAdded.add(item);
                 tempPieceIDs.add(item.getID());
                 num++;
             } else {
-                outfitItemsAdded.remove(item);
+                for(int i=0; i < outfitItemsAdded.size(); i++){
+                    if(outfitItemsAdded.get(i).getID().equals(item.getID())){
+                        outfitItemsAdded.remove(i);
+                    }
+                }
                 tempPieceIDs.remove(item.getID());
                 num--;
             }

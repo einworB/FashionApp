@@ -42,6 +42,7 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
         // TODO: bind data from the item to the viewholder here via Viewholder.bind; dont forget the click listener
+        Log.d("POPA", "isSelected: "+getItem(position).isSelected());
         ((PickOutfitPiecesViewHolder) viewHolder).bind(getItem(position), this, getItem(position).isSelected());
     }
 
@@ -71,7 +72,7 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
         for (int i = 0; i < items.size(); i++) {
             WardrobeItem item = items.get(i);
             if (itemID.equals(item.getID())) {
-                items.get(i).isSelected = true;
+                items.get(i).setSelection(true);
             }
         }
     }

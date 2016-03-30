@@ -36,7 +36,7 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
         pieceItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selected.getVisibility() == View.GONE || isSelected){
+                if(selected.getVisibility() == View.GONE){
                     selected.setVisibility(View.VISIBLE);
                 } else {
                     selected.setVisibility(View.GONE);
@@ -44,11 +44,13 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
                 listener.onPickOutfitPiecesItemClicked(item);
             }
         });
+        if(isSelected){
+            selected.setVisibility(View.VISIBLE);
+        }
         label.setText(item.getTitle());
         label.setVisibility(View.GONE);
         Bitmap image = item.getImage();
         if(image!=null) {
-            Log.d("POPA", "image!");
             pic.setImageBitmap(image);
         }
     }
