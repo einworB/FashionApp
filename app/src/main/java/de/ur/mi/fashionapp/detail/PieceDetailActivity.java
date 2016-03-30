@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.CatWrapper;
@@ -75,7 +76,7 @@ public class PieceDetailActivity
       @Override public void onClick(View view) {
         startActivity(
             LinkService.getUpdateIntent(PieceDetailActivity.this, WardrobeFragment.TYPE_PIECE, item,
-                wardrobeID,getIntent().getExtras().getBoolean("isDetail")));
+                wardrobeID, getIntent().getExtras().getBoolean("isDetail")));
       }
     });
   }
@@ -158,7 +159,8 @@ public class PieceDetailActivity
             if (intent != null) {
               startActivityForResult(intent, 1);
             } else {
-              // TODO: show error toast; no social media apps installed(twitter, facebook, whatsapp)
+              Toast.makeText(PieceDetailActivity.this, "No social media apps installed",
+                  Toast.LENGTH_LONG).show();
             }
             tagContainer.setVisibility(View.VISIBLE);
             sharingText.setVisibility(View.GONE);

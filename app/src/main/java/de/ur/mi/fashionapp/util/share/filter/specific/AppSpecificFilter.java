@@ -10,7 +10,5 @@ public interface AppSpecificFilter {
 
   public String getPackageName();
 
-  public void fillIntent(Intent intent, String subject, String webUrl, Uri imageUri);
-
   public void fillIntent(Intent intent, Uri imageUri);
 }
