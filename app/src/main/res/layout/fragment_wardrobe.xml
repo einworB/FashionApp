@@ -20,6 +20,20 @@
 
     <include layout="@layout/cb_base_error_view"/>
     <include layout="@layout/cb_base_loading_view"/>
-    <include layout="@layout/cb_base_empty_view"/>
+
+  <TextView
+      android:id="@+id/emptyView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="You have not created any item for this section yet."
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:layout_centerInParent="true"
+      android:drawableTop="@drawable/cb_ic_no_data_found"
+      android:drawablePadding="20dp"
+      android:textColor="@color/cb_text_color_gray_dark"
+      android:padding="30dp"
+      android:textSize="20sp"
+      android:visibility="gone"/>
 
 </FrameLayout>
