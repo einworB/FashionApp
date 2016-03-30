@@ -59,13 +59,13 @@ public class EditOutfitActivity extends
 
         editTitle = (EditText) findViewById(R.id.edit_outfit_name);
         pieces = new ArrayList<>();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (editItem != null) {
             pieceIDs = editItem.getPieceIDs();
             presenter.loadOutfitImages(pieceIDs, editItem);
             setPieceItems(editItem);
             editTitle.setText(editItem.getTitle());
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
         } else {
             editItem = new WardrobeOutfitItem();
