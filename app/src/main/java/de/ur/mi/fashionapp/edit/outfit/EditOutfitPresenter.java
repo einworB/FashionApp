@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -14,13 +13,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import de.ur.mi.fashionapp.util.ImageHelper;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
@@ -50,8 +47,7 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
         }
 
         query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+            @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
 
                 if (e == null) {
                     ArrayList<WardrobePieceItem> items = new ArrayList<>();
@@ -130,14 +126,12 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
             query.whereEqualTo("objectId", (pieces[number]));
             query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
+                @Override public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null && objects.size() > 0) {
                         ParseObject obj = objects.get(0);
                         ParseFile fileObject = (ParseFile) obj.get("Image");
                         fileObject.getDataInBackground(new GetDataCallback() {
-                            @Override
-                            public void done(byte[] data, ParseException e) {
+                            @Override public void done(byte[] data, ParseException e) {
                                 if (e == null && data != null) {
                                     Bitmap[] images = outfit.getImages();
                                     images[number] = ImageHelper.getScaledBitmap(data);
@@ -148,7 +142,8 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
                                     }
                                 } else {
                                     if (e.getCode() == ParseException.CONNECTION_FAILED) {
-                                        Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, "No internet connection",
+                                            Toast.LENGTH_LONG).show();
                                     } else if (isViewAttached()) getView().showError(e, false);
                                 }
                             }
@@ -229,16 +224,15 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
             String[] pieces = item.getPieceIDs();
             for (int i = 0; i < pieces.length; i++) {
                 if (pieces[i] != null) {
-                    String entry = "Piece" + (i + 1);
+                    String entry = "Piece" + (i);
                     wr.put(entry, pieces[i]);
                 }
             }
             if (isViewAttached()) {
-                getView().showLoading(true);
+                getView().showLoading(pullToRefresh);
             }
             wr.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(com.parse.ParseException e) {
+                @Override public void done(com.parse.ParseException e) {
                     if (e == null) {
                         if (isViewAttached()) {
                             getView().showContent();
@@ -246,7 +240,8 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
                         }
                     } else {
                         if (e.getCode() == ParseException.CONNECTION_FAILED) {
-                            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG)
+                                .show();
                         } else if (isViewAttached()) getView().showError(e, false);
                     }
                 }
@@ -272,6 +267,10 @@ public class EditOutfitPresenter extends MvpBasePresenter<EditOutfitView> {
                         if (ids[i] != null) {
                             parseObject.put("Piece" + i, ids[i]);
                         }
+                        else {
+                          parseObject.remove("Piece" + i);
+                        }
+
                     }
                     parseObject.saveInBackground(new SaveCallback() {
                         @Override

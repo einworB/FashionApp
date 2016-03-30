@@ -2,9 +2,7 @@ package de.ur.mi.fashionapp.wardrobe;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -14,7 +12,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import de.ur.mi.fashionapp.util.ImageHelper;
-import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
@@ -131,7 +128,7 @@ public String loadCurrentWardrobeID(){
     outfit.setWardrobeID(obj.getString("WardrobeID"));
     String[] pieces = outfit.getPieceIDs();
     for (int i = 0; i < 10; i++) {
-      if (obj.getString("Piece" + (i + 1)) != null) pieces[i] = obj.getString("Piece" + (i + 1));
+      if (obj.getString("Piece" + (i)) != null) pieces[i] = obj.getString("Piece" + (i));
     }
     for (int i = 0; i < outfit.getImages().length; i++) {
       getPiecePicture(outfit, pieces, i);
