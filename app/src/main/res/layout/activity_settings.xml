@@ -129,7 +129,7 @@
           android:layout_height="1dp"
           android:layout_marginLeft="20dp"
           android:layout_marginRight="20dp"
-          android:background="@color/colorTextDark"/>
+          android:background="@color/colorTextMedium"/>
 
       <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
           android:layout_height="match_parent"

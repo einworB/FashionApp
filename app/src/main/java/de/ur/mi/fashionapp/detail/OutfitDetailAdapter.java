@@ -3,6 +3,7 @@ package de.ur.mi.fashionapp.detail;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
@@ -22,6 +23,7 @@ public class OutfitDetailAdapter extends CBAdapterRecyclerView<Bitmap> {
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
+    Log.d("TTT", "bind");
     ((ImageViewholder) viewHolder).bind(getItem(position), listener, position);
   }
 

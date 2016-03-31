@@ -29,6 +29,7 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
     }
     public interface PickOutfitPiecesViewHolderListener {
         void onPickOutfitPiecesItemClicked(WardrobePieceItem item);
+        void onMaxPiecesReached();
     }
 
     //TODO: bind, listener
@@ -40,7 +41,9 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
                 if(selected.getVisibility() == View.GONE){
                     if(!item.isMaxReached()){
                         selected.setVisibility(View.VISIBLE);
-                    } else return;
+                    } else {
+                        listener.onMaxPiecesReached();
+                    }
                 } else {
                     selected.setVisibility(View.GONE);
                 }

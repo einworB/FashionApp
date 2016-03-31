@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
@@ -97,7 +99,6 @@ public class PickOutfitPiecesActivity
                             pieceItem.setMaxReached(true);
                         }
                     }
-                    Log.d("POPA", "added item num" + num);
                 }
             } else {
                 for(int i=0; i < outfitItemsAdded.size(); i++){
@@ -114,6 +115,12 @@ public class PickOutfitPiecesActivity
                 }
             }
         }
+    }
+
+    @Override
+    public void onMaxPiecesSeleced() {
+        Toast.makeText(PickOutfitPiecesActivity.this, "You cannot add more items to your outfit!",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override protected Integer getLayoutRes() {

@@ -28,6 +28,6 @@
         android:textAlignment="center"
         android:layout_below="@+id/image"
         android:text="Item"
-        android:textColor="@color/colorTextDark"/>
+        android:textColor="@color/colorTextMedium"/>
 
 </android.support.percent.PercentRelativeLayout>

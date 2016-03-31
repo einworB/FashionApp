@@ -55,4 +55,7 @@
     <string name="title_activity_pick_outfit_pieces">Pick Pieces</string>
     <string name="outfit_name_hint">Name your new Outfit</string>
     <string name="title_activity_imprint">Imprint</string>
+
+  <string name="share_piece_txt">Look at the new piece of clothing I just added to my wardrobe. Try it out now in the FashionApp www.fashionapp.ninja</string>
+  <string name="share_outfit_txt">Look at the new outfit I just added to my wardrobe. Try it out now in the FashionApp www.fashionapp.ninja</string>
 </resources>

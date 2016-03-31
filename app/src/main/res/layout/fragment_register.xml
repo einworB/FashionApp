@@ -30,7 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/colorTextLight"
-        android:textColorHint="@color/colorTextDark"
+        android:textColorHint="@color/colorTextMedium"
         android:singleLine="true"/>
 
     <EditText
@@ -42,7 +42,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/colorTextLight"
-        android:textColorHint="@color/colorTextDark"
+        android:textColorHint="@color/colorTextMedium"
         android:singleLine="true"
         android:inputType="textEmailAddress"/>
 
@@ -55,7 +55,7 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/colorTextLight"
-        android:textColorHint="@color/colorTextDark"
+        android:textColorHint="@color/colorTextMedium"
         android:singleLine="true"
         android:inputType="textPassword"/>
 
@@ -68,7 +68,7 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/colorTextLight"
-        android:textColorHint="@color/colorTextDark"
+        android:textColorHint="@color/colorTextMedium"
         android:singleLine="true"
         android:inputType="textPassword"/>
 

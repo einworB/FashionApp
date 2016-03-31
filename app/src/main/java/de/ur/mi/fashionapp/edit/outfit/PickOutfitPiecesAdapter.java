@@ -25,6 +25,7 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
     //TODO: items to activity! viewholderlistener! (see wardrobe adapter +  piece viewholder)
     interface PickOutfitPiecesAdapterListener {
         void onOutfitPieceItemsSelected(WardrobePieceItem item);
+        void onMaxPiecesSeleced();
     }
 
     public PickOutfitPiecesAdapter(Context context, PickOutfitPiecesAdapterListener listener) {
@@ -43,8 +44,9 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
         }
     }
 
-    public void onMaxReached(){
-
+    @Override
+    public void onMaxPiecesReached() {
+        listener.onMaxPiecesSeleced();
     }
 
     @Override

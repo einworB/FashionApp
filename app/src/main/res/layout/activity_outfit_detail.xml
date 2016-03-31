@@ -35,58 +35,142 @@
         android:layout_weight="1"
         tools:context=".detail.OutfitDetailActivity">
 
-      <LinearLayout android:layout_width="match_parent"
+      <ScrollView android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/mainPiece"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:layout_margin="25dp"
+          <android.support.percent.PercentRelativeLayout
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/contentView">
+              <ImageView
+                  android:id="@+id/imageView1"
+                  app:layout_widthPercent="75%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingBottom="1dp"
+                  android:src="@drawable/ic_icon_accessoires"/>
 
-            android:src="@drawable/ic_icon_top"/>
+              <ImageView
+                  android:id="@+id/imageView2"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:paddingBottom="1dp"
+                  android:layout_toRightOf="@+id/imageView1"
+                  android:src="@drawable/ic_icon_accessoires"
+                  />
 
-      </LinearLayout>
+              <ImageView
+                  android:id="@+id/imageView3"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:paddingBottom="1dp"
+                  android:layout_toRightOf="@+id/imageView1"
+                  android:layout_below="@+id/imageView2"
+                  android:src="@drawable/ic_icon_accessoires"/>
+
+              <ImageView
+                  android:id="@+id/imageView4"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:paddingBottom="1dp"
+                  android:layout_toRightOf="@+id/imageView1"
+                  android:layout_below="@+id/imageView3"
+                  android:src="@drawable/ic_icon_accessoires"/>
+              <ImageView
+                  android:id="@+id/imageView5"
+                  app:layout_widthPercent="50%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingBottom="1dp"
+                  android:layout_below="@+id/imageView1"
+                  android:src="@drawable/ic_icon_accessoires"/>
+
+              <ImageView
+                  android:id="@+id/imageView6"
+                  app:layout_widthPercent="50%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:paddingBottom="1dp"
+                  android:layout_below="@+id/imageView1"
+                  android:layout_toRightOf="@+id/imageView5"
+                  android:src="@drawable/ic_icon_accessoires" />
+
+              <ImageView
+                  android:id="@+id/imageView7"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:layout_below="@+id/imageView5"
+                  android:src="@drawable/ic_icon_accessoires" />
+
+              <ImageView
+                  android:id="@+id/imageView8"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:layout_below="@+id/imageView5"
+                  android:layout_toRightOf="@+id/imageView7"
+                  android:src="@drawable/ic_icon_accessoires"/>
+              <ImageView
+                  android:id="@+id/imageView9"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:layout_below="@+id/imageView5"
+                  android:layout_toRightOf="@+id/imageView8"
+                  android:src="@drawable/ic_icon_accessoires"/>
+
+              <ImageView
+                  android:id="@+id/imageView10"
+                  app:layout_widthPercent="25%"
+                  app:layout_aspectRatio="100%"
+                  android:paddingLeft="1dp"
+                  android:layout_below="@+id/imageView5"
+                  android:layout_toRightOf="@+id/imageView9"
+                  android:src="@drawable/ic_icon_accessoires"/>
+          </android.support.percent.PercentRelativeLayout>
+
+      </ScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <View android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/md_grey_500"/>
+      <!--<View android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/md_grey_500"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/contentView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        />
-    <TextView
-        android:id="@+id/sharingText"
-        android:layout_width="match_parent"
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/contentView"
+          android:layout_width="match_parent"
+          android:layout_height="100dp"
+          android:orientation="horizontal"
+          />-->
+      <TextView
+          android:id="@+id/sharingText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColor="@color/md_black"
+          android:textSize="18sp"
+          android:padding="4dp"
+          android:visibility="gone"
+          tools:visibility="visible"
+          android:background="@color/colorSecondaryLight"
+          android:text="@string/share_outfit_txt"
+          />
+
+    </LinearLayout>
+
+    <include layout="@layout/cb_base_loading_view"/>
+    <include layout="@layout/cb_base_error_view"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/md_black"
-        android:textSize="18sp"
-        android:padding="4dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:background="@color/colorPrimary"
-        android:text="Look at the new outfit I just added to my wardrobe. Try it out now in the FashionApp www.fashionapp.ninja"
-        />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_menu_edit"/>
 
-  </LinearLayout>
-
-  <include layout="@layout/cb_base_loading_view"/>
-  <include layout="@layout/cb_base_error_view"/>
-
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom|end"
-      android:layout_margin="@dimen/fab_margin"
-      android:src="@android:drawable/ic_menu_edit"/>
-
-</FrameLayout>
+  </FrameLayout>

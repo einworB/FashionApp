@@ -85,13 +85,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/pieceImage"
-            android:textColor="@color/md_black"
+            android:textColor="@color/colorTextDark"
             android:textSize="18sp"
             android:padding="4dp"
             android:visibility="gone"
             tools:visibility="visible"
-            android:background="@color/colorPrimary"
-            android:text="Look at the new piece of clothing I just added to my wardrobe. Try it out now in the FashionApp www.fashionapp.ninja"
+            android:background="@color/colorSecondaryLight"
+            android:text="@string/share_piece_txt"
             />
 
     </android.support.percent.PercentRelativeLayout>

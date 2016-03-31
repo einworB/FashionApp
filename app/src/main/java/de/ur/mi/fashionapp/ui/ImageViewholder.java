@@ -2,6 +2,7 @@ package de.ur.mi.fashionapp.ui;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import de.ur.mi.fashionapp.R;
@@ -27,6 +28,7 @@ public class ImageViewholder extends RecyclerView.ViewHolder {
     imageView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (listener != null) {
+          Log.d("TTT", "clicked!");
           listener.onImageClicked(position);
         }
       }
