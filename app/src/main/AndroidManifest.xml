@@ -87,7 +87,9 @@
             android:name=".extras.ImprintActivity"
             android:label="@string/title_activity_imprint"
             android:theme="@style/AppTheme" />
-        <activity android:name=".extras.HelpActivity"></activity>
+        <activity android:name=".extras.HelpActivity"
+            android:label="@string/title_activity_help"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
