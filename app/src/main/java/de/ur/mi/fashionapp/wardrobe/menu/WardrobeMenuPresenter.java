@@ -1,27 +1,19 @@
 package de.ur.mi.fashionapp.wardrobe.menu;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
-
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +34,15 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
   public void loadMenu() {
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
     query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
-    getView().showLoading(true);
+    if (isViewAttached()) {
+      getView().showLoading(true);
+    }
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override
       public void done(List<ParseObject> objects, com.parse.ParseException e) {
-        getView().showLoading(false);
+        if (isViewAttached()) {
+          getView().showLoading(false);
+        }
         if (e == null) {
           items = new ArrayList<>();
           for (int i = 0; i < objects.size(); i++) {
@@ -78,17 +74,18 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
       getView().showLoading(true);
     }
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {//Find the wardrobes ob the user first
+      @Override public void done(List<ParseObject> objects,
+          com.parse.ParseException e) {//Find the wardrobes ob the user first
         if (e == null) {
           if (isViewAttached()) {
             getView().showContent();
-            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId(), objects.get(0).getString("Name"));
+            getView().onFirstWardrobeLoaded(objects.get(0).getObjectId(),
+                objects.get(0).getString("Name"));
           }
         } else {
-          if(e.getCode()== ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -101,20 +98,19 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     input.setHint("Name");
     builder.setView(input);
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(DialogInterface dialog, int which) {
         String wardropeNameEdit = "failure";
         if (input.getText().toString() != null) {
           wardropeNameEdit = input.getText().toString();
         }
-        if(wardropeNameEdit.length()>50)Toast.makeText(context, "Failure! Name can't be longer than 50 letters", Toast.LENGTH_LONG).show();
+        if (wardropeNameEdit.length() > 50)
+          Toast.makeText(context, "Failure! Name can't be longer than 50 letters",
+              Toast.LENGTH_LONG).show();
         else addNewWardrobe(wardropeNameEdit);
-
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(DialogInterface dialog, int which) {
         dialog.cancel();
       }
     });
@@ -127,16 +123,22 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     final ParseObject wr = new ParseObject("Wardrope");
     wr.put("Name", wardropeName);
     wr.put("UserID", userID);
-    getView().showLoading(true);
+    if (isViewAttached()) {
+      getView().showLoading(true);
+    }
     wr.saveInBackground(new SaveCallback() {
       @Override
       public void done(com.parse.ParseException e) {
         if (e == null) {
-          getView().showContent();
+          if (isViewAttached()) {
+            getView().showContent();
+          }
           WardrobeMenuWardrobeItem wardrobe = new WardrobeMenuWardrobeItem();
           wardrobe.setTitle(wardropeName);
           wardrobe.setID(wr.getObjectId());
-          getView().onNewWardrobeCreated(wardrobe);
+          if (isViewAttached()) {
+            getView().onNewWardrobeCreated(wardrobe);
+          }
         } else {
           if (e.getCode() == ParseException.CONNECTION_FAILED) {
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();

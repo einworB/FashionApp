@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorSecondaryLight"
     android:fitsSystemWindows="true"
-    tools:context="de.ur.mi.fashionapp.extras.help">
+    tools:context=".extras.HelpActivity">
     <include layout="@layout/toolbar" />
 
     <TextView

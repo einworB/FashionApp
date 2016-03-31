@@ -8,28 +8,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.util.CBActivityMvpFragment;
 import de.ur.mi.fashionapp.wardrobe.WardrobeActivity;
 
+/**
+ * this activity uses fragments to display the required screens for login and registering.
+ * the actual registering and login is handled by the presenter
+ * after successful login or registering the wardrobe activity is opened.
+ */
 public class LoginActivity
     extends CBActivityMvpFragment<LinearLayout, String, LoginView, LoginPresenter>
     implements LoginView {
 
-  LoginAdapter adapter;
   private static Context context;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     setContext(getApplicationContext());
-    //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    //setSupportActionBar(toolbar);
-    //setTitle("Login");
-
-    //adapter = new LoginAdapter(this);
-    //contentView.setLayoutManager(new LinearLayoutManager(this));
-    //contentView.setAdapter(adapter);
   }
 
   @Override protected Fragment createFragmentToDisplay() {
@@ -41,8 +39,7 @@ public class LoginActivity
   }
 
   @Override public void setData(String data) {
-    //adapter.setData(data);
-    //adapter.notifyDataSetChanged();
+    // not needed
   }
 
   @Override public void loadData(boolean pullToRefresh) {
@@ -77,8 +74,10 @@ public class LoginActivity
     transaction.commit();
   }
 
-  public void onPasswordResetSuccess() {
-
+  @Override public void onPasswordResetSuccess() {
+    Toast.makeText(this,
+        "Password reset successful. Please check the email account you specified on registering!",
+        Toast.LENGTH_LONG).show();
   }
 
   @Override protected void onErrorViewClicked() {
