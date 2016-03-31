@@ -347,7 +347,7 @@ public class WardrobeActivity extends
 
   private void handleMenuFilter() {
     String[] seasons = { "no filter","all seasons", "spring", "summer", "fall", "winter" };
-    String[] categories = { "no filter", "top", "bottom", "shoe", "accessoire" };
+    String[] categories = { "no filter", "top", "bottom", "shoe", "one piece","accessoire" };
     String[] occasions = { "no filter", "evening", "beach", "couch", "sport" };
     String[] colors = {
         "no filter", "red", "blue", "green", "yellow", "black", "white", "pink", "purple", "orange",
