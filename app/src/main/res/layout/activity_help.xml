@@ -1,33 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSecondaryLight"
     android:fitsSystemWindows="true"
     tools:context="de.ur.mi.fashionapp.extras.help">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/view2">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginTop="200dp"
-        android:id="@+id/buttonHelp"/>
+    <include layout="@layout/toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,7 +16,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="In this application you can add and edit your pieces and outfits into your digital wardrobe. You can share your stuff and also compare it."
         android:id="@+id/textView8"
-        android:layout_marginTop="100dp"
+        android:textColor="@color/cb_text_color_gray_dark"
         android:layout_below="@+id/view2"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
