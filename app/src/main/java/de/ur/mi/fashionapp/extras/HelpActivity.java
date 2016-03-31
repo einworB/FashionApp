@@ -16,8 +16,6 @@ import de.ur.mi.fashionapp.R;
  */
 public class HelpActivity extends AppCompatActivity {
 
-  private ImageView playVideoBtn;
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_help);
@@ -28,10 +26,9 @@ public class HelpActivity extends AppCompatActivity {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    playVideoBtn = (ImageView) findViewById(R.id.play_video_button);
+    ImageView playVideoBtn = (ImageView) findViewById(R.id.play_video_button);
     playVideoBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         String url = getResources().getString(R.string.help_video_url);
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
