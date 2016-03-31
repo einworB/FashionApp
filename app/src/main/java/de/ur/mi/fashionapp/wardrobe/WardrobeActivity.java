@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -90,6 +91,9 @@ public class WardrobeActivity extends
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setNavigationIcon(R.drawable.ic_menu);
     setSupportActionBar(toolbar);
+
+    new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
+        R.string.drawer_close);
 
     PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
     if (tabs == null) {
