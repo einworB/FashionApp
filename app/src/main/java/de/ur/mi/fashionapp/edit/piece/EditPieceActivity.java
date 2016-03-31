@@ -106,6 +106,7 @@ public class EditPieceActivity
         ImageSliderController.SLIDER_TYPE_OCCASION);
 
     if (editItem != null) {
+      setContainerValues();
       uploadImage.setTag("already set");
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setTitle("Edit Item " + editItem.getTitle());
@@ -146,6 +147,13 @@ public class EditPieceActivity
         dialog.show(getFragmentManager(), "some_tag");
       }
     });
+  }
+
+  private void setContainerValues() {
+    container[0] = editItem.getCat();
+    container[1] = editItem.getSeason();
+    container[2] = editItem.getOccasion();
+    container[3] = editItem.getColor();
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
