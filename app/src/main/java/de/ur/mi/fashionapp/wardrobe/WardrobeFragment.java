@@ -12,11 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.fragment.CBFragmentMvpRecyclerView;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobeItem;
 import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * the WardrobeFragment shows either the outfits or pieces of the current wardrobe depending on its
+ * type.
+ * the laoding of the items is handled by the WardrobePresenter. the items are displayed by the
+ * wardrobeadapter.
  */
 public class WardrobeFragment extends
     CBFragmentMvpRecyclerView<List<WardrobeItem>, WardrobeView, WardrobePresenter, WardrobeAdapter>
@@ -31,9 +36,7 @@ public class WardrobeFragment extends
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
-    View v = inflater.inflate(R.layout.fragment_wardrobe, container, false);
-
-    return v;
+    return inflater.inflate(R.layout.fragment_wardrobe, container, false);
   }
 
   @NonNull @Override protected RecyclerView.LayoutManager createRecyclerViewLayoutManager() {
@@ -55,13 +58,13 @@ public class WardrobeFragment extends
 
   @Override public void loadData(boolean pullToRefresh) {
     if (type == TYPE_OUTFIT) {
-      presenter.loadOutfits(pullToRefresh,wardrobeID);
+      presenter.loadOutfits(pullToRefresh, wardrobeID);
     } else if (type == TYPE_PIECE) {
-      presenter.loadPieces(pullToRefresh,wardrobeID);
+      presenter.loadPieces(pullToRefresh, wardrobeID);
     }
   }
 
-  @Override public WardrobePresenter createPresenter() {
+  @NonNull @Override public WardrobePresenter createPresenter() {
     return new WardrobePresenter(getContext(), this);
   }
 
@@ -83,7 +86,6 @@ public class WardrobeFragment extends
       // new item created
       loadData(true);
     }
-
   }
 
   @Override public void onImageLoaded(String itemID) {

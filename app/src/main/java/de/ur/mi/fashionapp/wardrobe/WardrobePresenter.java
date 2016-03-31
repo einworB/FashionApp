@@ -11,63 +11,66 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import de.ur.mi.fashionapp.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import de.ur.mi.fashionapp.util.ImageHelper;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * this presenter loads the pieces and outfits from the parse database
  */
 public class WardrobePresenter extends MvpBasePresenter<WardrobeView> {
 
   private Context context;
   private List<WardrobeItem> items;
 
-
   public WardrobePresenter(Context context, WardrobeView view) {
     this.context = context;
     attachView(view);
   }
 
-public String loadCurrentWardrobeID(){
-  ParseUser user = ParseUser.getCurrentUser();
-  String id = user.get("currentWardrobeID").toString();
-  return id;
-}
+  public String loadCurrentWardrobeID() {
+    ParseUser user = ParseUser.getCurrentUser();
+    return user.get("currentWardrobeID").toString();
+  }
 
   public void loadPieces(boolean pullToRefresh, String wardrobeID) {
-    boolean isOutfit = false;
-    if(wardrobeID==null)loadWardrobeItems(isOutfit, loadCurrentWardrobeID());
-    else loadWardrobeItems(isOutfit,wardrobeID);
-  }
-
-  public void loadOutfits(boolean pullToRefresh,String wardrobeID) {
-    boolean isOutfit = true;
-    if(wardrobeID==null)loadWardrobeItems(isOutfit, loadCurrentWardrobeID());
-    else loadWardrobeItems(isOutfit, wardrobeID);
-  }
-
-  public void loadWardrobeItems(final boolean isOutfit, String firstWardrobeID) {//then load its items
-    ParseQuery<ParseObject> query;
-    if(isOutfit){
-      query = new ParseQuery<ParseObject>("Outfit");
+    if (wardrobeID == null) {
+      loadWardrobeItems(false, loadCurrentWardrobeID(), pullToRefresh);
+    } else {
+      loadWardrobeItems(false, wardrobeID, pullToRefresh);
     }
-    else {
-      query = new ParseQuery<ParseObject>("Piece");
+  }
+
+  public void loadOutfits(boolean pullToRefresh, String wardrobeID) {
+    if (wardrobeID == null) {
+      loadWardrobeItems(true, loadCurrentWardrobeID(), pullToRefresh);
+    } else {
+      loadWardrobeItems(true, wardrobeID, pullToRefresh);
+    }
+  }
+
+  public void loadWardrobeItems(final boolean isOutfit, String firstWardrobeID,
+      boolean pullToRefresh) {
+    ParseQuery<ParseObject> query;
+    if (isOutfit) {
+      query = new ParseQuery<>("Outfit");
+    } else {
+      query = new ParseQuery<>("Piece");
     }
     query.whereEqualTo("UserID", ParseUser.getCurrentUser().getObjectId());
-    if(firstWardrobeID!=null) {
+    if (firstWardrobeID != null) {
       query.whereEqualTo("WardrobeID", firstWardrobeID);
     }
-    if(isViewAttached()){
-      getView().showLoading(true);
+    if (isViewAttached()) {
+      getView().showLoading(pullToRefresh);
     }
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+      @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
         if (e == null) {
           items = new ArrayList<>();
 
@@ -106,11 +109,10 @@ public String loadCurrentWardrobeID(){
           if (isViewAttached()) {
             getView().onImageLoaded(piece.getID());
           }
-        }
-        else{
-          if(e.getCode()==ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
+        } else {
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
+          } else if (isViewAttached()) getView().showError(e, false);
         }
       }
     });
@@ -136,7 +138,8 @@ public String loadCurrentWardrobeID(){
     return outfit;
   }
 
-  private void getPiecePicture(final WardrobeOutfitItem outfit, final String[] pieces, final int number) {
+  private void getPiecePicture(final WardrobeOutfitItem outfit, final String[] pieces,
+      final int number) {
     if (pieces[number] != null && !pieces[number].isEmpty()) {
       ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
       query.whereEqualTo("objectId", (pieces[number]));
@@ -155,8 +158,7 @@ public String loadCurrentWardrobeID(){
                     getView().onImageLoaded(outfit.getID());
                     getView().showContent();
                   }
-                }
-                else {
+                } else {
                   if (e.getCode() == ParseException.CONNECTION_FAILED) {
                     Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
                   } else if (isViewAttached()) getView().showError(e, false);
@@ -167,6 +169,5 @@ public String loadCurrentWardrobeID(){
         }
       });
     }
-
   }
 }

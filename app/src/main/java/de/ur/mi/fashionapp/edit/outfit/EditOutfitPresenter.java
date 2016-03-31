@@ -13,7 +13,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import de.ur.mi.fashionapp.util.ImageHelper;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
 import java.util.List;
 
 /**

@@ -13,8 +13,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import de.ur.mi.fashionapp.util.ImageHelper;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.List;
 
 /**

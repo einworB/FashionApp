@@ -4,7 +4,7 @@ import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 
 import java.util.List;
 
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 
 /**
  * Created by Philip on 29/02/2016.

@@ -6,14 +6,15 @@ import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.EditOutfitViewHolder;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
  *
- * This adapter is responsible for showing the current pieces of the outfit which is created/edited. It is also responsible
+ * This adapter is responsible for showing the current pieces of the outfit which is created/edited.
+ * It is also responsible
  * for forwarding click events to the activity.
  */
 public class EditOutfitAdapter extends CBAdapterRecyclerView<WardrobePieceItem>

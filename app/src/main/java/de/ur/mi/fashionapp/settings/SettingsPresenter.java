@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Mario on 06.03.2016.
  *
- * this presenter performs the actual deleting or reseting actions on the parse database.
+ * this presenter performs the actual deleting or resetting actions on the parse database.
  */
 public class SettingsPresenter extends MvpBasePresenter<SettingsView> {
   Context context;

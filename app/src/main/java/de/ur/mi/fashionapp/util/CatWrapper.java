@@ -5,6 +5,9 @@ import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Mario on 01.03.2016.
+ *
+ * this helper class maps the different categories, colors, seasons and occasions to the int values
+ * with which they are stored in the database
  */
 public class CatWrapper {
   public static final int CATEGORY_TOP = 0;

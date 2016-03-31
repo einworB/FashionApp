@@ -12,11 +12,13 @@ import de.ur.mi.fashionapp.extras.HelpActivity;
 import de.ur.mi.fashionapp.login.LoginActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
 
 /**
  * Created by Philip on 01/03/2016.
+ *
+ * this linkservice provides a clean and simple api for the linking of activities via intents.
  */
 public class LinkService {
 
@@ -26,7 +28,6 @@ public class LinkService {
     private static final String LINK_TITLE_HELP = "Help";
 
     public static Intent getLink(Context context, String title) {
-        // TODO: replace with correct activities
         switch (title) {
             case LINK_TITLE_SETTINGS:
                 return new Intent(context, SettingsActivity.class);

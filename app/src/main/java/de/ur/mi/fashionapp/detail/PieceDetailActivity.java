@@ -22,7 +22,7 @@ import de.ur.mi.fashionapp.util.CatWrapper;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.util.share.ShareHelper;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 
 /**
  * This activity shows the details of a certain piece. The piece itself is loaded by the

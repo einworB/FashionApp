@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * this pager adapter holds the WardrobeFragments which display the outfits and pieces of the
+ * current wardrobe in two tabs.
  */
-public class WardrobePagerAdapter extends FragmentPagerAdapter{
+public class WardrobePagerAdapter extends FragmentPagerAdapter {
 
   public WardrobePagerAdapter(FragmentManager fm) {
     super(fm);
@@ -24,7 +27,7 @@ public class WardrobePagerAdapter extends FragmentPagerAdapter{
   }
 
   @Override public CharSequence getPageTitle(int position) {
-    switch (position){
+    switch (position) {
       case 0:
         return "My Pieces";
       case 1:

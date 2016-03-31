@@ -7,6 +7,8 @@ import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This simple viewholder binds a String to a TextView
  */
 public class TextViewHolder extends RecyclerView.ViewHolder {
 

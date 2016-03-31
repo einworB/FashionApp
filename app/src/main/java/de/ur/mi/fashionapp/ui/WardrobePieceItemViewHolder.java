@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobeItem;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This viewholder binds a WardrobePieceItem for the WardrobeAdapter
  */
 public class WardrobePieceItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,15 +30,14 @@ public class WardrobePieceItemViewHolder extends RecyclerView.ViewHolder {
   public void bind(final WardrobeItem item,
       final WardrobeItemViewHolder.WardrobeItemViewHolderListener listener) {
     pieceItem.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         listener.onWardrobeItemClicked(item);
       }
     });
     label.setText(item.getTitle());
 
     Bitmap image = item.getImage();
-    if(image!=null) {
+    if (image != null) {
       pic.setImageBitmap(image);
     }
   }

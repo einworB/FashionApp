@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.christianbahl.appkit.core.activity.CBActivityMvpToolbarTabs;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.model.WardrobeItem;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuAdapter;
@@ -37,12 +37,17 @@ import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuPresenter;
 import de.ur.mi.fashionapp.wardrobe.menu.WardrobeMenuView;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuItem;
 import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This activity is the main screen of the app. it contains two WardrobeFragments in tabs showing
+ * the outfits and pieces of the selected wardrobe. it also contains a drawer menu which links to
+ * other wardrobes, settings, help and imprint.
+ * loading of the menu is handled by the WardrobeMenuPresenter. The menuitems are dislayed by the
+ * WardrobeMenuAdapter.
  */
 public class WardrobeActivity extends
     CBActivityMvpToolbarTabs<List<WardrobeMenuItem>, WardrobeMenuView, WardrobeMenuPresenter, WardrobePagerAdapter>
@@ -51,17 +56,12 @@ public class WardrobeActivity extends
   static int REQUESTCODE_CREATE = 101;
   public static int REQUESTCODE_SETTINGS = 102;
   private WardrobeMenuAdapter menuAdapter;
-  private RecyclerView menuRecyclerView;
   private FragmentManager fragmentManager;
-  private FloatingActionButton fab;
   private DrawerLayout drawerLayout;
-  private PagerSlidingTabStrip tabs;
   private WardrobePagerAdapter adapter;
-  private ActionBarDrawerToggle drawerToggle;
   private MenuItem mSearchAction;
   private MenuItem mFilterAction;
   private boolean isSearchOpened = false;
-  private EditText edtSeach;
   private int[] filterArray;
   private String wardrobeID;
 
@@ -72,14 +72,15 @@ public class WardrobeActivity extends
   @Override protected void onMvpViewCreated() {
     presenter.getFirstWardrobeID();
 
-    fab = (FloatingActionButton) findViewById(R.id.fab);
+    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Fragment f = fragmentManager.findFragmentByTag(
             "android:switcher:" + contentView.getId() + ":" + contentView.getCurrentItem());
         if (f instanceof WardrobeFragment) {
           Intent i =
-              LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType(), wardrobeID);
+              LinkService.getCreateIntent(WardrobeActivity.this, ((WardrobeFragment) f).getType(),
+                  wardrobeID);
           startActivityForResult(i, REQUESTCODE_CREATE);
         }
       }
@@ -90,10 +91,7 @@ public class WardrobeActivity extends
     toolbar.setNavigationIcon(R.drawable.ic_menu);
     setSupportActionBar(toolbar);
 
-    drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
-        R.string.drawer_close);
-
-    tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
     if (tabs == null) {
       throw new NullPointerException(
           "No tabs found. Did you forget to add it to your layout file with the id R.id.tabs?");
@@ -144,10 +142,10 @@ public class WardrobeActivity extends
   @Override protected WardrobePagerAdapter createAdapter() {
     fragmentManager = getSupportFragmentManager();
     menuAdapter = new WardrobeMenuAdapter(this, this);
-    menuRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
+    RecyclerView menuRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
     menuRecyclerView.setAdapter(menuAdapter);
     menuRecyclerView.setLayoutManager(
-            new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     return new WardrobePagerAdapter(fragmentManager);
   }
 
@@ -184,43 +182,33 @@ public class WardrobeActivity extends
   }
 
   public void onWardrobeItemClicked(int type, WardrobeItem item) {
-    startActivity(LinkService.getDetailIntent(this, type, item,wardrobeID, null, true));
+    startActivity(LinkService.getDetailIntent(this, type, item, wardrobeID, null, true));
   }
 
   @Override public void onBackPressed() {
     if (isSearchOpened) {
       handleMenuSearch();
-    }
-    else {
+    } else {
       MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title("Quit")
           .content("Do you really want to quit the application?")
           .positiveText(R.string.dialog_positive)
           .negativeText(R.string.dialog_negative);
       builder.onPositive(new MaterialDialog.SingleButtonCallback() {
         @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-          // "exits" the application
-          //Intent intent = new Intent(Intent.ACTION_MAIN);
-          //intent.addCategory(Intent.CATEGORY_HOME);
-          //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          //startActivity(intent);
           finish();
         }
       }).build().show();
     }
-
   }
 
-
-  @Override
-  public void onNewWardrobeCreated(WardrobeMenuWardrobeItem wardrobe) {
+  @Override public void onNewWardrobeCreated(WardrobeMenuWardrobeItem wardrobe) {
     presenter.loadMenu();
     wardrobeID = wardrobe.getID();
     toolbar.setTitle(wardrobe.getTitle());
   }
 
-  @Override
-  public void onFirstWardrobeLoaded(String id, String name) {
-    wardrobeID=id;
+  @Override public void onFirstWardrobeLoaded(String id, String name) {
+    wardrobeID = id;
     toolbar.setTitle(name);
   }
 
@@ -274,13 +262,10 @@ public class WardrobeActivity extends
       //hides the keyboard
       View view = this.getCurrentFocus();
       if (view != null) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
       }
-      /*
-      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-      imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
-      */
 
       for (Fragment f : fragmentManager.getFragments()) {
         if (f instanceof WardrobeFragment) {
@@ -302,52 +287,41 @@ public class WardrobeActivity extends
 
       mFilterAction.setVisible(false);
 
-      edtSeach = (EditText) action.getCustomView().findViewById(R.id.edtSearch); //the text editor
-      edtSeach.addTextChangedListener(new TextWatcher() {
-                                        @Override
-                                        public void beforeTextChanged(CharSequence s, int start,
-                                            int count, int after) {
-                                        }
+      if (action != null) {
+        EditText edtSeach = (EditText) action.getCustomView().findViewById(R.id.edtSearch);
+        edtSeach.addTextChangedListener(new TextWatcher() {
+          @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+          }
 
-                                        @Override
-                                        public void onTextChanged(CharSequence s, int start,
-                                            int before, int count) {
-                                          for (Fragment f : fragmentManager.getFragments()) {
-                                            if (f instanceof WardrobeFragment) {
-                                              ((WardrobeFragment) f).search(s);
-                                            }
-                                          }
-                                        }
+          @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+            for (Fragment f : fragmentManager.getFragments()) {
+              if (f instanceof WardrobeFragment) {
+                ((WardrobeFragment) f).search(s);
+              }
+            }
+          }
 
-                                        @Override public void afterTextChanged(Editable s) {
-                                        }
-                                      }
+          @Override public void afterTextChanged(Editable s) {
+          }
+        });
+        edtSeach.requestFocus();
 
-      );
-      edtSeach.requestFocus();
-
-      //open the keyboard focused in the edtSearch
-      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-      imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
+        //open the keyboard focused in the edtSearch
+        InputMethodManager imm =
+            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
+      }
 
       //add the close icon
-      mSearchAction.setIcon(
-
-          getResources()
-
-              .
-
-                  getDrawable(R.drawable.crop__ic_cancel)
-
-      );
+      mSearchAction.setIcon(getResources().getDrawable(R.drawable.crop__ic_cancel));
 
       isSearchOpened = true;
     }
   }
 
   private void handleMenuFilter() {
-    String[] seasons = { "no filter","all seasons", "spring", "summer", "fall", "winter" };
-    String[] categories = { "no filter", "top", "bottom", "shoe", "one piece","accessoire" };
+    String[] seasons = { "no filter", "all seasons", "spring", "summer", "fall", "winter" };
+    String[] categories = { "no filter", "top", "bottom", "shoe", "one piece", "accessoire" };
     String[] occasions = { "no filter", "evening", "beach", "couch", "sport" };
     String[] colors = {
         "no filter", "red", "blue", "green", "yellow", "black", "white", "pink", "purple", "orange",
@@ -355,13 +329,13 @@ public class WardrobeActivity extends
     };
 
     final ArrayAdapter<String> season_adp =
-        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, seasons);
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, seasons);
     final ArrayAdapter<String> cat_adp =
-        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
     final ArrayAdapter<String> occ_adp =
-        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, occasions);
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, occasions);
     final ArrayAdapter<String> col_adp =
-        new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colors);
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, colors);
 
     LayoutInflater factory = LayoutInflater.from(this);
     final View stdView = factory.inflate(R.layout.filter_dialog, null);
@@ -376,7 +350,7 @@ public class WardrobeActivity extends
     sp_occasion.setAdapter(occ_adp);
     sp_color.setAdapter(col_adp);
 
-    if(filterArray !=null){
+    if (filterArray != null) {
       sp_cat.setSelection(filterArray[0]);
       sp_season.setSelection(filterArray[1]);
       sp_occasion.setSelection(filterArray[2]);
@@ -389,14 +363,14 @@ public class WardrobeActivity extends
         .onPositive(new MaterialDialog.SingleButtonCallback() {
           @Override
           public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            int[] itemPositions = new int[]{
-                    sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
-                    sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
+            int[] itemPositions = new int[] {
+                sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
+                sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
             };
-            filterArray = new int[]{sp_cat.getSelectedItemPosition(),
-                    sp_season.getSelectedItemPosition(),
-                    sp_occasion.getSelectedItemPosition(),
-                    sp_color.getSelectedItemPosition()};
+            filterArray = new int[] {
+                sp_cat.getSelectedItemPosition(), sp_season.getSelectedItemPosition(),
+                sp_occasion.getSelectedItemPosition(), sp_color.getSelectedItemPosition()
+            };
             for (Fragment f : fragmentManager.getFragments()) {
               if (f instanceof WardrobeFragment) {
                 ((WardrobeFragment) f).filter(itemPositions);
@@ -407,5 +381,4 @@ public class WardrobeActivity extends
     builder.customView(linearLayout, true);
     builder.build().show();
   }
-
 }

@@ -5,18 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
+import de.ur.mi.fashionapp.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import de.ur.mi.fashionapp.ui.WardrobeItemViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobeOutfitItemViewHolder;
 import de.ur.mi.fashionapp.ui.WardrobePieceItemViewHolder;
 import de.ur.mi.fashionapp.util.CatWrapper;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * this adapter is responsible for displyaing the pieces and outfits of the current wardrobe.
+ * it also forwards clicks on those items.
  */
 public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
     implements WardrobeItemViewHolder.WardrobeItemViewHolderListener {
@@ -102,18 +105,18 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
       if (tempItems == null || tempItems.size() < items.size()) {
         tempItems = new ArrayList<>(items);
       }
-      if(items.size() < model.size()) {
+      if (items.size() < model.size()) {
         // reset
         items = new ArrayList<>(model);
       }
       items.clear();
       //show only the items with "query" in the title
       for (WardrobeItem item : tempItems) {
-        String title= item.getTitle();
-        if(title!=null) {
+        String title = item.getTitle();
+        if (title != null) {
           title = title.toLowerCase();
         }
-        query = (""+query).toLowerCase();
+        query = ("" + query).toLowerCase();
         if (title != null && title.contains(query)) {
           items.add(item);
         }
@@ -126,7 +129,7 @@ public class WardrobeAdapter extends CBAdapterRecyclerView<WardrobeItem>
     if (tempItems == null || tempItems.size() < items.size()) {
       tempItems = new ArrayList<>(items);
     }
-    if(items.size() < model.size()) {
+    if (items.size() < model.size()) {
       // reset
       items = new ArrayList<>(model);
     }

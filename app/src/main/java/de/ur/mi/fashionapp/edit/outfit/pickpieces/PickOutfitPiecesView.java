@@ -1,7 +1,7 @@
 package de.ur.mi.fashionapp.edit.outfit.pickpieces;
 
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.List;
 
 /**

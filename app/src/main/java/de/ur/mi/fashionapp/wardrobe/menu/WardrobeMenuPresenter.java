@@ -19,12 +19,14 @@ import java.util.List;
 
 /**
  * Created by Philip on 01/03/2016.
+ *
+ * this presenter is responsible for loading the menu entries and adding new wardrobes to the parse
+ * database.
  */
 public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
 
   private Context context;
-  private  List<WardrobeMenuItem> items;
-  public static final int MAX_LENGTH_WARDROBE_NAME = 20;
+  private List<WardrobeMenuItem> items;
 
   public WardrobeMenuPresenter(Context context, WardrobeMenuView view) {
     this.context = context;
@@ -38,8 +40,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
       getView().showLoading(true);
     }
     query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {
+      @Override public void done(List<ParseObject> objects, com.parse.ParseException e) {
         if (isViewAttached()) {
           getView().showLoading(false);
         }
@@ -50,7 +51,6 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
             item.setID(objects.get(i).getObjectId());
             item.setTitle(objects.get(i).getString("Name"));
             items.add(item);
-
           }
           if (isViewAttached()) {
             getView().setData(items);
@@ -65,7 +65,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     });
   }
 
-  public void getFirstWardrobeID(){
+  public void getFirstWardrobeID() {
     ParseUser user = ParseUser.getCurrentUser();
     String id = user.get("currentWardrobeID").toString();
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Wardrope");
@@ -91,7 +91,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     });
   }
 
-  public void addNewWardrobe(){
+  public void addNewWardrobe() {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Name of wardrobe");
     final EditText input = new EditText(context);
@@ -100,13 +100,15 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override public void onClick(DialogInterface dialog, int which) {
         String wardropeNameEdit = "failure";
-        if (input.getText().toString() != null) {
+        if (input.getText() != null) {
           wardropeNameEdit = input.getText().toString();
         }
-        if (wardropeNameEdit.length() > 50)
+        if (wardropeNameEdit.length() > 50) {
           Toast.makeText(context, "Failure! Name can't be longer than 50 letters",
               Toast.LENGTH_LONG).show();
-        else addNewWardrobe(wardropeNameEdit);
+        } else {
+          addNewWardrobe(wardropeNameEdit);
+        }
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -117,7 +119,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     builder.show();
   }
 
-  private void addNewWardrobe(final String wardropeName){
+  private void addNewWardrobe(final String wardropeName) {
     //This Method is to create a new wardrope;
     String userID = ParseUser.getCurrentUser().getObjectId();
     final ParseObject wr = new ParseObject("Wardrope");
@@ -127,8 +129,7 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
       getView().showLoading(true);
     }
     wr.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(com.parse.ParseException e) {
+      @Override public void done(com.parse.ParseException e) {
         if (e == null) {
           if (isViewAttached()) {
             getView().showContent();
@@ -148,16 +149,15 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
     });
   }
 
-  public void setCurrentWardrobeID(String ID){
+  public void setCurrentWardrobeID(String ID) {
     ParseUser user = ParseUser.getCurrentUser();
     user.put("currentWardrobeID", ID);
-    if(isViewAttached())getView().showLoading(true);
+    if (isViewAttached()) getView().showLoading(true);
     user.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(ParseException e) {
-        if(e==null){
-          if(isViewAttached())getView().showContent();
-        }else {
+      @Override public void done(ParseException e) {
+        if (e == null) {
+          if (isViewAttached()) getView().showContent();
+        } else {
           if (e.getCode() == ParseException.CONNECTION_FAILED) {
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
           } else if (isViewAttached()) getView().showError(e, false);
@@ -165,5 +165,4 @@ public class WardrobeMenuPresenter extends MvpBasePresenter<WardrobeMenuView> {
       }
     });
   }
-
 }

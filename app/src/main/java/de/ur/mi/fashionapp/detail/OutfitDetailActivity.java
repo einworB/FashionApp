@@ -19,7 +19,7 @@ import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
 import de.ur.mi.fashionapp.util.LinkService;
 import de.ur.mi.fashionapp.util.share.ShareHelper;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
 import java.util.ArrayList;
 import java.util.List;
 

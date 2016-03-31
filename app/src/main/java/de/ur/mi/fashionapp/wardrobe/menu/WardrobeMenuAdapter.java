@@ -19,11 +19,13 @@ import java.util.List;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * this adapter displays the menuitems in the wardrobe's drawer menu. it also forwards clicks on the
+ * menu items to the activity.
  */
 public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
-    implements LinkViewHolder.LinkViewHolderListener,
-    WardrobeViewHolder.WardrobeViewHolderListener,
-    NewWardrobeViewHolder.NewWardrobeViewHolderListener{
+    implements LinkViewHolder.LinkViewHolderListener, WardrobeViewHolder.WardrobeViewHolderListener,
+    NewWardrobeViewHolder.NewWardrobeViewHolderListener {
 
   private static final int VIEWTYPE_LINK = 0;
   private static final int VIEWTYPE_WARDROBE = 1;
@@ -64,7 +66,8 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
         ((WardrobeViewHolder) viewHolder).bind((WardrobeMenuWardrobeItem) getItem(position), this);
         break;
       case VIEWTYPE_NEW_WARDROBE:
-        ((NewWardrobeViewHolder) viewHolder).bind((WardrobeMenuNewWardrobeItem) getItem(position), this);
+        ((NewWardrobeViewHolder) viewHolder).bind((WardrobeMenuNewWardrobeItem) getItem(position),
+            this);
         break;
     }
   }
@@ -117,12 +120,10 @@ public class WardrobeMenuAdapter extends CBAdapterRecyclerView<WardrobeMenuItem>
   @Override public void onNewWardrobeClicked() {
     if (listener != null) {
       listener.onNewWardrobeClicked();
-
     }
   }
 
   public List<WardrobeMenuItem> getItems() {
     return items;
   }
-
 }

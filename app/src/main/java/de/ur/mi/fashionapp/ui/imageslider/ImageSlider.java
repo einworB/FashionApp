@@ -1,18 +1,23 @@
-package de.ur.mi.fashionapp.util;
+package de.ur.mi.fashionapp.ui.imageslider;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 09/03/2016.
+ *
+ * This ImageSlider is used to provide a view with a simple slide animation.
+ * When the selector is clicked the view slides in and thus shows its child views.
+ * By clicking one of the child views the view slides out and the clicked child is set as the new
+ * selector. The number of child views is not fixed, the slider can be used for different view sizes
+ * and child counts.
  */
 public class ImageSlider {
 
@@ -108,7 +113,6 @@ public class ImageSlider {
               icon.setImageDrawable(selector.getDrawable());
               selector.setImageDrawable(tempDrawable);
               listener.onImageSelected(root, temp);
-              Log.d("IMAGESLIDER", "item number " + temp + " selected in " + root.toString());
             }
           }
         });

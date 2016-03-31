@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import com.christianbahl.appkit.core.adapter.CBAdapterRecyclerView;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.ui.PickOutfitPiecesViewHolder;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobeItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.List;
 
 /**

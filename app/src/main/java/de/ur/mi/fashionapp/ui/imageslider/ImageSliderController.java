@@ -1,13 +1,18 @@
-package de.ur.mi.fashionapp.util;
+package de.ur.mi.fashionapp.ui.imageslider;
 
 import android.content.Context;
 import android.view.View;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 09/03/2016.
+ *
+ * This class creates and controls image sliders.
+ * if one of the sliders controlled by the controller is clicked, the controller causes all other
+ * open sliders to close. the controller is also used to preset the sliders for example if an
+ * existing WardrobePieceItem is edited in the EditPieceActivity.
  */
 public class ImageSliderController {
 

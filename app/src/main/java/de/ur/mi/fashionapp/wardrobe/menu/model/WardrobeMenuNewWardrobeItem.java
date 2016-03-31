@@ -2,6 +2,8 @@ package de.ur.mi.fashionapp.wardrobe.menu.model;
 
 /**
  * Created by Philip on 05/03/2016.
+ *
+ * a menu item for the creation of new wardrobes
  */
 public class WardrobeMenuNewWardrobeItem extends WardrobeMenuItem {
 

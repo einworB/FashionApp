@@ -8,6 +8,9 @@ import de.ur.mi.fashionapp.wardrobe.menu.model.WardrobeMenuWardrobeItem;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This viewholder binds a single WardrobeMenuWardrobeItem for the WardrobeMenuAdapter and
+ * forwards the click on the item
  */
 public class WardrobeViewHolder extends RecyclerView.ViewHolder {
 

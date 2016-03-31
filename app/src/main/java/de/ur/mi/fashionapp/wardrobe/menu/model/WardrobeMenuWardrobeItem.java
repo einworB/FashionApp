@@ -6,24 +6,28 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * this menu item links to another wardrobe. as it is also used in the settings activity it is made
+ * parcelable to be able to be passed as intent data.
  */
-@ParcelablePlease public class WardrobeMenuWardrobeItem extends WardrobeMenuItem implements
-    Parcelable {
+@ParcelablePlease public class WardrobeMenuWardrobeItem extends WardrobeMenuItem
+    implements Parcelable {
 
   String title;
   String ID;
 
-  public static final Creator<WardrobeMenuWardrobeItem> CREATOR = new Creator<WardrobeMenuWardrobeItem>() {
-    @Override public WardrobeMenuWardrobeItem createFromParcel(Parcel source) {
-      WardrobeMenuWardrobeItem target = new WardrobeMenuWardrobeItem();
-      WardrobeMenuWardrobeItemParcelablePlease.readFromParcel(target, source);
-      return target;
-    }
+  public static final Creator<WardrobeMenuWardrobeItem> CREATOR =
+      new Creator<WardrobeMenuWardrobeItem>() {
+        @Override public WardrobeMenuWardrobeItem createFromParcel(Parcel source) {
+          WardrobeMenuWardrobeItem target = new WardrobeMenuWardrobeItem();
+          WardrobeMenuWardrobeItemParcelablePlease.readFromParcel(target, source);
+          return target;
+        }
 
-    @Override public WardrobeMenuWardrobeItem[] newArray(int size) {
-      return new WardrobeMenuWardrobeItem[size];
-    }
-  };
+        @Override public WardrobeMenuWardrobeItem[] newArray(int size) {
+          return new WardrobeMenuWardrobeItem[size];
+        }
+      };
 
   public String getTitle() {
     return title;

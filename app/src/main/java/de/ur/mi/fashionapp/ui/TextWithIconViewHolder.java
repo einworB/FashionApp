@@ -9,6 +9,8 @@ import de.ur.mi.fashionapp.R;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This simple viewholder binds a String and an image to a TextView and an ImageView
  */
 public class TextWithIconViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +27,8 @@ public class TextWithIconViewHolder extends RecyclerView.ViewHolder {
     icon = (ImageView) itemView.findViewById(R.id.icon);
   }
 
-  public void bind(String str, final String ID, Drawable iconDrawable, final TextWithIconViewHolderListener listener) {
+  public void bind(String str, final String ID, Drawable iconDrawable,
+      final TextWithIconViewHolderListener listener) {
     text.setText(str);
     icon.setImageDrawable(iconDrawable);
     icon.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package de.ur.mi.fashionapp.wardrobe.model;
+package de.ur.mi.fashionapp.model;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -8,8 +8,15 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
 /**
  * Created by Philip on 29/02/2016.
+ *
+ * This class contains all fields, and getter/setters for them that outfits and pieces have in
+ * common.
+ * To be able to pass it from activity to activity via bundle it is made parcelable.
+ * By this the whole items do not have to be loaded in every activity.
+ * images however are not included in the parcelable and always have to be loaded because of their
+ * filesize.
  */
-@ParcelablePlease public class WardrobeItem implements Parcelable{
+@ParcelablePlease public class WardrobeItem implements Parcelable {
 
   String title;
   String ID;
@@ -60,11 +67,11 @@ import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
     WardrobeItemParcelablePlease.writeToParcel(this, dest, flags);
   }
 
-  public Bitmap getImage(){
+  public Bitmap getImage() {
     return image;
   }
 
-  public void setImage(Bitmap image){
+  public void setImage(Bitmap image) {
     this.image = image;
   }
 }

@@ -17,8 +17,8 @@ import com.christianbahl.appkit.core.activity.CBActivityMvpToolbar;
 import de.ur.mi.fashionapp.R;
 import de.ur.mi.fashionapp.edit.outfit.pickpieces.PickOutfitPiecesActivity;
 import de.ur.mi.fashionapp.util.LinkService;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobeOutfitItem;
-import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
+import de.ur.mi.fashionapp.model.WardrobeOutfitItem;
+import de.ur.mi.fashionapp.model.WardrobePieceItem;
 import java.util.ArrayList;
 import java.util.List;
 

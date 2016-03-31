@@ -7,16 +7,17 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import de.ur.mi.fashionapp.util.share.filter.specific.AppSpecificFilter;
-import de.ur.mi.fashionapp.util.share.filter.specific.FacebookFilter;
-import de.ur.mi.fashionapp.util.share.filter.specific.TwitterFilter;
-import de.ur.mi.fashionapp.util.share.filter.specific.WhatsappFilter;
-import java.io.File;
+import de.ur.mi.fashionapp.util.share.filters.AppSpecificFilter;
+import de.ur.mi.fashionapp.util.share.filters.FacebookFilter;
+import de.ur.mi.fashionapp.util.share.filters.TwitterFilter;
+import de.ur.mi.fashionapp.util.share.filters.WhatsappFilter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philip on 22/03/2016.
+ *
+ * This class generates a chooser intent from a list of social media app filters.
  */
 public class ShareIntentGenerator {
 
@@ -33,7 +34,7 @@ public class ShareIntentGenerator {
     this.context = context;
   }
 
-  public Intent generateShareChooserIntent(Uri iconUri, File file) {
+  public Intent generateShareChooserIntent(Uri iconUri) {
     PackageManager packageManager = context.getPackageManager();
     List<Intent> targetedShareIntents = new ArrayList<>();
     targetedShareIntents.addAll(getSocialMediaIntents(iconUri, packageManager));
@@ -44,8 +45,9 @@ public class ShareIntentGenerator {
           targetedShareIntents.toArray(new LabeledIntent[targetedShareIntents.size()]);
       chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
       return chooser;
+    } else {
+      return null;
     }
-    else return null;
   }
 
   private List<Intent> getSocialMediaIntents(Uri iconUri, PackageManager packageManager) {
