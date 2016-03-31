@@ -45,11 +45,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:id="@+id/contentView">
+
               <ImageView
                   android:id="@+id/imageView1"
                   app:layout_widthPercent="75%"
                   app:layout_aspectRatio="100%"
                   android:paddingBottom="1dp"
+                  android:paddingTop="1dp"
                   android:src="@drawable/ic_icon_accessoires"/>
 
               <ImageView
@@ -58,6 +60,7 @@
                   app:layout_aspectRatio="100%"
                   android:paddingLeft="1dp"
                   android:paddingBottom="1dp"
+                  android:paddingTop="1dp"
                   android:layout_toRightOf="@+id/imageView1"
                   android:src="@drawable/ic_icon_accessoires"
                   />

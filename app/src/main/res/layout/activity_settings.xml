@@ -27,25 +27,7 @@
 
       </android.support.design.widget.AppBarLayout>
 
-      <TableRow
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent">
-        <TextView
-            android:id="@+id/notifications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notifications_txt"
-            android:textSize="24sp"
-            android:textColor="@color/colorTextLight"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
-        <Switch
-            android:id="@+id/notifications_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="160dp"/>
-      </TableRow>
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -76,7 +58,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_next"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="100dp"/>
+            android:layout_marginLeft="140dp"/>
       </TableRow>
 
       <TableRow
