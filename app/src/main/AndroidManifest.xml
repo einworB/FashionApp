@@ -44,7 +44,7 @@
             android:name=".edit.outfit.EditOutfitActivity"
             android:label="@string/title_activity_create_outfit" />
         <activity
-            android:name=".edit.outfit.PickOutfitPiecesActivity"
+            android:name=".edit.outfit.pickpieces.PickOutfitPiecesActivity"
             android:label="@string/title_activity_pick_outfit_pieces" />
         <activity
             android:name=".detail.PieceDetailActivity"

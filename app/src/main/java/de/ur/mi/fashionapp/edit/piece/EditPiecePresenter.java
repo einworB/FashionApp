@@ -135,28 +135,6 @@ public class EditPiecePresenter extends MvpBasePresenter<EditPieceView> {
     });
   }
 
-  public void deletePiece(String itemID, final boolean pullToRefresh){
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
-    if (isViewAttached())getView().showLoading(pullToRefresh);
-    query.whereEqualTo("objectId",itemID);
-    query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, com.parse.ParseException e) {
-        if(e==null) {
-          for (int i = 0; i < objects.size(); i++) {
-            objects.get(i).deleteInBackground();
-          }
-          if (isViewAttached())getView().showContent();
-        }
-        else{
-          if(e.getCode()==ParseException.CONNECTION_FAILED){
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();}
-          else if(isViewAttached()) getView().showError(e, false);
-        }
-      }
-    });
-  }
-
   public void loadPieceImage(String id, final WardrobePieceItem piece) {
     if (isViewAttached()) {
       getView().showLoading(true);

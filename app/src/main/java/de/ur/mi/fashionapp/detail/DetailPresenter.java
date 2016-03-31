@@ -19,6 +19,10 @@ import java.util.List;
 
 /**
  * Created by Philip on 17/03/2016.
+ *
+ * This class is responsible for connecting to the parse database and loading the piece or outfit
+ * item which shall be displayed in detail. Image loading is handled separately and the images are
+ * updated when the asynchronous request finished.
  */
 public class DetailPresenter extends MvpBasePresenter<DetailView> {
   Context context;
@@ -45,8 +49,7 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
               getView().setData(piece);
             }
           }
-        }
-        else {
+        } else {
           if (e.getCode() == ParseException.CONNECTION_FAILED) {
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
           } else if (isViewAttached()) {
@@ -55,7 +58,7 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
         }
       }
     });
-    }
+  }
 
   private WardrobePieceItem createPiece(ParseObject obj) {
     final WardrobePieceItem piece = new WardrobePieceItem();
@@ -70,12 +73,10 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
           if (isViewAttached()) {
             getView().onImageLoaded(piece.getID());
           }
-        }
-        else{
-          if(e.getCode()==ParseException.CONNECTION_FAILED){
+        } else {
+          if (e.getCode() == ParseException.CONNECTION_FAILED) {
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show();
-          }
-          else if(isViewAttached()){
+          } else if (isViewAttached()) {
             getView().showError(e, false);
           }
         }
@@ -93,12 +94,12 @@ public class DetailPresenter extends MvpBasePresenter<DetailView> {
     if (isViewAttached()) {
       getView().showLoading(pullToRefresh);
     }
-    for (int i = 0; i < pieceIDs.length; i++) {
-      if (pieceIDs[i] == null || pieceIDs[i].isEmpty()) {
+    for (String pieceID : pieceIDs) {
+      if (pieceID == null || pieceID.isEmpty()) {
         continue;
       }
       ParseQuery<ParseObject> query = ParseQuery.getQuery("Piece");
-      query.whereEqualTo("objectId", pieceIDs[i]);
+      query.whereEqualTo("objectId", pieceID);
       query.findInBackground(new FindCallback<ParseObject>() {
         @Override public void done(List<ParseObject> objects, ParseException e) {
           if (e == null && objects.size() > 0) {

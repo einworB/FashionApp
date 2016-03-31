@@ -5,7 +5,7 @@ import android.content.Intent;
 import de.ur.mi.fashionapp.detail.OutfitDetailActivity;
 import de.ur.mi.fashionapp.detail.PieceDetailActivity;
 import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
-import de.ur.mi.fashionapp.edit.outfit.PickOutfitPiecesActivity;
+import de.ur.mi.fashionapp.edit.outfit.pickpieces.PickOutfitPiecesActivity;
 import de.ur.mi.fashionapp.edit.piece.EditPieceActivity;
 import de.ur.mi.fashionapp.extras.Imprint;
 import de.ur.mi.fashionapp.extras.help;

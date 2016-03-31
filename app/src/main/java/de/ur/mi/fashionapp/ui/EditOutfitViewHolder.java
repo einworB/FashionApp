@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import de.ur.mi.fashionapp.R;
-import de.ur.mi.fashionapp.edit.outfit.EditOutfitItem;
 import de.ur.mi.fashionapp.wardrobe.model.WardrobePieceItem;
 
 /**
