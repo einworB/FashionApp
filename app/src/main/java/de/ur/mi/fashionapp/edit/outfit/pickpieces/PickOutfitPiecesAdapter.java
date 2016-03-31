@@ -54,8 +54,7 @@ public class PickOutfitPiecesAdapter extends CBAdapterRecyclerView<WardrobePiece
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position, int viewType) {
-    ((PickOutfitPiecesViewHolder) viewHolder).bind(getItem(position), this,
-        getItem(position).isSelected());
+    ((PickOutfitPiecesViewHolder) viewHolder).bind(getItem(position), this);
   }
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

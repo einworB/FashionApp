@@ -35,8 +35,7 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
     void onMaxPiecesReached();
   }
 
-  public void bind(final WardrobePieceItem item, final PickOutfitPiecesViewHolderListener listener,
-      final boolean isSelected) {
+  public void bind(final WardrobePieceItem item, final PickOutfitPiecesViewHolderListener listener) {
     pieceItem.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (selected.getVisibility() == View.GONE) {
@@ -51,8 +50,10 @@ public class PickOutfitPiecesViewHolder extends RecyclerView.ViewHolder {
         listener.onPickOutfitPiecesItemClicked(item);
       }
     });
-    if (isSelected) {
+    if (item.isSelected()) {
       selected.setVisibility(View.VISIBLE);
+    } else {
+      selected.setVisibility(View.GONE);
     }
     label.setText(item.getTitle());
     label.setVisibility(View.GONE);
