@@ -7,8 +7,8 @@ import de.ur.mi.fashionapp.detail.PieceDetailActivity;
 import de.ur.mi.fashionapp.edit.outfit.EditOutfitActivity;
 import de.ur.mi.fashionapp.edit.outfit.pickpieces.PickOutfitPiecesActivity;
 import de.ur.mi.fashionapp.edit.piece.EditPieceActivity;
-import de.ur.mi.fashionapp.extras.Imprint;
-import de.ur.mi.fashionapp.extras.help;
+import de.ur.mi.fashionapp.extras.ImprintActivity;
+import de.ur.mi.fashionapp.extras.HelpActivity;
 import de.ur.mi.fashionapp.login.LoginActivity;
 import de.ur.mi.fashionapp.settings.SettingsActivity;
 import de.ur.mi.fashionapp.wardrobe.WardrobeFragment;
@@ -31,11 +31,11 @@ public class LinkService {
             case LINK_TITLE_SETTINGS:
                 return new Intent(context, SettingsActivity.class);
             case LINK_TITLE_IMPRESSUM:
-                return new Intent(context, Imprint.class);
+                return new Intent(context, ImprintActivity.class);
             case LINK_TITLE_LOGOUT:
                 return new Intent(context, LoginActivity.class);
             case LINK_TITLE_HELP:
-                return new Intent(context, help.class);
+                return new Intent(context, HelpActivity.class);
             default:
                 return null;
         }

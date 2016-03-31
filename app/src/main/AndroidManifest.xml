@@ -84,10 +84,10 @@
         </provider>
 
         <activity
-            android:name=".extras.Imprint"
+            android:name=".extras.ImprintActivity"
             android:label="@string/title_activity_imprint"
             android:theme="@style/AppTheme" />
-        <activity android:name=".extras.help"></activity>
+        <activity android:name=".extras.HelpActivity"></activity>
     </application>
 
 </manifest>

@@ -6,9 +6,10 @@ import java.util.List;
 
 /**
  * Created by Philip on 24/02/2016.
+ *
+ * This interface has to be implemented by the settings activity. The presenter connects to the
+ * activity via this interface.
  */
 public interface SettingsView extends MvpLceView<List<WardrobeMenuWardrobeItem>> {
-  void onMailChangeSuccess();
-  void onPasswordResetSuccess();
   void onUserDeleted();
 }

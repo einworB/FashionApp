@@ -9,7 +9,7 @@
 
     android:weightSum="1"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="de.ur.mi.fashionapp.extras.Imprint"
+    tools:context=".extras.ImprintActivity"
     tools:showIn="@layout/activity_imprint">
 
     <LinearLayout
