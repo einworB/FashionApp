@@ -50,7 +50,8 @@
   <string name="title_activity_outfit_detail">OutfitDetailActivity</string>
 
   <!-- Help -->
-  <string name="help_description">In this application you can add and edit your pieces and outfits into your digital wardrobe. You can share your stuff and also compare it.</string>
+  <string name="title_activity_help">Help</string>
+  <string name="help_description">In this application you can add and edit your pieces in your digital wardrobe. This way you can create outfits from your pieces and also share them with others.</string>
   <string name="help_description_tutorial">Watch the Video Tutorial for more details:</string>
   <string name="help_video_url">https://www.dropbox.com/s/rbaqfqadz2bk9ba/Video_Tutorial.avi?dl=0</string>
 
